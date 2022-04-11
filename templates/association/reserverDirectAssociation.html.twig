@@ -1,0 +1,304 @@
+{% extends '/association/baseAssociation.html.twig' %}
+{% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset("datePicker/jquery.datetimepicker.css") }}"/>    
+{% endblock %}
+ {% block body %}  
+            
+<div class="page-heading">
+    <h3>Reservation d'une benevolat </h3>
+</div>
+<div class="page-content">
+    <section class="row" >
+        <div class="col-12 ">
+                <div class="card">
+                <div class="d-flex justify-content-center card-header">
+                    <a   class="btn btn-info" href="/association/reserverAssociation/{{user.id}}">Demande benavolat</a>
+                    <a style="pointer-events: none;cursor: default;text-decoration: none;color: grey;" class="btn btn-info" href="/association/reserverDirectAssociation/{{user.id}}">Reserver RDV direct</a>
+                </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                        {% form_theme formt 'bootstrap_4_layout.html.twig' %}
+                               {{ form_start(formt) }} 
+                                <div  class="accordion mt-4 pt-2" id="buyingquestion" style="margin-bottom:4%">
+                                    <div style=" margin-bottom: 4%;">
+                                        <h5 class="card-title">1: Professionnel sélectionné</h5>
+                                    </div>
+                                    
+                                    <div  class="accordion-item rounded">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button border-0 bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                aria-expanded="true" aria-controls="collapseOne">
+                                                {{user.domination}}
+                                                
+                                            </button>
+                                            
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse border-0 collapse " aria-labelledby="headingOne"
+                                            data-bs-parent="#buyingquestion">
+                                            <div class="accordion-body text-muted bg-white">
+                                                <a href="/detailProduitClient/{{user.id}}" class="btn btn-pills btn-primary">supprimer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                    <div  class="accordion-item rounded mt-6">
+
+                                        <h2 class="accordion-header" id="headingTwo">
+                                            <h5 class="card-title">Description</h5>
+                                        </h2>
+                                        {{ form_widget(formt.description,{attr:{class:"form-control ps-5"}}) }}
+                                        
+
+                                        
+                                    </div>
+                                    
+        
+                                   
+                                </div>
+
+                                <div  class="mt-3">
+                                    {% if app.user %}
+                                        {# <a href="/totalProduit" class="btn btn-primary mt-2 me-2">Réserver</a> #}
+                                    <button type="submit" class="btn btn-primary mt-2">Reserver</button>
+                                    {% else %}
+                                        <a href="/login" class="btn btn-primary mt-2">Réserver</a>
+                                    {% endif %}
+                                    
+                                    
+                                    <a href="/detailProduitClient/{{user.id}}" class="btn btn-outline-primary mt-2">Annuler</a>
+                                </div>
+                                {{ form_end(formt) }}
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+ {% endblock %}
+ {% block javascripts %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="{{ asset("datePicker/jquery.js") }}"></script>
+<script src="{{ asset("datePicker/node_modules/php-date-formatter/js/php-date-formatter.min.js") }}"></script>
+<script src="{{ asset("datePicker/node_modules/jquery-mousewheel/jquery.mousewheel.js") }}"></script>
+<script src="{{ asset("datePicker/jquery.datetimepicker.js") }}"></script>
+
+  {# <script>
+     let date= $('#datetimepicker3').datetimepicker({
+      inline:true,
+      });
+      
+  $(window).on('load', async function() {
+     await $('#datetimepicker3').datetimepicker({
+
+          minDateTime: new Date('-1 day')
+      });
+  })
+
+      $('#datetimepicker3').change(function () {
+       $('#datetimepicker3').val($(this).val())
+      document.getElementById("bockReserver").style.display="contents"
+          
+      
+      
+
+      $(this).datetimepicker({
+          minDateTime: new Date('-1 day')
+      });
+
+  })
+
+
+  </script> #}
+
+  <script>
+      var reservations = [];
+      var horaires = new Array();
+      var horaire = horaires;
+      var calendars = [];
+      var maxSupport = 1;
+      var ToutesReservations=[]
+      fetch("http://localhost:8000/getCalendar/{{ user.id }}").then(function (response) {
+          console.log("in fetch");
+          var today = new Date();
+          console.log(new Date(today.getFullYear(), today.getMonth(), today.getDate()))
+          response.json().then(function (data) {
+              
+              ToutesReservations=data.reservations
+              $("#employer option").remove()
+              if (data.calendar[0] != null){
+                  data.calendar.forEach(calendar => {
+                      calendar.start.date = calendar.start.date.split(" ")[1].split(":00.000000")[0]
+                      calendar.end.date = calendar.end.date.split(" ")[1].split(":00.000000")[0]
+
+
+                      console.log("data:"+data.calendar);
+                      $("#employer").append("<option value='" + calendar.id + "'>" + calendar.title + "</option>");
+                  });
+              
+                  if(data.calendar[0].maxSupport > 1 ){
+                          maxSupport = data.calendar[0].maxSupport;
+                          console.log("if Maxsupport:",maxSupport)
+                  }
+                  var calendarId= data.calendar[0].id
+              
+              }
+              else{
+              $("#employer").append("<option value='1'>Magasin</option>");
+              }
+              calendars = data.calendar;
+
+
+              data.reservations.forEach(function (reservation) { 
+                  if(reservation.calendarId==calendarId){
+
+                      var date = reservation.reservation_deteheure.date.split(" ");
+                      console.log("in reservation foreach")
+                      date[1] = date[1].split(":00.000000")[0];
+                      if (typeof reservations["" + date[0]] == 'undefined')
+                          reservations["" + date[0]] = [];
+  
+  
+                      reservations["" + date[0]].push(date[1]);
+                  }
+
+              });
+              
+              var currentDate = new Date("2021-04-02 5:00:00");
+              console.log(currentDate.getTime())
+              while (currentDate.getTime() <= new Date("2021-04-02 23:30:00")) { // date.setDate(date.getDate() + );
+                  let minutes = currentDate.getMinutes() < 10 ? "00" : "30";
+                  console.log("test")
+                
+                  
+                  console.log("hour:",typeof currentDate.getHours())
+                  let hour=currentDate.getHours()>=10?currentDate.getHours():"0"+currentDate.getHours()
+                  horaires.push(hour + ":" + minutes)
+                  currentDate.setTime(currentDate.getTime() + (30 * 60 * 1000))
+              }
+              console.log(horaires)
+// $('#datetimepicker3').val(new Date())
+              $('#datetimepicker3').val("2021-06-06 23:00:00")
+              console.log($("#datetimepicker3"))
+              console.log("option :")
+              console.log($("#employer option").val())
+              $("#employer").trigger('change')
+              $("#datetimepicker3").trigger('change')
+
+              $("#datetimepicker3").data("DateTimePicker").date('1/11/2021 12:23:12')
+
+
+          }).catch(function (err) {
+              console.log('Fetch Error :-S', err);
+          });
+
+
+      });
+
+      $("#employer").change(function () {
+          let calendar = calendars.find(thiscalendar => thiscalendar.id == $(this).val())
+          console.log(calendar.start.date);
+          maxSupport=calendar.maxSupport
+          calendarId=calendar.id 
+          $('#datetimepicker3').datetimepicker({
+              format: 'Y-m-d H:i',
+              minTime: calendar.start.date,
+              maxTime: calendar.end.date+1,
+              disabledWeekDays: calendar.dayoff,
+
+          });
+
+      })
+
+
+      function recept(reponse) {
+          calendar = response;
+          console.log(calendar);
+      }
+
+      $("#datetimepicker3").ready(async function () {
+
+
+          $("#datetimepicker3").data("DateTimePicker").date('1/11/2021 12:23:12')
+      })
+
+      function triDateDay(date) { // reservations[date]
+          reservations=null
+          reservations=[]
+          console.log("vidage reservations:",reservations)
+          ToutesReservations.forEach(function (reservation) { 
+              if(reservation.calendarId==calendarId){
+
+                  var date = reservation.reservation_deteheure.date.split(" ");
+                  console.log("in reservation foreach")
+                  date[1] = date[1].split(":00.000000")[0];
+                  if (typeof reservations["" + date[0]] == 'undefined')
+                      reservations["" + date[0]] = [];
+
+
+                  reservations["" + date[0]].push(date[1]);
+              }
+
+          });
+          horaire = horaires;
+          console.log("date:")
+          console.log(date.split(" ")[0])
+          console.log("reservations[date] IN FUNCTION TRI",reservations)
+          console.log(reservations["" + date.split(" ")[0]])
+          console.log("blabla")
+          console.log("type of reservations[date]")
+          console.log( reservations["" + date.split(" ")[0]])
+          if (Array.isArray(reservations["" + date.split(" ")[0]])) {
+              console.log("isarray");
+              for (var i = 0; i < reservations["" + date.split(" ")[0]].length; i++) {
+                  var hourr=reservations["" + date.split(" ")[0]][i];
+
+                  console.log("nombre pour chaque:"+hourr,(reservations["" + date.split(" ")[0]].filter((hour)=>hour==hourr)).length)
+                  console.log("maxSupport:",maxSupport)
+                  if ( (reservations["" + date.split(" ")[0]].filter((hour)=>hour==hourr)).length>=maxSupport){
+                      console.log("if splice")
+                      horaire.splice(horaire.indexOf(hourr), 1)
+                  }
+              }
+
+              console.log("new horaire");
+              console.log(horaire);
+              return horaire;
+
+          } else {
+              
+              return horaire
+          }
+
+      }
+
+  var today = new Date();
+  $.datetimepicker.setLocale('fr');
+  $('#datetimepicker3').datetimepicker({
+      inline: true,
+      allowTimes: horaire,
+      format: 'Y-m-d H:i',
+      minTime: horaire[0],
+      maxTime: horaire[horaire.length],
+  });
+  
+      $('#datetimepicker3').change(function () {
+          $('#confirmDate').html(new Date($(this).val()).toLocaleString())
+          $(this).datetimepicker({
+              allowTimes: triDateDay($(this).val()),
+              minDateTime: new Date('-2 days')
+          });
+          
+
+      })
+      $('#datetimepicker3').change(function () {
+          console.log($(this).val())
+          document.getElementById("bockReserver").style.display="contents";
+
+      })
+  </script>
+
+{% endblock %}
+

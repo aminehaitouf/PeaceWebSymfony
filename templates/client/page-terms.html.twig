@@ -1,0 +1,468 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="{{ asset("datePicker/jquery.datetimepicker.css") }}"/>    
+{% endblock %}
+{% block body %}
+
+        <!-- Shape Start -->
+        <div class="position-relative">
+            <div class="shape overflow-hidden text-white">
+                <svg viewBox="0 0 2880 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 48H1437.5H2880V0H2160C1442.5 52 720 0 720 0H0V48Z" fill="currentColor"></path>
+                </svg>
+            </div>
+        </div>
+        <!--Shape End-->  
+        
+        <!-- Start Terms & Conditions -->
+        <section class="section">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-9">
+                        <div class="card shadow border-0 rounded">
+                            <div  class="card-body">
+                            {% form_theme formt 'bootstrap_4_layout.html.twig' %}
+                               {{ form_start(formt) }} 
+                                <div  class="accordion mt-4 pt-2" id="buyingquestion" style="margin-bottom:4%">
+                                    <div style="margin-top:4%; margin-bottom: 4%;">
+                                        <h5 class="card-title">1: Préstation sélectionné</h5>
+                                    </div>
+                                    
+                                    <div  class="accordion-item rounded">
+                                        <h2 class="accordion-header" id="headingOne">
+                                            <button class="accordion-button border-0 bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                                aria-expanded="true" aria-controls="collapseOne">
+                                                {{ads.titre}}
+                                                
+                                            </button>
+                                            
+                                        </h2>
+                                        <div id="collapseOne" class="accordion-collapse border-0 collapse " aria-labelledby="headingOne"
+                                            data-bs-parent="#buyingquestion">
+                                            <div class="accordion-body text-muted bg-white">
+                                                <a href="/detailProduitClient/{{ads.user}}" class="btn btn-pills btn-primary">supprimer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="margin-top:4%; margin-bottom: 4%;">
+                                        <!-- <h5 class="card-title">2: Date et heure de la Préstation</h5> -->
+                                    </div>
+                                    {% if ads.titre == "Reservation" %}
+                                        <div  class="accordion-item rounded mt-2">
+
+                                                <h2 class="accordion-header" id="headingTwo">
+                                                    <h5 class="card-title">Nombre de place :</h5>
+                                                </h2>
+                                                {{ form_widget(formt.qte,{attr:{class:"form-select"}}) }}
+                                                
+
+                                            </div>
+                                    {% endif %}
+                                    
+                                    
+                                    
+                                    <div  class="accordion-item rounded mt-2">
+
+                                        <h2 class="accordion-header" id="headingTwo">
+                                            <h5 class="card-title">Choisissez la date et l'heure du RDV</h5>
+                                        </h2>
+                                        <h6 class="card-title">Vous voulez etre servie par :</h6>
+                                        {{ form_widget(formt.calendar,{'id':'employer'}) }}
+                                        
+
+                                        <button class="accordion-button border-0 bg-light " type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
+                                                aria-expanded="false" aria-controls="collapseTwo">
+                                                
+                                                <input type="text" name="deteheure" id="datetimepicker3"/>
+                                                {# <div id="result"></div> #}
+                                                <div class="d-none">
+                                                    {{ form_widget(formt.deteheure,{'id':'formdate'}) }}
+                                                </div>
+                                                 
+                                                
+                                            </button>
+                                    </div>
+                                    
+        
+                                   
+                                </div>
+
+                                <div id="bockReserver" style="" class="mt-3">
+                                    {% if app.user %}
+                                        {# <a href="/totalProduit" class="btn btn-primary mt-2 me-2">Réserver</a> #}
+                                        <button type="submit" class="btn btn-primary">Reserver</button>
+                                    {% else %}
+                                        <a href="/login" class="btn btn-primary mt-2 me-2">Réserver</a>
+                                    {% endif %}
+                                    
+                                    
+                                    <a href="/detailProduitClient/{{ads.user}}" class="btn btn-outline-primary mt-2">Annuler</a>
+                                </div>
+                                {{ form_end(formt) }}
+                                
+                            </div>
+                            
+
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </section><!--end section-->
+        <!-- End Terms & Conditions -->
+
+        <!-- Footer Start -->
+        
+        <!-- Footer End -->
+
+        <!-- Offcanvas Start -->
+        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header p-4 border-bottom">
+                <h5 id="offcanvasRightLabel" class="mb-0">
+
+                </h5>
+                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
+            </div>
+            <div class="offcanvas-body p-4">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card border-0 mt-5" style="z-index: 1">
+                            <div class="card-body p-0">
+                                    <p id="error-msg" class="mb-0"></p>
+                                    <div id="simple-msg"></div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Your Name <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="user" class="fea icon-sm icons"></i>
+                                                    <input name="name" id="name" type="text" class="form-control ps-5" placeholder="Name :">
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Your Email <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="mail" class="fea icon-sm icons"></i>
+                                                    <input name="email" id="email" type="email" class="form-control ps-5" placeholder="Email :">
+                                                </div>
+                                            </div> 
+                                        </div><!--end col-->
+    
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Subject</label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="book" class="fea icon-sm icons"></i>
+                                                    <input name="subject" id="subject" class="form-control ps-5" placeholder="subject :">
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+    
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Comments <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="message-circle" class="fea icon-sm icons clearfix"></i>
+                                                    <textarea name="comments" id="comments" rows="4" class="form-control ps-5" placeholder="Message :"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-grid">
+                                                <button type="submit" id="submit" name="send" class="btn btn-primary">Send Message</button>
+                                            </div>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div>
+
+            <div class="offcanvas-footer p-4 border-top text-center">
+                <ul class="list-unstyled social-icon social mb-0">
+                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/4n73n" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://shreethemes.in" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
+                </ul><!--end icon-->
+            </div>
+        </div>
+        <!-- Offcanvas End -->
+
+        <!-- Back to top -->
+        <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a>
+        <!-- Back to top -->
+
+      {% endblock %}
+      {% block javascripts %}
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+      <script src="{{ asset("datePicker/jquery.js") }}"></script>
+    <script src="{{ asset("datePicker/node_modules/php-date-formatter/js/php-date-formatter.min.js") }}"></script>
+    <script src="{{ asset("datePicker/node_modules/jquery-mousewheel/jquery.mousewheel.js") }}"></script>
+    <script src="{{ asset("datePicker/jquery.datetimepicker.js") }}"></script>
+
+        {# <script>
+           let date= $('#datetimepicker3').datetimepicker({
+            inline:true,
+            });
+            
+        $(window).on('load', async function() {
+           await $('#datetimepicker3').datetimepicker({
+
+                minDateTime: new Date('-1 day')
+            });
+        })
+
+            $('#datetimepicker3').change(function () {
+             $('#datetimepicker3').val($(this).val())
+            document.getElementById("bockReserver").style.display="contents"
+                
+            
+            
+
+            $(this).datetimepicker({
+                minDateTime: new Date('-1 day')
+            });
+
+        })
+
+
+        </script> #}
+
+        <script>
+            var reservations = [];
+            var horaires = new Array();
+            var horaire = horaires;
+            var calendars = [];
+            var maxSupport = 1;
+            var ToutesReservations=[]
+            var jouroff=[0,1,2,3,4,5,6]
+            var jouron=[]
+            var jour = ''
+            fetch("http://localhost:8000/getCalendar/{{ ads.id }}").then(function (response) {
+                console.log("in fetch");
+                var today = new Date();
+                console.log(new Date(today.getFullYear(), today.getMonth(), today.getDate()))
+                response.json().then(function (data) {
+                    
+                    ToutesReservations=data.reservations
+                    $("#employer option").remove()
+                    if (data.calendar[0] != null){
+                        data.calendar.forEach(calendar => {
+                            console.log('jouroff',typeof parseInt(calendar.dayon));
+                            if(calendar.title == "Magasin"){
+                                jouron.push(parseInt(calendar.dayon));}
+                            calendar.start.date = calendar.start.date.split(" ")[1].split(":00.000000")[0]
+                            calendar.end.date = calendar.end.date.split(" ")[1].split(":00.000000")[0]
+
+                            if(calendar.dayon == 0){
+                                 jour = "dimanche"}
+                            else if(calendar.dayon == 1){
+                                 jour = "lundi"
+                            }
+                            else if(calendar.dayon == 2){
+                                 jour = "mardi"
+                            }
+                            else if(calendar.dayon == 3){
+                                 jour = "mercredi"
+                            }
+                            else if(calendar.dayon == 4){
+                                 jour = "jeudi"
+                            }
+                            else if(calendar.dayon == 5){
+                                 jour = "vendredi"
+                            }
+                            else{
+                                 jour = "samedi"
+                            }
+                            console.log("data:",data.calendar);
+                            if(calendar.title != "Benevolat"){
+                                 $("#employer").append("<option value='" + calendar.id + "'>" + jour + "</option>");
+                            }
+                        });
+                        //for(var i=0, i>=jouroff.length,i++){
+                        //}
+                        jouroff = jouroff.filter(function(item) {
+                            return !jouron.includes(item); 
+                         })
+                         console.log('jour repot',jouroff);
+                        if(data.calendar[0].maxSupport > 1 ){
+                                maxSupport = data.calendar[0].maxSupport;
+                                console.log("if Maxsupport:",maxSupport)
+                        }
+                        var calendarId= data.calendar[0].id
+                    
+                    }
+                    else{
+                    $("#employer").append("<option value='1'>Magasin</option>");
+                    }
+                    calendars = data.calendar;
+    
+    
+                    data.reservations.forEach(function (reservation) { 
+                        if(reservation.calendarId==calendarId){
+
+                            var date = reservation.reservation_deteheure.date.split(" ");
+                            console.log("in reservation foreach")
+                            date[1] = date[1].split(":00.000000")[0];
+                            if (typeof reservations["" + date[0]] == 'undefined')
+                                reservations["" + date[0]] = [];
+        
+        
+                            reservations["" + date[0]].push(date[1]);
+                        }
+
+                    });
+                    
+                    var currentDate = new Date("2021-04-02 5:00:00");
+                    console.log(currentDate.getTime())
+                    while (currentDate.getTime() <= new Date("2021-04-02 23:30:00")) { // date.setDate(date.getDate() + );
+                        let minutes = currentDate.getMinutes() < 10 ? "00" : "30";
+                        console.log("test")
+                      
+                        
+                        console.log("hour:",typeof currentDate.getHours())
+                        let hour=currentDate.getHours()>=10?currentDate.getHours():"0"+currentDate.getHours()
+                        horaires.push(hour + ":" + minutes)
+                        currentDate.setTime(currentDate.getTime() + (30 * 60 * 1000))
+                    }
+                    console.log(horaires)
+    // $('#datetimepicker3').val(new Date())
+                    $('#datetimepicker3').val("2021-06-06 23:00:00")
+                    console.log($("#datetimepicker3"))
+                    console.log("option :")
+                    console.log($("#employer option").val())
+                    $("#employer").trigger('change')
+                    $("#datetimepicker3").trigger('change')
+    
+                    $("#datetimepicker3").data("DateTimePicker").date('1/11/2021 12:23:12')
+    
+    
+                }).catch(function (err) {
+                    console.log('Fetch Error :-S', err);
+                });
+    
+    
+            });
+    
+            $("#employer").change(function () {
+                let calendar = calendars.find(thiscalendar => thiscalendar.id == $(this).val())
+                console.log('calendar',calendar);
+                console.log('jouroff',jouroff);
+                maxSupport=calendar.maxSupport
+                var start = calendar.start.date 
+                var end = calendar.end.date+1
+                calendarId=calendar.id 
+                $('#datetimepicker3').datetimepicker({
+                    format: 'Y-m-d H:i',
+                    minTime: start,
+                    maxTime: end,
+                    disabledWeekDays: jouroff,
+
+                });
+
+            })
+    
+    
+            function recept(reponse) {
+                calendar = response;
+                console.log(calendar);
+            }
+    
+            $("#datetimepicker3").ready(async function () {
+    
+    
+                $("#datetimepicker3").data("DateTimePicker").date('1/11/2021 12:23:12')
+            })
+    
+            function triDateDay(date) { // reservations[date]
+                reservations=null
+                reservations=[]
+                console.log("vidage reservations:",reservations)
+                ToutesReservations.forEach(function (reservation) { 
+                    if(reservation.calendarId==calendarId){
+
+                        var date = reservation.reservation_deteheure.date.split(" ");
+                        console.log("in reservation foreach")
+                        date[1] = date[1].split(":00.000000")[0];
+                        if (typeof reservations["" + date[0]] == 'undefined')
+                            reservations["" + date[0]] = [];
+
+
+                        reservations["" + date[0]].push(date[1]);
+                    }
+
+                });
+                horaire = JSON.parse(JSON.stringify(horaires));
+                dat=new Date(date).getDay();
+                
+                console.log("date:",dat)
+                console.log(date.split(" ")[0])
+                console.log("reservations[date] IN FUNCTION TRI",reservations)
+                console.log(reservations["" + date.split(" ")[0]])
+                console.log("blabla")
+                console.log("type of reservations[date]")
+                console.log( reservations["" + date.split(" ")[0]])
+                if (Array.isArray(reservations["" + date.split(" ")[0]])) {
+                    console.log("isarray");
+                    for (var i = 0; i < reservations["" + date.split(" ")[0]].length; i++) {
+                        var hourr=reservations["" + date.split(" ")[0]][i];
+
+                        console.log("nombre pour chaque:"+hourr,(reservations["" + date.split(" ")[0]].filter((hour)=>hour==hourr)).length)
+                        console.log("maxSupport:",maxSupport)
+                        if ( (reservations["" + date.split(" ")[0]].filter((hour)=>hour==hourr)).length>=maxSupport){
+                            console.log("if splice")
+                            horaire.splice(horaire.indexOf(hourr), 1)
+                        }
+                    }
+
+                    console.log("new horaire");
+                    console.log(horaire);
+                    return horaire;
+
+                } else {
+                    
+                    return horaire
+                }
+
+            }
+
+        var today = new Date();
+        $.datetimepicker.setLocale('fr');
+        $('#datetimepicker3').datetimepicker({
+            inline: true,
+            allowTimes: horaire,
+            format: 'Y-m-d H:i',
+            minTime: horaire[0],
+            maxTime: horaire[horaire.length],
+        });
+        
+            $('#datetimepicker3').change(function () {
+                $('#confirmDate').html(new Date($(this).val()).toLocaleString())
+                $(this).datetimepicker({
+                    allowTimes: triDateDay($(this).val()),
+                    minDateTime: new Date('-2 days')
+                });
+                
+
+            })
+
+        </script>
+        <script>
+            $('#datetimepicker3').change(function () {
+                  console.log('this val',$(this).val())
+                  if($(this).val() != "2021-06-06 23:00:00")
+                  document.getElementById("bockReserver").style.display="contents";
+        
+              })
+        </script>
+      
+      {% endblock %}

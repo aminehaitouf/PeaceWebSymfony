@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <!-- Loader -->
+    <!-- <div id="preloader">
+        <div id="status">
+            <div class="spinner">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Loader -->
+    <div class="back-to-home rounded d-none d-sm-block">
+        <a href="indexPeace" class="btn btn-icon btn-soft-primary"><i data-feather="home" class="icons"></i></a>
+    </div>
+
+    <!-- Hero Start -->
+    <section style="margin-top:30px" class="bg-auth-home d-table w-100">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 col-md-6">
+                    <div class="me-lg-5">   
+                        <img src="{{asset("client/assets/images/user/signup.svg")}}" class="img-fluid d-block mx-auto" alt="">
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-6">
+                
+                    <div class="card shadow rounded border-0">
+                        <div class="card-body">
+                        {% if err %}
+                            <div style="padding: 8px; color: #e43f52; background-color: rgba(228, 63, 82, 0.2); border: 1px solid rgba(228, 63, 82, 0.2); border-radius: 6px; text-align: center; font-size: 16px; font-weight: 600;">
+                                {{err}}
+                            </div>
+                        {% endif %}
+                            <h4 class="card-title text-center">Signup client</h4>  
+                            {{ form_start(form,{attr:{class:"login-form mt-4"}}) }} 
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <div class="form-icon position-relative">
+                                                {{ form_row(form.firstname,{attr:{class:"form-control ps-5"}}) }}
+                                            </div>
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="col-md-6">
+                                        <div class="mb-3"> 
+                                            <div class="form-icon position-relative">
+                                                {{ form_row(form.lastname,{attr:{class:"form-control ps-5"}}) }}
+                                            </div>
+                                        </div>
+                                    </div><!--end col-->
+                                    <div class="col-md-12">
+                                        <div class="mb-3"> 
+                                            <div class="form-icon position-relative">
+                                                {{ form_row(form.mobile,{attr:{class:"form-control ps-5"}}) }}
+                                            </div>
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <div class="form-icon position-relative">
+                                                {{ form_row(form.email,{attr:{class:"form-control ps-5"}}) }}
+                                            </div>
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <div class="form-icon position-relative">
+                                                <label for="{{ form.password.children["first"].vars.id }}">{{ form.password.children["first"].vars.label }}</label>
+                                                <input type="password" placeholder="Password" class="form-control ps-5" id="{{ form.password.children["first"].vars.id }}"
+                                                    name="{{ form.password.children["first"].vars.full_name }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <div class="form-icon position-relative">
+                                                <label for="{{ form.password.children["second"].vars.id }}">{{ form.password.children["second"].vars.label }}</label>
+                                                <input type="password" placeholder="Repeat Password" class="form-control ps-5" id="{{ form.password.children["second"].vars.id }}"
+                                                    name="{{ form.password.children["second"].vars.full_name }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                   {% do form.password.setRendered %}
+
+
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                <label class="form-check-label" for="flexCheckDefault">I Accept <a href="#" class="text-primary">Terms And Condition</a></label>
+                                            </div>
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="col-md-12">
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary">S'enregistrer</button>
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="col-lg-12 mt-4 text-center">
+                                        <h6>Or Signup With</h6>
+                                        <div class="row">
+                                            <div class="col-6 mt-3">
+                                                <div class="d-grid">
+                                                    <a href="javascript:void(0)" class="btn btn-light"><i class="mdi mdi-facebook text-primary"></i> Facebook</a>
+                                                </div>
+                                            </div><!--end col-->
+                                            
+                                            <div class="col-6 mt-3">
+                                                <div class="d-grid">
+                                                    <a href="javascript:void(0)" class="btn btn-light"><i class="mdi mdi-google text-danger"></i> Google</a>
+                                                </div>
+                                            </div><!--end col-->
+                                        </div>
+                                    </div><!--end col-->
+
+                                    <div class="mx-auto">
+                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login" class="text-dark fw-bold">Sign in</a></p>
+                                    </div>
+                                </div><!--end row-->
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div> <!--end col-->
+            </div><!--end row-->
+        </div> <!--end container-->
+    </section><!--end section-->
+  {% endblock %}

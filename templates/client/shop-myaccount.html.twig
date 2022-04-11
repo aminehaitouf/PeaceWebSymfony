@@ -1,0 +1,452 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+        <!-- Start -->
+        <section style="margin-top:30px" class="section">
+            <div class="container">
+                <div class="row align-items-end">
+                    <div class="col-md-4">
+                        <div class="d-flex align-items-center">
+                            <img src="{{asset("client/assets/images/client/05.jpg")}}" class="avatar avatar-md-md rounded-circle" alt="">
+                            <div class="ms-3">
+                                <h6 class="text-muted mb-0">Hello,</h6>
+                                <h5 class="mb-0">{{(user.lastname)|upper ~ ' ' ~ (user.firstname)|lower }} </h5>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+
+                    <div class="col-md-8 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <p class="text-muted mb-0">Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap v5 html page.</p>
+                    </div><!--end col-->
+                </div><!--end row-->
+                {% if err %}
+                            <div style="padding: 8px; color: #e43f52; background-color: rgba(228, 63, 82, 0.2); border: 1px solid rgba(228, 63, 82, 0.2); border-radius: 6px; text-align: center; font-size: 16px; font-weight: 600;">
+                                {{err}}
+                            </div>
+                        {% endif %}
+
+                <div class="row">
+                    <div class="col-md-4 mt-4 pt-2">
+                        <ul class="nav nav-pills nav-justified flex-column bg-white rounded shadow p-3 mb-0" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link rounded active" id="dashboard" data-bs-toggle="pill" href="#dash" role="tab" aria-controls="dash" aria-selected="false">
+                                    <div class="text-start py-1 px-3">
+                                        <h6 class="mb-0"><i class="uil uil-dashboard h5 align-middle me-2 mb-0"></i> Dashboard</h6>
+                                    </div>
+                                </a><!--end nav link-->
+                            </li><!--end nav item-->
+                            
+                            <li class="nav-item mt-2">
+                                <a class="nav-link rounded" id="order-history" data-bs-toggle="pill" href="#orders" role="tab" aria-controls="orders" aria-selected="false">
+                                    <div class="text-start py-1 px-3">
+                                        <h6 class="mb-0"><i class="uil uil-list-ul h5 align-middle me-2 mb-0"></i> Orders</h6>
+                                    </div>
+                                </a><!--end nav link-->
+                            </li><!--end nav item-->
+                            
+                            {# <li class="nav-item mt-2">
+                                <a class="nav-link rounded" id="download" data-bs-toggle="pill" href="#down" role="tab" aria-controls="down" aria-selected="false">
+                                    <div class="text-start py-1 px-3">
+                                        <h6 class="mb-0"><i class="uil uil-arrow-circle-down h5 align-middle me-2 mb-0"></i> Downloads</h6>
+                                    </div>
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item mt-2">
+                                <a class="nav-link rounded" id="addresses" data-bs-toggle="pill" href="#address" role="tab" aria-controls="address" aria-selected="false">
+                                    <div class="text-start py-1 px-3">
+                                        <h6 class="mb-0"><i class="uil uil-map-marker h5 align-middle me-2 mb-0"></i> Addresses</h6>
+                                    </div>
+                                </a>
+                            </li> #}
+                            
+                            <li class="nav-item mt-2">
+                                <a class="nav-link rounded" id="account-details" data-bs-toggle="pill" href="#account" role="tab" aria-controls="account" aria-selected="false">
+                                    <div class="text-start py-1 px-3">
+                                        <h6 class="mb-0"><i class="uil uil-user h5 align-middle me-2 mb-0"></i> Account Details</h6>
+                                    </div>
+                                </a><!--end nav link-->
+                            </li><!--end nav item-->
+                            
+                            <li class="nav-item mt-2">
+                                <a class="nav-link rounded" role="tab" href="{{ path('app_logout') }}" aria-selected="false">
+                                    <div class="text-start py-1 px-3">
+                                        <h6 class="mb-0"><i class="uil uil-sign-out-alt h5 align-middle me-2 mb-0"></i> Logout</h6>
+                                    </div>
+                                </a><!--end nav link-->
+                            </li><!--end nav item-->
+                        </ul><!--end nav pills-->
+                    </div><!--end col-->
+
+                    <div class="col-md-8 col-12 mt-4 pt-2">
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade bg-white show active shadow rounded p-4" id="dash" role="tabpanel" aria-labelledby="dashboard">
+                                <h6 class="text-muted">Hello <span class="text-dark">{{(user.lastname)|upper ~ ' ' ~ (user.firstname)|lower }}</span> (not <span class="text-dark">{{(user.lastname)|upper ~ ' ' ~ (user.firstname)|lower }}</span>? <a href="{{ path('app_logout') }}" class="text-danger">Log out</a>)</h6>
+
+                                <h6 class="text-muted mb-0">From your account dashboard you can view your <a href="javascript:void(0)" class="text-danger">recent orders</a>, manage your <a href="javascript:void(0)" class="text-danger">shipping and billing addresses</a>, and <a href="javascript:void(0)" class="text-danger">edit your password and account details</a>.</h6>
+                            </div><!--end teb pane-->
+
+                            <div class="tab-pane fade bg-white shadow rounded p-4" id="orders" role="tabpanel" aria-labelledby="order-history">
+                                <div style="margin:20px">
+                                    <h3 class="text-warning">Mes Reservation </h3>
+                                </div>
+                                <div class="table-responsive bg-white shadow rounded">
+                                    <table class="table mb-0 table-center table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="border-bottom">Nom produit.</th>
+                                                <th scope="col" class="border-bottom">Date</th>
+                                                <th scope="col" class="border-bottom">Avancement</th>
+                                                <th scope="col" class="border-bottom">Status</th>
+                                                <th scope="col" class="border-bottom">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for reservation in reservations %}
+                                              
+                                                <tr>
+                                                <th scope="row">{{reservation.ads.titre}}</th>
+                                                <td>{{reservation.deteheure|date( 'j/m/Y à  H:i')}}</td>
+                                                {% if reservation.avancement == "Refuser" %}
+                                                    <td class="text-danger">{{reservation.avancement}}</td>
+                                                {% elseif reservation.avancement == "Valider" or reservation.avancement == "Servie" %}
+                                                    <td class="text-success">{{reservation.avancement}}</td>
+                                                {% else %}
+                                                    <td class="text-warning">{{reservation.avancement}}</td>
+                                                {% endif %}
+                                                
+                                                {% if reservation.isPaid == 0 %}
+                                                    <td class="text-danger">Non Payer</td>
+                                                {% else %}
+                                                    <td class="text-success">Payer</td>
+                                                {% endif %}
+                                                
+                                                 
+                                                <td class="mt-2"><a href="javascript:void(0)" data-bs-toggle="modal" data-saission="{{reservation.id}}"
+                                                        data-produit="{{reservation.ads.titre}}" data-prix="{{reservation.ads.prix}}" data-date="{{reservation.deteheure|date( 'j/m/Y à  H:i')}}"
+                                                        data-avancement="{{reservation.avancement}}" data-description="{{reservation.ads.description}}" data-payer="{{reservation.isPaid}}" data-adresse="{{reservation.ads.user.adresse.nom}}" data-professionnel="{{reservation.ads.user.domination}} "
+                                                     data-servipar="{{reservation.calendar ? reservation.calendar.title : "Les équipiers"}}" data-bs-target="#productview" class="btn btn-icon btn-pills btn-soft-primary addAttr"><i data-feather="eye" class="icons"></i></a></td>
+                                                </tr>
+                                          
+                                            {% endfor %}
+                                            
+                                        </tbody>
+                                    </table>
+                                    
+                                </div>
+                               
+                            </div><!--end teb pane-->
+
+                            <div class="modal fade jus" id="productview" tabindex="-1" aria-labelledby="productview-title" aria-hidden="true">
+                                <div class="modal-dialog  modal-lg modal-dialog-centered">
+                                    <div class="modal-content rounded shadow border-0">
+                                        <div class="modal-header border-bottom">
+                                            <h5 class="modal-title"  >Reservation</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        
+                                        <div class="modal-body p-4">
+                                            <div class="container-fluid px-0">
+                                                <div class="row">
+                                                    
+                    
+                                                    <div class="col-lg-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
+                                                        <h4 class="title" id="produit">Branded T-Shirts</h4>
+                                                        <h5 class="text-muted" id="prix">$21.00 <del class="text-danger ms-2">$25.00</del> </h5>
+                                                        <ul class="list-unstyled text-warning h5">
+                                                            <li class="list-inline-item" id="servipar"></li>
+                                                            
+                                                        </ul>
+
+                                                        <h5 class="mt-4">Date et heure de la reservation :</h5>
+                                                        <p class="text-success" id="date">Lorem ipsum dolor .</p>
+                                                        
+                                                        <h5 class="mt-4">Avancement :</h5>
+                                                        <p class="text-warning" id="avancement">Lorem ipsum dolor .</p>
+
+                                                        <h5 class="mt-4">Adresse :</h5>
+                                                        <p class="text-muted" id="adresse">Lorem ipsum dolor .</p>
+                                                        <!-- <div class="row mt-4 pt-2">
+                                                            <div class="col-12">
+                                                                <div class="d-flex align-items-center">
+                                                                    <h6 class="mb-0">Your Size:</h6>
+                                                                    <ul class="list-unstyled mb-0 ms-3">
+                                                                        <li class="list-inline-item"><a href="javascript:void(0)" class="btn btn-icon btn-soft-primary">S</a></li>
+                                                                        <li class="list-inline-item ms-1"><a href="javascript:void(0)" class="btn btn-icon btn-soft-primary">M</a></li>
+                                                                        <li class="list-inline-item ms-1"><a href="javascript:void(0)" class="btn btn-icon btn-soft-primary">L</a></li>
+                                                                        <li class="list-inline-item ms-1"><a href="javascript:void(0)" class="btn btn-icon btn-soft-primary">XL</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                    
+                                                            <div class="col-12 mt-4">
+                                                                <div class="d-flex shop-list align-items-center">
+                                                                    <h6 class="mb-0">Quantity:</h6>
+                                                                    <div class="ms-3">
+                                                                        <div class="qty-icons">
+                                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="btn btn-icon btn-soft-primary minus">-</button>
+                                                                            <input min="0" name="quantity" value="0" type="number" class="btn btn-icon btn-soft-primary qty-btn quantity">
+                                                                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="btn btn-icon btn-soft-primary plus">+</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div> 
+                                                            </div>
+                                                        </div> -->
+                    
+                                                        <div style="float:right" class="mt-4 pt-2 ">
+                                                            <a  id="payer"  class="btn btn-soft-warning ms-2">Payer</a>
+                                                            {# <a href="shop-cart.html" class="btn btn-soft-primary ms-2">Add to Cart</a> #}
+                                                        </div>
+                                                    </div><!--end col-->
+                                                </div><!--end row-->
+                                            </div><!--end container-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade bg-white shadow rounded p-4" id="down" role="tabpanel" aria-labelledby="download">
+                                <div class="table-responsive bg-white shadow rounded">
+                                    <table class="table mb-0 table-center table-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="border-bottom">Product Name</th>
+                                                <th scope="col" class="border-bottom">Description</th>
+                                                <th scope="col" class="border-bottom">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Quick heal</th>
+                                                <td class="text-muted">It is said that song composers of the past <br> used dummy texts as lyrics when writing <br> melodies in order to have a 'ready-made' <br> text to sing with the melody.</td>
+                                                <td class="text-success">Downloaded</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div><!--end teb pane-->
+
+                            <div class="tab-pane fade bg-white shadow rounded p-4" id="address" role="tabpanel" aria-labelledby="addresses">
+                                <h6 class="text-muted mb-0">The following addresses will be used on the checkout page by default.</h6>
+
+                                <div class="row">
+                                    <div class="col-lg-6 mt-4 pt-2">
+                                        <div class="d-flex align-items-center mb-4 justify-content-between">
+                                            <h5 class="mb-0">Billing Address:</h5>
+                                            <a href="javascript:void(0)" class="text-primary h5 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-original-title="Edit"><i class="uil uil-edit align-middle"></i></a>
+                                        </div>
+                                        <div class="pt-4 border-top">
+                                            <p class="h6">Cally Joseph</p>
+                                            <p class="h6 text-muted">C/54 Northwest Freeway, </p>
+                                            <p class="h6 text-muted">Suite 558,</p>
+                                            <p class="h6 text-muted">Houston, USA 485</p>
+                                            <p class="h6 text-muted mb-0">+123 897 5468</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6 mt-4 pt-2">
+                                        <div class="d-flex align-items-center mb-4 justify-content-between">
+                                            <h5 class="mb-0">Shipping Address:</h5>
+                                            <a href="javascript:void(0)" class="text-primary h5 mb-0" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-original-title="Edit"><i class="uil uil-edit align-middle"></i></a>
+                                        </div>
+                                        <div class="pt-4 border-top">
+                                            <p class="h6">Cally Joseph</p>
+                                            <p class="h6 text-muted">C/54 Northwest Freeway, </p>
+                                            <p class="h6 text-muted">Suite 558,</p>
+                                            <p class="h6 text-muted">Houston, USA 485</p>
+                                            <p class="h6 text-muted mb-0">+123 897 5468</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!--end teb pane-->
+
+                            <div class="tab-pane fade bg-white shadow rounded p-4" id="account" role="tabpanel" aria-labelledby="account-details">
+                                {{ form_start(formChangeFirstLastName) }}
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">First Name</label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="user" class="fea icon-sm icons"></i>
+                                                    {{ form_widget(formChangeFirstLastName.firstname,{attr:{class:"form-control ps-5"}}) }}
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Last Name</label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="user-check" class="fea icon-sm icons"></i>
+                                                    {{ form_widget(formChangeFirstLastName.lastname,{attr:{class:"form-control ps-5"}}) }}
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Your Email</label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="mail" class="fea icon-sm icons"></i>
+                                                    <input name="email" value="{{(user.email)}}" id="email" disabled type="email" class="form-control ps-5" value="callyjoseph@gmail.com">
+                                                </div>
+                                            </div> 
+                                        </div><!--end col-->
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Mobile</label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="user-check" class="fea icon-sm icons"></i>
+                                                    {{ form_widget(formChangeFirstLastName.mobile,{attr:{class:"form-control ps-5"}}) }}
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+                                        
+
+                                        <div class="col-lg-12 mt-2 mb-0">
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                {{ form_end(formChangeFirstLastName) }}
+
+                                <h5 class="mt-4">Change password :</h5>
+                                {{ form_start(formChangePassword) }}
+                                    <div class="row mt-3">
+    
+                                        <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <div class="form-icon position-relative">
+                                                <label for="{{ formChangePassword.password.children["first"].vars.id }}">{{ formChangePassword.password.children["first"].vars.label }}</label>
+                                                <input type="password" placeholder="Password" class="form-control ps-5" id="{{ formChangePassword.password.children["first"].vars.id }}"
+                                                    name="{{ formChangePassword.password.children["first"].vars.full_name }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <div class="form-icon position-relative">
+                                                <label for="{{ formChangePassword.password.children["second"].vars.id }}">{{ formChangePassword.password.children["second"].vars.label }}</label>
+                                                <input type="password" placeholder="Repeat Password" class="form-control ps-5" id="{{ formChangePassword.password.children["second"].vars.id }}"
+                                                    name="{{ formChangePassword.password.children["second"].vars.full_name }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                   {% do formChangePassword.password.setRendered %}
+    
+                                        <div class="col-lg-12 mt-2 mb-0">
+                                            <button class="btn btn-primary">Save Password</button>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                {{ form_end(formChangePassword) }}
+                            </div><!--end teb pane-->
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div><!--end container-->
+        </section><!--end section-->
+        <!-- End -->
+
+        <!-- Footer Start -->
+        
+        <!-- Footer End -->
+
+        <!-- Wishlist Popup Start -->
+        <div class="modal fade" id="wishlist" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content rounded shadow-lg border-0 overflow-hidden">
+                    <div class="modal-body py-5">
+                        <div class="text-center">
+                            <div class="icon d-flex align-items-center justify-content-center bg-soft-danger rounded-circle mx-auto" style="height: 95px; width:95px;">
+                                <h1 class="mb-0"><i class="uil uil-heart-break align-middle"></i></h1>
+                            </div>
+                            <div class="mt-4">
+                                <h4>Your wishlist is empty.</h4>
+                                <p class="text-muted">Create your first wishlist request...</p>
+                                <div class="mt-4">
+                                    <a href="javascript:void(0)" class="btn btn-outline-primary">+ Create new wishlist</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Wishlist Popup End -->
+  
+        <!-- Offcanvas Start -->
+        <div class="offcanvas bg-white offcanvas-top" tabindex="-1" id="offcanvasTop">
+            <div class="offcanvas-body d-flex align-items-center align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-center">
+                                <h4>Search now.....</h4>
+                                <div class="subcribe-form mt-4">
+                                    <form>
+                                        <div class="mb-0">
+                                            <input type="text" id="help" name="name" class="border bg-white rounded-pill" required="" placeholder="Search">
+                                            <button type="submit" class="btn btn-pills btn-primary">Search</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div><!--end container-->
+            </div>
+        </div>
+        <!-- Offcanvas End -->
+
+        <!-- Back to top -->
+        <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a>
+        <!-- Back to top -->
+        {% endblock %}
+        {% block javascripts %}
+       <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script>
+
+
+         
+
+
+            var id = 0;
+            $('.addAttr').click(function() {
+            var produit = $(this).data('produit'); 
+            var prix = $(this).data('prix'); 
+            var date = $(this).data('date'); 
+            var avancement = $(this).data('avancement'); 
+            var description = $(this).data('description');
+            var professionnel = $(this).data('professionnel');
+            var adresse = $(this).data('adresse');   
+            var payer = $(this).data('payer'); 
+            var id = $(this).data('saission');
+            var servipar = $(this).data('servipar');
+
+            //console.log(id)
+            if (payer == 1){
+                console.log("true")
+                $('#payer').css({"display": "none"});
+            }
+            else{
+                console.log("false")
+                $('#payer').css({"display": "contents"});
+            }   
+
+            $('#produit').text(produit); 
+            $('#prix').text(prix+"€"); 
+            //$('#date').text(date.format("YYYY-MM-DD")); 
+            $('#date').text(date);
+            $('#avancement').text(avancement); 
+            $('#description').text(description); 
+            $('#professionnel').text(professionnel); 
+            $('#adresse').text(adresse); 
+            $('#servipar').text("Servie par : "+servipar.toUpperCase()); 
+
+            $('#payer').click(function() {
+                window.location.href = "https://peace.sc/reservation/create-session/"+id;
+            })
+            } );
+
+            
+        </script>
+        
+      {% endblock %}
+

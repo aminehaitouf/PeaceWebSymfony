@@ -1,0 +1,132 @@
+{% set route_name = app.request.attributes.get('_route') %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}PeaceAsso.{% endblock %}</title>
+        <link rel="shortcut icon" href="{{asset("client/assets/images/favicon.ico")}}">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        {% block stylesheets %}
+        {% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{asset("professionnel/assets/css/bootstrap.css")}}">
+    
+    <link rel="stylesheet" href="{{asset("professionnel/assets/vendors/iconly/bold.css")}}">
+
+    <link rel="stylesheet" href="{{asset("professionnel/assets/vendors/perfect-scrollbar/perfect-scrollbar.css")}}">
+    <link rel="stylesheet" href="{{asset("professionnel/assets/vendors/bootstrap-icons/bootstrap-icons.css")}}">
+    <link rel="stylesheet" href="{{asset("professionnel/assets/css/app.css")}}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">  
+    <link rel="stylesheet" href="{{asset("professionnel/assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css")}}">
+    <link rel="stylesheet" href="{{asset("professionnel/assets/vendors/fontawesome/all.min.css")}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div id="app">
+        <div id="sidebar" class="active">
+            <div class="sidebar-wrapper active">
+    <div class="sidebar-header">
+        <div class="d-flex justify-content-between">
+            <div class="logo">
+                <a href="index.html"><img class="avatar avatar-md-md rounded-circle" style="width:100px;height: 100px;" src="{{ asset('uploadsAds/'~app.user.illustration) }}" alt="Logo" srcset=""></a>
+            </div>
+            <div class="toggler">
+                <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-menu">
+        <ul class="menu">
+            <li class="sidebar-title">{{app.user.domination}}</li>
+            
+            
+            <li {% if route_name == "indexAssociation" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+                <a href="/association/indexAssociation" class='sidebar-link'>
+                    <i class="bi bi-house "></i>
+                    <span>Accueil</span>
+                </a>
+            </li>
+            <li {% if route_name == "profilAssociation" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+
+                <a href="/association/profilAssociation" class='sidebar-link'>
+                    <i class="bi bi-pencil"></i>
+                    <span>Profil</span>
+                </a>
+            </li>
+            
+            <li {% if route_name == "commandesAssociation" or route_name == "detailCommande" or route_name == "motifRefusCommande" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+                <a href="/association/commandesAssociation " class='sidebar-link'>
+                    <i class="bi bi-basket3"></i>
+                    <span>Commandes</span>
+                </a>
+            </li>
+            <li {% if route_name == "listOrganisme" or route_name == "listOrganisme" or route_name == "motifRefusCommande" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+                <a href="/listOrganisme " class='sidebar-link'>
+                    <i class="bi bi-basket3"></i>
+                    <span>Reserver benevolat</span>
+                </a>
+            </li>
+            <li >
+                <a href="{{ path('app_logout') }} " class='sidebar-link'>
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </li>
+
+            
+        </ul>
+    </div>
+    <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+</div>
+        </div>
+        <div id="main">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+    <body>
+        
+
+        {% block body %}
+        
+        
+        <footer>
+                <div class="footer clearfix mb-0 text-muted">
+                    <div class="float-start">
+                        <p>© Copyright <span id="copyright"></span></p>
+                    </div>
+                    <div class="float-end">
+                        <p>Tous droits réservés par <span class="text-danger"></span> <a
+                                href="http://peace.sc">Peace.</a></p>
+                    </div>
+                </div>
+            </footer>
+        
+        {% endblock %}
+        
+        {% block javascripts %}
+        {% endblock %}
+             <script src="{{asset("professionnel/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js")}}"></script>
+             <script src="{{asset("professionnel/assets/js/bootstrap.bundle.min.js")}}"></script>
+        
+             <script src="{{asset("professionnel/assets/vendors/apexcharts/apexcharts.js")}}"></script>
+             <script src="{{asset("professionnel/assets/js/pages/dashboard.js")}}"></script>
+
+             <script src="{{asset("professionnel/assets/js/mazer.js")}}"></script>
+             <script>
+        var date = new Date();
+        document.getElementById("copyright").innerHTML= date.getFullYear();
+    </script>
+    </body>
+    {% block script %}{% endblock %}
+</html>

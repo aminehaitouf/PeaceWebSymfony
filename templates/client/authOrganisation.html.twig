@@ -1,0 +1,597 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+        <!-- Loader -->
+        <!-- <div id="preloader">
+            <div id="status">
+                <div class="spinner">
+                    <div class="double-bounce1"></div>
+                    <div class="double-bounce2"></div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Loader -->
+        <div class="back-to-home rounded d-none d-sm-block">
+            <a href="indexPeace" class="btn btn-icon btn-soft-primary"><i data-feather="home" class="icons"></i></a>
+        </div>
+
+        <!-- Hero Start -->
+        <section style="margin-top:30px" class="bg-auth-home d-table w-100">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 col-md-6">
+                        <div class="me-lg-5">   
+                            <img src="{{asset("client/assets/images/user/signup.svg")}}" class="img-fluid d-block mx-auto" alt="">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-6">
+                        <div class="card shadow rounded border-0">
+                            <div class="card-body">
+                                <h4 class="card-title text-center">Signup organisme</h4>  
+                                    {{ form_start(form,{attr:{class:"login-form mt-4"}}) }} 
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                    {{ form_row(form.firstname,{attr:{class:"form-control ps-5"}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="mb-3"> 
+                                                <div class="form-icon position-relative">
+                                                    {{ form_row(form.lastname,{attr:{class:"form-control ps-5"}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                        <div class="mb-3"> 
+                                            <div class="form-icon position-relative">
+                                                {{ form_row(form.mobile,{attr:{class:"form-control ps-5"}}) }}
+                                            </div>
+                                        </div>
+                                    </div><!--end col-->
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                    {{ form_row(form.domination,{attr:{class:"form-control ps-5"}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                    {{ form_row(form.siret,{attr:{class:"form-control ps-5"}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                    
+                                                    {{ form_row(form.domaine,{attr:{class:"form-select"}}) }}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                    
+                                                    {{ form_row(form.prixMoyen,{attr:{class:"form-control ps-5",'type':'number'}}) }}
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                <div id="map" style="height: 0;width: 0"></div>
+                                                    {{ form_row(form.adresse.nom, {attr:{class:"form-control ps-5"},'id': 'ville'}) }}
+                                                    <div class="d-none">
+                                                        {{ form_row(form.adresse.lat, {'id': 'lat'}) }}
+                                                        {{ form_row(form.adresse.longi, {'id': 'lng'}) }}
+                                                        {{ form_row(form.adresse.location, {'id': 'location'}) }}
+                                                    </div>
+                                                    
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                    {{ form_row(form.illustration,{attr:{class:"form-control ps-5"}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                    {{ form_row(form.association,{attr:{class:"form-select"}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                    {{ form_row(form.email,{attr:{class:"form-control ps-5"}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                         <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                    <label for="{{ form.password.children["first"].vars.id }}">{{ form.password.children["first"].vars.label }}</label>
+                                                    <input type="password" placeholder="Password" class="form-control ps-5" id="{{ form.password.children["first"].vars.id }}"
+                                                        name="{{ form.password.children["first"].vars.full_name }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="form-icon position-relative">
+                                                    <label for="{{ form.password.children["second"].vars.id }}">{{ form.password.children["second"].vars.label }}</label>
+                                                    <input type="password" placeholder="Repeat Password" class="form-control ps-5" id="{{ form.password.children["second"].vars.id }}"
+                                                        name="{{ form.password.children["second"].vars.full_name }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% do form.password.setRendered %}
+                                        
+
+                                        <div class="col-md-12">
+                                            <div class="mb-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                    <label class="form-check-label" for="flexCheckDefault">I Accept <a href="#" class="text-primary">Terms And Condition</a></label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            <div class="d-grid">
+
+                                                <button type="submit" class="btn btn-primary">S'enregistrer</button>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="col-lg-12 mt-4 text-center">
+                                            <h6>Or Signup With</h6>
+                                            <div class="row">
+                                                <div class="col-6 mt-3">
+                                                    <div class="d-grid">
+                                                        <a href="javascript:void(0)" class="btn btn-light"><i class="mdi mdi-facebook text-primary"></i> Facebook</a>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-6 mt-3">
+                                                    <div class="d-grid">
+                                                        <a href="javascript:void(0)" class="btn btn-light"><i class="mdi mdi-google text-danger"></i> Google</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+
+                                        <div class="mx-auto">
+                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login" class="text-dark fw-bold">Sign in</a></p>
+                                        </div>
+                                    </div><!--end row-->
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div> <!--end col-->
+                </div><!--end row-->
+            </div> <!--end container-->
+        </section><!--end section-->
+{% endblock %}
+       {% block javascripts %}
+       <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+
+<!-- image editor -->
+<script
+    src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-filter/dist/filepond-plugin-image-filter.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+
+
+<script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {
+                    lat: 46.2321929,
+                    lng: 2.2096669
+                },
+                zoom: 13
+            });
+            // Create the autocomplete object, restricting the search to geographical
+            // location types.
+            var autocomplete = new google.maps.places.Autocomplete((document.getElementById('ville')));
+            autocomplete.setComponentRestrictions({'country': ['FR']});
+            var infowindow = new google.maps.InfoWindow();
+            // When the user selects an address from the dropdown, populate the address
+            // fields in the form.
+            autocomplete.addListener('place_changed', function () {
+                infowindow.close();
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                // User entered the name of a Place that was not suggested and
+                // pressed the Enter key, or the Place Details request failed.
+                    window.alert("No details available for input: '" + place.name + "'");
+                    return;
+                }
+                var item_Lat = place.geometry.location.lat()
+                var item_Lng = place.geometry.location.lng()
+                var item_Location = place.formatted_address;
+                console.log(place.geometry.location.lat());
+                console.log(place.geometry.location.lng());
+                console.log(place.formatted_address);
+                // alert("Lat= "+item_Lat+"_____Lang="+item_Lng+"_____Location="+item_Location);
+                document.getElementById("lat").value = item_Lat;
+                document.getElementById("lng").value = item_Lng;
+                document.getElementById("location").value = item_Location;
+                var address = '';
+                if (place.address_components) {
+                    address = [
+                        (place.address_components[0] && place.address_components[0].short_name || ''), (place.address_components[1] && place.address_components[1].short_name || ''),
+                        (place.address_components[2] && place.address_components[2].short_name || '')
+                    ].join(' ');
+                }
+                infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+            });
+
+            let $map = document.querySelector('#maps')
+
+            class GoogleMap {
+
+                constructor() {
+                    this.map = null
+                    this.bounds = null
+                    this.textMarker = null
+                }
+
+                /**
+                 * Charge la carte sur un élément
+                 * @param {HTMLElement} element
+                 */
+                async load(element) {
+                    return new Promise((resolve, reject) => {
+                        $script('https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWz7ZHJJDK8fs09giiatXHVBA_c0jAUA', () => {
+                            this.textMarker = class TextMarker extends google.maps.OverlayView {
+
+                                constructor(pos, map, text) {
+                                    super()
+                                    this.div = null
+                                    this.html = null
+                                    this.pos = pos
+                                    this.text = text
+                                    this.setMap(map)
+                                    this.onActivation = []
+                                }
+
+                                onAdd() {
+                                    this.div = document.createElement('div')
+                                    this.div.classList.add('marker')
+                                    this.div.style.position = 'absolute'
+                                    this.div.innerHTML = this.text
+                                    this.getPanes().overlayImage.appendChild(this.div)
+                                    this.div.addEventListener('click', (e) => {
+                                        e.preventDefault()
+                                        e.stopPropagation()
+                                        this.activate()
+                                    })
+                                }
+
+                                draw() {
+                                    let position = this.getProjection().fromLatLngToDivPixel(this.pos)
+                                    this.div.style.left = position.x + "px"
+                                    this.div.style.top = position.y + "px"
+                                }
+
+                                onRemove() {
+                                    this.div.parentNode.removeChild(this.div)
+                                }
+
+                                hover() {
+                                    if (this.div !== null) {
+                                        this.div.classList.add('is-active')
+                                    }
+                                }
+
+                                out() {
+                                    if (this.div !== null) {
+                                        this.div.classList.remove('is-active')
+                                    }
+                                }
+
+                                activate() {
+                                    if (this.div !== null) {
+                                        this.div.innerHTML = this.html
+                                    }
+                                    this.onActivation.forEach(function (cb) {
+                                        cb()
+                                    })
+                                }
+
+                                deactivate() {
+                                    if (this.div !== null) {
+                                        this.div.innerHTML = this.text
+                                    }
+                                }
+
+                                setContent(html) {
+                                    this.html = html
+                                }
+
+                            }
+                            this.map = new google.maps.Map(element)
+                            this.bounds = new google.maps.LatLngBounds()
+                            resolve()
+                        })
+                    })
+                }
+
+                /**
+                 * Ajoute un marker sur la carte
+                 * @param {string} lat
+                 * @param {string} lng
+                 * @param {string} text
+                 * @return {TextMarker}
+                 */
+                addMarker(lat, lng, text) {
+                    let point = new google.maps.LatLng(lat, lng)
+                    let marker = new this.textMarker(point, this.map, text)
+                    marker.onActivation.push(() => {
+                        this.map.setCenter(marker.pos)
+                    })
+                    this.bounds.extend(point)
+                    return marker
+                }
+
+                /**
+                 * Centre la carte pour englober les markers
+                 */
+                centerMap() {
+                    this.map.panToBounds(this.bounds)
+                    this.map.fitBounds(this.bounds)
+                }
+            }
+
+            const initMap = async function () {
+                let map = new GoogleMap()
+                let activeMarker = null
+                let enabledMarker = null
+                await map.load($map)
+                Array.from(document.querySelectorAll('.item')).forEach(function (item) {
+                    let marker = map.addMarker(item.dataset.lat, item.dataset.lng, item.dataset.name)
+                    marker.setContent(item.innerHTML)
+                    marker.onActivation.push(function () {
+                        if (enabledMarker !== null) {
+                            enabledMarker.deactivate()
+                        }
+                        enabledMarker = marker
+                    })
+                    item.addEventListener('mouseover', function () {
+                        marker.hover()
+                        if (activeMarker !== null) {
+                            activeMarker.out()
+                        }
+                        activeMarker = marker
+                    })
+                    item.addEventListener('mouseleave', function () {
+                        if (activeMarker === marker) {
+                            marker.out()
+                            activeMarker = null
+                        }
+                    })
+                })
+                map.centerMap()
+            }
+
+            if ($map !== null) {
+                initMap()
+            }
+
+
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWz7ZHJJDK8fs09giiatXHVBA_c0jAUA&libraries=places&callback=initMap"
+            async defer></script>
+
+<!-- toastify -->
+<script src="assets/vendors/toastify/toastify.js"></script>
+
+<!-- filepond -->
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+<script>
+    // register desired plugins...
+    FilePond.registerPlugin(
+        // validates the size of the file...
+        FilePondPluginFileValidateSize,
+        // validates the file type...
+        FilePondPluginFileValidateType,
+
+        // calculates & dds cropping info based on the input image dimensions and the set crop ratio...
+        FilePondPluginImageCrop,
+        // preview the image file type...
+        FilePondPluginImagePreview,
+        // filter the image file
+        FilePondPluginImageFilter,
+        // corrects mobile image orientation...
+        FilePondPluginImageExifOrientation,
+        // calculates & adds resize information...
+        FilePondPluginImageResize,
+    );
+
+    // Filepond: Basic
+    FilePond.create(document.querySelector('.basic-filepond'), {
+        allowImagePreview: false,
+        allowMultiple: false,
+        allowFileEncode: false,
+        required: false
+    });
+
+    // Filepond: Multiple Files
+    FilePond.create(document.querySelector('.multiple-files-filepond'), {
+        allowImagePreview: false,
+        allowMultiple: true,
+        allowFileEncode: false,
+        required: false
+    });
+
+    // Filepond: With Validation
+    FilePond.create(document.querySelector('.with-validation-filepond'), {
+        allowImagePreview: false,
+        allowMultiple: true,
+        allowFileEncode: false,
+        required: true,
+        acceptedFileTypes: ['image/png'],
+        fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+            // Do custom type detection here and return with promise
+            resolve(type);
+        })
+    });
+
+    // Filepond: ImgBB with server property
+    FilePond.create(document.querySelector('.imgbb-filepond'), {
+        allowImagePreview: false,
+        server: {
+            process: (fieldName, file, metadata, load, error, progress, abort) => {
+                // We ignore the metadata property and only send the file
+
+                const formData = new FormData();
+                formData.append(fieldName, file, file.name);
+
+                const request = new XMLHttpRequest();
+                // you can change it by your client api key
+                request.open('POST', 'https://api.imgbb.com/1/upload?key=762894e2014f83c023b233b2f10395e2');
+
+                request.upload.onprogress = (e) => {
+                    progress(e.lengthComputable, e.loaded, e.total);
+                };
+
+                request.onload = function () {
+                    if (request.status >= 200 && request.status < 300) {
+                        load(request.responseText);
+                    }
+                    else {
+                        error('oh no');
+                    }
+                };
+
+                request.onreadystatechange = function () {
+                    if (this.readyState == 4) {
+                        if (this.status == 200) {
+                            let response = JSON.parse(this.responseText);
+
+                            Toastify({
+                                text: "Success uploading to imgbb! see console f12",
+                                duration: 3000,
+                                close: true,
+                                gravity: "bottom",
+                                position: "right",
+                                backgroundColor: "#4fbe87",
+                            }).showToast();
+
+                            console.log(response);
+                        } else {
+                            Toastify({
+                                text: "Failed uploading to imgbb! see console f12",
+                                duration: 3000,
+                                close: true,
+                                gravity: "bottom",
+                                position: "right",
+                                backgroundColor: "#ff0000",
+                            }).showToast();
+
+                            console.log("Error", this.statusText);
+                        }
+                    }
+                };
+
+                request.send(formData);
+            }
+        }
+    });
+
+    // Filepond: Image Preview
+    FilePond.create(document.querySelector('.image-preview-filepond'), {
+        allowImagePreview: true,
+        allowImageFilter: false,
+        allowImageExifOrientation: false,
+        allowImageCrop: false,
+        acceptedFileTypes: ['image/png', 'image/jpg', 'image/jpeg'],
+        fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+            // Do custom type detection here and return with promise
+            resolve(type);
+        })
+    });
+
+    // Filepond: Image Crop
+    FilePond.create(document.querySelector('.image-crop-filepond'), {
+        allowImagePreview: true,
+        allowImageFilter: false,
+        allowImageExifOrientation: false,
+        allowImageCrop: true,
+        acceptedFileTypes: ['image/png', 'image/jpg', 'image/jpeg'],
+        fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+            // Do custom type detection here and return with promise
+            resolve(type);
+        })
+    });
+
+    // Filepond: Image Exif Orientation
+    FilePond.create(document.querySelector('.image-exif-filepond'), {
+        allowImagePreview: true,
+        allowImageFilter: false,
+        allowImageExifOrientation: true,
+        allowImageCrop: false,
+        acceptedFileTypes: ['image/png', 'image/jpg', 'image/jpeg'],
+        fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+            // Do custom type detection here and return with promise
+            resolve(type);
+        })
+    });
+
+    // Filepond: Image Filter
+    FilePond.create(document.querySelector('.image-filter-filepond'), {
+        allowImagePreview: true,
+        allowImageFilter: true,
+        allowImageExifOrientation: false,
+        allowImageCrop: false,
+        imageFilterColorMatrix: [
+            0.299, 0.587, 0.114, 0, 0,
+            0.299, 0.587, 0.114, 0, 0,
+            0.299, 0.587, 0.114, 0, 0,
+            0.000, 0.000, 0.000, 1, 0
+        ],
+        acceptedFileTypes: ['image/png', 'image/jpg', 'image/jpeg'],
+        fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+            // Do custom type detection here and return with promise
+            resolve(type);
+        })
+    });
+
+    // Filepond: Image Resize
+    FilePond.create(document.querySelector('.image-resize-filepond'), {
+        allowImagePreview: true,
+        allowImageFilter: false,
+        allowImageExifOrientation: false,
+        allowImageCrop: false,
+        allowImageResize: true,
+        imageResizeTargetWidth: 200,
+        imageResizeTargetHeight: 200,
+        imageResizeMode: 'cover',
+        imageResizeUpscale: true,
+        acceptedFileTypes: ['image/png', 'image/jpg', 'image/jpeg'],
+        fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+            // Do custom type detection here and return with promise
+            resolve(type);
+        })
+    });
+</script>
+
+{% endblock %}

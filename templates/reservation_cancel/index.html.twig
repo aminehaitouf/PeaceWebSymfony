@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur de paiement{% endblock %}
+
+{% block body %}
+    <div style="margin-top: 10%;margin-bottom: 10%;" class="container">
+        <h2>Erreur de paiement</h2>
+        <p>
+            Bonjour <strong>{{ reservation.client.firstname }} {{ reservation.client.lastname }}</strong>, <br><br>
+            Il semblerait que votre paiement pour votre commande : <strong>{{ reservation.ads.titre }}</strong> est échoué,<br>
+            Une confirmation d'erreur vient de vous être envoyer par email à l'adresse <strong>{{ reservation.client.email }}</strong>
+        </p>
+        <a href="{{ path('profileClient') }}" class="btn btn-success">Réessayez le paiement dans la rubrique Orders</a>
+    </div>
+{% endblock %}

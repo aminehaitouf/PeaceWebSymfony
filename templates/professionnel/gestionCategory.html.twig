@@ -1,0 +1,134 @@
+{% extends '/professionnel/baseProfessionnel.html.twig' %}
+ {% block body %}  
+
+    {% block stylesheets %}
+
+    <style>
+    table.dataTable td{
+        padding: 15px 8px;
+    }
+    .fontawesome-icons .the-icon svg {
+        font-size: 24px;
+    }
+</style>
+        {% endblock %}
+        <div class="page-heading">
+            <section class="row">
+                        <div class="col-12 ">
+                                <div style="margin-left:15%;margin-right:15%" class="card">
+                                    <div class="card-content">
+                                        <center><div class="card-body ">
+                                            <h4 >Ajouter une categorie</h4>
+                                            {{ form_start(form,{attr:{class:"form form-horizontal "}})}}
+                                            <div class="col-md-4">
+                                                <label>Titre du categorie</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group has-icon-left">
+                                                    <div class="position-relative">
+                                                        {{form_widget(form.titre,{attr:{class:"form-control"}})}}
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 d-flex justify-content-center">
+                                                <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                            </div>
+                                        {{ form_end(form)}}</center>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </section>
+                <div class="page-title">
+                    <div class="row">
+                        <div class="col-12 col-md-6 order-md-1 order-last">
+                            <h3>Mes catégories</h3>
+                        </div>
+                        
+                    </div>
+                </div>
+            
+                <!-- Basic Tables start -->
+                <section class="section">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="dataTable3" class="text-center">
+								<thead class="text-capitalize">
+									<tr>
+										<th>Titre</th>
+
+									</tr>
+								</thead>
+								<tbody>
+                                        {% if categories %}                                        
+                                            {% for categorie in categories %}
+                                                {% if categorie.user == app.user %}
+                                                    <tr>
+                                                        <td>{{categorie.titre}}</td>
+
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            aucune categirie crée
+                                            
+                                        {% endif %}
+                                        
+										
+								</tbody>
+							</table>
+                        </div>
+                    </div>
+            
+                </section>
+                <!-- Basic Tables end -->
+            </div>
+           
+                    </div>
+                </div>
+
+
+                
+            
+               
+                 {% endblock %}
+                {% block javascripts %}
+            <script src="assets/vendors/jquery/jquery.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+            <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+            <script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+            <script src="assets/vendors/fontawesome/all.min.js"></script>
+            <script src="assets/js/mazer.js"></script>
+            <script>
+				$(document).ready( function() {
+			$( '#dataTable3' ).dataTable( {
+				"language": {
+					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+				},
+				rowReorder: {
+				selector: 'td:nth-child(2)'
+				},
+        		responsive: true,
+				"bSort": false,
+				"bDestroy": true
+			} );
+			} );
+
+				</script>
+                <script>
+                    var date = new Date();
+                    document.getElementById("copyright").innerHTML= date.getFullYear();
+                </script>
+
+        {% endblock %}
+            
+
+
+
+
+

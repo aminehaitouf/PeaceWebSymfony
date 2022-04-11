@@ -1,0 +1,140 @@
+{% extends '/professionnel/baseProfessionnel.html.twig' %}
+ {% block body %}  
+
+    {% block stylesheets %}
+
+    <style>
+    table.dataTable td{
+        padding: 15px 8px;
+    }
+    .fontawesome-icons .the-icon svg {
+        font-size: 24px;
+    }
+</style>
+        {% endblock %}
+            <div class="page-heading">
+                <h3>Profile </h3>
+            </div>
+            <div class="page-content">
+            
+                <!-- Basic Tables start -->
+                <section class="section">
+                    <div class="card">
+                                <div class="d-flex justify-content-center card-header">
+                                     <a class="btn btn-info" href="/professionnel/ajoutproduitCommercant">Ajout produit</a>
+                                     <a class="btn btn-warning" href="formReductionOrganisme.html">Ajout Reduction</a>
+                                 </div>
+                        <div class="card-body">
+                            <table id="dataTable3" class="text-center">
+								<thead class="text-capitalize">
+									<tr>
+										<th>Titre</th>
+										<th>Prix</th>
+										<th>Categorie</th>
+										<th>Action</th>
+
+									</tr>
+								</thead>
+								<tbody>
+                                    {% if produits %}
+                                    
+                                    {% for produit in produits %}
+                                        {% if produit.isDeleted != 1 %}
+                                        
+                                            {% if produit.isDisplay == 1 %}
+                                        
+                                                <tr >
+                                                    <td style="background-color:#bde9ba">{{produit.titre}}</td>
+                                                    <td style="background-color:#bde9ba">{{produit.prix}}</td>
+                                                    <td style="background-color:#bde9ba">{{produit.categorie}}</td>
+
+                                                    <td style="background-color:#bde9ba">
+                                                        <a class="btn btn-primary" href="/professionnel/detailProduit/{{produit.id}}">Afficher</a>
+                                                        <a class="btn btn-success" href="/professionnel/madifierProduit/{{produit.id}}">Modifier</a>
+                                                        {% if produit.isDisplay == 1  %}
+                                                            {% if produit.titre != "Reservation" %}
+                                                                <a class="btn btn-warning" href="/professionnel/{{produit.id}}/masquerProduit">Masquer</a>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <a class="btn btn-info" href="/professionnel/{{produit.id}}/publierProduit">Publier</a>
+                                                        {% endif %}
+                                                        {% if produit.titre != "Reservation" %}
+                                                            <a class="btn btn-danger" href="/professionnel/{{produit.id}}/supprimerProduit">Supprimer</a>
+                                                        {% endif %}
+                                                        
+                                                        
+                                                    </td>
+
+                                                </tr>
+                                            
+                                            {% endif %}
+                                            {% if produit.isDisplay == 0 %}
+                                        
+                                                <tr >
+                                                    <td style="background-color:#ffd78c">{{produit.titre}}</td>
+                                                    <td style="background-color:#ffd78c">{{produit.prix}}</td>
+                                                    <td style="background-color:#ffd78c">{{produit.categorie}}</td>
+
+                                                    <td style="background-color:#ffd78c">
+                                                        <a class="btn btn-primary" href="/professionnel/detailProduit/{{produit.id}}">Afficher</a>
+                                                        <a class="btn btn-success" href="/professionnel/madifierProduit/{{produit.id}}">Modifier</a>
+                                                        {% if produit.isDisplay == 1 %}
+                                                            <a class="btn btn-warning" href="/professionnel/{{produit.id}}/masquerProduit">Masquer</a>
+                                                        {% else %}
+                                                            <a class="btn btn-info" href="/professionnel/{{produit.id}}/publierProduit">Publier</a>
+                                                        {% endif %}
+                                                        <a class="btn btn-danger" href="/professionnel/{{produit.id}}/supprimerProduit">Supprimer</a>
+                                                    </td>
+
+                                                </tr>
+                                            
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% else %}
+                                        
+                                    <span>Aucun Produit Ajouter, Nous vous invitons a ajouter des produits</span>
+                                    {% endif %}
+                                    
+								</tbody>
+							</table>
+                        </div>
+                    </div>
+            
+                </section>
+                <!-- Basic Tables end -->
+            </div>
+            
+                {% endblock %}
+                {% block javascripts %}
+            <script src="{{asset("professionnel/assets/vendors/jquery/jquery.min.js")}}"></script>
+            <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+            <script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+            <script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+            <script src="{{asset("professionnel/assets/vendors/fontawesome/all.min.js")}}"></script>
+            <script>
+				$(document).ready( function() {
+			$( '#dataTable3' ).dataTable( {
+				"language": {
+					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+				},
+				rowReorder: {
+				selector: 'td:nth-child(2)'
+				},
+        		responsive: true,
+				"bSort": false,
+				"bDestroy": true
+			} );
+			} );
+
+				</script>
+                <script>
+                    var date = new Date();
+                    document.getElementById("copyright").innerHTML= date.getFullYear();
+                </script>
+
+        {% endblock %}

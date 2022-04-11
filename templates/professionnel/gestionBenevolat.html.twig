@@ -1,0 +1,178 @@
+{% extends '/professionnel/baseProfessionnel.html.twig' %}
+ {% block body %}  
+
+    {% block stylesheets %}
+
+    <style>
+    table.dataTable td{
+        padding: 15px 8px;
+    }
+    .fontawesome-icons .the-icon svg {
+        font-size: 24px;
+    }
+</style>
+{% endblock %}
+
+    <div class="main-content-inner">
+        <div class="row">
+        <div class="col-12 ">
+                <div class="card">
+                    <div class="card-header">
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            {% form_theme form 'bootstrap_4_layout.html.twig' %}            
+                            {{ form_start(form) }} 
+                                <div class="form-body">
+                                    <div class="row">
+                                       
+                                        
+                                        <div class="col-md-4">
+                                            <label>Heure de début :<span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group has-icon-left">
+                                                <div class="position-relative">
+                                                    {{ form_row(form.start,{attr:{class:"form-control"}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Heure de fin : <span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group has-icon-left">
+                                                <div  class="position-relative">
+                                                     {{ form_row(form.end,{attr:{class:"form-control "}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Le nombre du support de chaque heure : <span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group has-icon-left">
+                                                <div class="position-relative">
+                                                    {{ form_row(form.maxSupport,{attr:{class:"form-control"}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Jours de repos: <span class="text-danger">*</span></label>
+                                        </div>
+                                            <div class="col-md-8">
+                                                <div class="form-group ">
+                                                         {{ form_row(form.dayon) }}                                                
+                                                </div>
+                                            </div>
+                                        
+                                        <div class="col-12 d-flex justify-content-end">
+                                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                            <button type="reset"
+                                                class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+            </div>
+        </div>
+           
+            <!-- Primary table end -->
+            <!-- Dark table start -->
+            <div class="col-12 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 >Liste des employés et heures de travail</h4>
+
+                        <div class="data-tables datatable-dark">
+                            <table id="dataTable3" class="text-center">
+                                <thead class="text-capitalize">
+                                <tr>
+                                    <th>Jours Repos</th>
+                                    <th>Heure début</th>
+                                    <th>Heure Fin</th>
+                                    <th>Action</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    {% for calendar in calendars %}
+                                    {% if calendar.user == user  %}
+                                        <tr>
+                                            <td>{{calendar.dayon }}
+                                            <td>{{calendar.start|date( 'H:i') }}</td>
+                                            <td>{{calendar.end|date( 'H:i') }}</td>
+                                            
+                                            {# {% for day in calendar.dayoff %}
+
+
+
+                                                    {% if day == 0 %}Dimanche,
+                                                    {% elseif day == 1 %}Lundi,
+                                                    {% elseif day == 2 %}Mardi,
+                                                    {% elseif day == 3 %}Mercredi,
+                                                    {% elseif day == 4 %}Jeudi,
+                                                    {% elseif day == 5 %}Vendredi,
+                                                    {% elseif day == 6 %}Samedi,
+                                                
+                                                    {% endif %} 
+                                                    
+                                                
+                                               
+                                                
+                                            {% endfor %} #}
+                                            
+                                            <td>
+                                                 <a href="/professionnel/{{calendar.id}}/supprimerCalendarbenevolat" class="btn btn-danger">Supprimer</a>
+                                                  <a href="/professionnel/modifierCalendarbenevolat/{{calendar.id}}" class="btn btn-success">Modifier</a>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
+                                      {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Dark table end -->
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- jquery latest version -->
+<script src="{{asset("professionnel/assets/vendors/jquery/jquery.min.js")}}"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="{{asset("professionnel/assets/vendors/fontawesome/all.min.js")}}"></script>
+    <!-- others plugins -->
+    <script src="{{ ('assets/js/plugins.js') }}"></script>
+    <script src="{{ ('assets/js/scripts.js') }}"></script>
+    			<script>
+				$(document).ready( function() {
+			if ( $.fn.DataTable.isDataTable( '#dataTable3' ) ) {
+				$( '#dataTable3' ).DataTable().destroy();
+			}
+			$( '#dataTable3' ).dataTable( {
+				"language": {
+					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+				},rowReorder: {
+				selector: 'td:nth-child(2)'
+				},
+        		responsive: true,
+				"bSort": false,
+				"bDestroy": true
+			} );
+			} );
+
+				</script>
+{% endblock %}

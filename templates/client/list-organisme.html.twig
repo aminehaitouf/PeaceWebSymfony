@@ -1,0 +1,484 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+<style>
+.marker {
+    transform: translate(-50%, calc(-100% - 10px));
+    white-space: nowrap;
+    font-size: 16px;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.marker::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -8px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #FFF;
+}
+
+.marker.is-active {
+    background-color: #5069ff;
+    z-index: 300;
+    color: #FFF;
+}
+
+.marker.is-active::after {
+    border-top-color: #5069ff;
+}
+</style>
+        {% endblock %}
+{% block body %}
+        <link href="{{ asset('client/assets/css/jquery-ui.css') }}" rel="stylesheet">
+
+        <!-- Hero End -->
+        <section style="margin-top:80px " class="section-two bg-light" id="bookroom">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <form class="p-4 shadow bg-white rounded">
+                        {{ form_start(form,{attr:{class:"p-4 shadow bg-white rounded"},action:"/recherche"}) }}
+                            <h4 class="mb-3">Recherche !</h4>
+                            <div class="row text-start">
+                                <div class="col-lg-10">
+                                    <div class="mb-3 mb-lg-0">
+                                        <label class="form-label"> Mot clé : </label>
+                                        {{form_widget(form.domination,{attr:{class:"recherche autocomplete form-control"}})}}
+                                    </div>
+                                </div>
+
+                                
+                                <div class="col-lg-2">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-4 mt-lg-4 pt-2 pt-lg-1">
+                                            <div class="d-grid">
+                                                <input type="submit" id="search" name="search" class="searchbtn btn btn-primary" value="Search">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!--Blog Lists Start-->
+        <section class="section">
+            <div class="container">
+                <div class="row">
+                    <!-- Blog Post Start -->
+                    <div class="col-lg-8 col-md-6 mt-4 pt-2 mt-sm-0 pt-sm-0">
+                        <div class="row">
+                            <div class="col-12 filters-group-wrap">
+                                <div class="filters-group">
+                                    <ul class="container-filter list-inline mb-0 filter-options">
+                                        <li class="list-inline-item categories-name border text-dark rounded active" data-group="all">All</li>
+                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Coiffeurs">Coiffeurs</li>
+                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Beaute">Beaute</li>
+                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Restaurant">Restaurant</li>
+                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Coach">Coach</li>
+                                    </ul>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+        
+                        <div id="grid" class="row">
+                            {% for salon in salons %}
+                                <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
+                                                     data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
+                                    <div class="card work-container work-modern  border-0 overflow-hidden ">
+                                        <div class="card-body p-0 ">
+                                            <a href="detailProduitClient/{{salon.id}}">
+                                                <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
+                                                <div class="overlay-work "></div>
+                                                <div style="opacity: 1;" class="content ">
+                                                
+                                                
+                                                    
+                                                    <a href="detailProduitClient/{{salon.id}}" class="title text-white pb-2 border-bottom">{{salon.domination}}</a>
+                                                    <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
+                                                        <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine}}</li>
+                                                        {% if salon.adresse %}
+                                                            <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
+                                                            
+                                                        {% endif %}
+                                                        
+                                                    </ul>
+                                                    <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
+                                                    {% if salon.prixMoyen %}
+                                                        {{salon.prixMoyen ~'€'~}}
+                                                    {% endif %}
+                                                    </p></p>
+                                                    <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
+                                                    
+                                                     {% if salon.association %}
+                                                         {{salon.association }}
+                                                    {% endif %}
+                                                
+                                                    
+                                                </button>
+                                                </div>
+                                                
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div><!--end col-->
+                            {% endfor %}
+                            
+                        </div><!--end row-->
+
+                        <div class="row">
+                            <div class="col-12 mt-4 pt-2">
+                                <div class="d-block d-md-none">
+                                    <a href="javascript:void(0)" class="btn btn-soft-primary">See More <i data-feather="arrow-right" class="fea icon-sm"></i></a>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div><!--end col-->
+                    <div  class="col-lg-4 col-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
+                        <div class="card border-0 sidebar sticky-bar ms-lg-4">
+                            <div class="card-body p-0">
+
+
+                                {# <div  style="width: 100%;height: 500px;margin-top: 80px;" class="maps" id="maps"></div> #}
+                                <div id="maps" class="maps" style="width: auto; height: 550px; position: relative; overflow: hidden;"></div>
+
+                                <!-- SOCIAL -->
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                    
+                    <!-- Blog Post End -->
+
+                    <!-- START SIDEBAR -->
+                    
+                    <!-- END SIDEBAR -->
+                </div><!--end row-->
+            </div><!--end container-->
+        </section><!--end section -->
+        <!--Blog Lists End-->
+
+        <!-- Footer Start -->
+       
+        <!-- Footer End -->
+
+        <!-- Offcanvas Start -->
+        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header p-4 border-bottom">
+                <h5 id="offcanvasRightLabel" class="mb-0">
+                    <img src="{{asset("client/assets/images/logo-dark.png")}}" height="24" class="light-version" alt="">
+                    <img src="{{asset("client/assets/images/logo-light.png")}}" height="24" class="dark-version" alt="">
+                </h5>
+                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
+            </div>
+            <div class="offcanvas-body p-4">
+                <div class="row">
+                    <div class="col-12">
+                        <img src="{{asset("client/assets/images/contact.svg")}}" class="img-fluid d-block mx-auto" style="max-width: 256px;" alt="">
+                        <div class="card border-0 mt-5" style="z-index: 1">
+                            <div class="card-body p-0">
+                                <form method="post" name="myForm" onsubmit="return validateForm()">
+                                    <p id="error-msg" class="mb-0"></p>
+                                    <div id="simple-msg"></div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Your Name <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="user" class="fea icon-sm icons"></i>
+                                                    <input name="name" id="name" type="text" class="form-control ps-5" placeholder="Name :">
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Your Email <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="mail" class="fea icon-sm icons"></i>
+                                                    <input name="email" id="email" type="email" class="form-control ps-5" placeholder="Email :">
+                                                </div>
+                                            </div> 
+                                        </div><!--end col-->
+    
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Subject</label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="book" class="fea icon-sm icons"></i>
+                                                    <input name="subject" id="subject" class="form-control ps-5" placeholder="subject :">
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+    
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Comments <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="message-circle" class="fea icon-sm icons clearfix"></i>
+                                                    <textarea name="comments" id="comments" rows="4" class="form-control ps-5" placeholder="Message :"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-grid">
+                                                <button type="submit" id="submit" name="send" class="btn btn-primary">Send Message</button>
+                                            </div>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                </form>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div>
+
+            <div class="offcanvas-footer p-4 border-top text-center">
+                <ul class="list-unstyled social-icon social mb-0">
+                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/4n73n" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://shreethemes.in" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
+                </ul><!--end icon-->
+            </div>
+        </div>
+        <!-- Offcanvas End -->
+
+        <!-- Back to top -->
+        <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a>
+        <!-- Back to top -->
+{% endblock %}
+ {# {% block jquery %}
+<script type="text/javascript">
+$('.ui-autocomplete-input').css({fontSize: '10px', width: '500px'});
+
+	jQuery.noConflict();
+	jQuery('.recherche').last().autocomplete();
+	jQuery('.recherche').last().autocomplete({
+	    source: function (request, response) {
+	        jQuery.ajax({
+	                url: "/ajaxRecherche?recherche=" + jQuery('.recherche').last().val(),
+	                dataType: "json",
+	                data: {},
+	                success: function (data) {
+	                    var result = [];
+	                    var o=data["Magasin"];
+                         
+	                    if (Array.isArray(data.ads))
+		                    for (var i in data.ads) {result.push(/*data["ads"][i].titre);*/data.ads[i].titre)};
+	                            if (Array.isArray(data.Magasin))
+		                            for (var i in data.Magasin) {result.push(/*data["Magasin"][i].nomSociete;*/data.Magasin[i].domination)};
+	                                    console.log(result);
+	                                    response(result);
+                        if (Array.isArray(data.Domaine))
+		                            for (var i in data.Domaine) {result.push(/*data["Magasin"][i].nomSociete;*/data.Domaine[i].domaine)};
+	                                    console.log(result);
+	                                    response(result);        
+	                    },
+	                error: function () {
+	                    console.log("blabla")
+	                }
+	            });
+	    },
+
+	    minLength: 3 // on indique qu'il faut taper au moins 3 caractères pour afficher l'autocomplétion
+	}); // source : ajaxCompetence(), // on inscrit la liste de suggestions
+</script>
+{% endblock %}  #}
+{% block javascripts %}
+<script src="{{ asset('client/assets/js/jquery-3.3.1.min.js') }}"></script>
+<script src="{{ asset('client/assets/js/jquery-migrate-3.0.1.min.js') }}"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
+    integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
+{# <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> #}
+<script>
+/*!
+  * $script.js JS loader & dependency manager
+  * https://github.com/ded/script.js
+  * (c) Dustin Diaz 2014 | License MIT
+  */
+(function(e,t){typeof module!="undefined"&&module.exports?module.exports=t():typeof define=="function"&&define.amd?define(t):this[e]=t()})("$script",function(){function p(e,t){for(var n=0,i=e.length;n<i;++n)if(!t(e[n]))return r;return 1}function d(e,t){p(e,function(e){return t(e),1})}function v(e,t,n){function g(e){return e.call?e():u[e]}function y(){if(!--h){u[o]=1,s&&s();for(var e in f)p(e.split("|"),g)&&!d(f[e],g)&&(f[e]=[])}}e=e[i]?e:[e];var r=t&&t.call,s=r?t:n,o=r?e.join(""):t,h=e.length;return setTimeout(function(){d(e,function t(e,n){if(e===null)return y();!n&&!/^https?:\/\//.test(e)&&c&&(e=e.indexOf(".js")===-1?c+e+".js":c+e);if(l[e])return o&&(a[o]=1),l[e]==2?y():setTimeout(function(){t(e,!0)},0);l[e]=1,o&&(a[o]=1),m(e,y)})},0),v}function m(n,r){var i=e.createElement("script"),u;i.onload=i.onerror=i[o]=function(){if(i[s]&&!/^c|loade/.test(i[s])||u)return;i.onload=i[o]=null,u=1,l[n]=2,r()},i.async=1,i.src=h?n+(n.indexOf("?")===-1?"?":"&")+h:n,t.insertBefore(i,t.lastChild)}var e=document,t=e.getElementsByTagName("head")[0],n="string",r=!1,i="push",s="readyState",o="onreadystatechange",u={},a={},f={},l={},c,h;return v.get=m,v.order=function(e,t,n){(function r(i){i=e.shift(),e.length?v(i,r):v(i,t,n)})()},v.path=function(e){c=e},v.urlArgs=function(e){h=e},v.ready=function(e,t,n){e=e[i]?e:[e];var r=[];return!d(e,function(e){u[e]||r[i](e)})&&p(e,function(e){return u[e]})?t():!function(e){f[e]=f[e]||[],f[e][i](t),n&&n(r)}(e.join("|")),v},v.done=function(e){v([null],e)},v})
+
+</script>
+
+
+
+
+
+
+<script>
+let $map = document.querySelector('#maps')
+
+
+class GoogleMap {
+
+                constructor() {
+                    this.map = null
+                    this.bounds = null
+                    this.textMarker = null
+                }
+
+                /**
+                 * Charge la carte sur un élément
+                 * @param {HTMLElement} element
+                 */
+                async load(element) {
+                    return new Promise((resolve, reject) => {
+                        $script('https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWz7ZHJJDK8fs09giiatXHVBA_c0jAUA', () => {
+                            this.textMarker = class TextMarker extends google.maps.OverlayView {
+
+                                constructor(pos, map, text) {
+                                    super()
+                                    this.div = null
+                                    this.html = null
+                                    this.pos = pos
+                                    this.text = text
+                                    this.setMap(map)
+                                    this.onActivation = []
+                                }
+
+                                onAdd() {
+                                    this.div = document.createElement('div')
+                                    this.div.classList.add('marker')
+                                    this.div.style.position = 'absolute'
+                                    this.div.innerHTML = this.text
+                                    this.getPanes().overlayImage.appendChild(this.div)
+                                    this.div.addEventListener('click', (e) => {
+                                        e.preventDefault()
+                                        e.stopPropagation()
+                                        this.activate()
+                                    })
+                                }
+
+                                draw() {
+                                    let position = this.getProjection().fromLatLngToDivPixel(this.pos)
+                                    this.div.style.left = position.x + "px"
+                                    this.div.style.top = position.y + "px"
+                                }
+
+                                onRemove() {
+                                    this.div.parentNode.removeChild(this.div)
+                                }
+
+                                hover() {
+                                    if (this.div !== null) {
+                                        this.div.classList.add('is-active')
+                                    }
+                                }
+
+                                out() {
+                                    if (this.div !== null) {
+                                        this.div.classList.remove('is-active')
+                                    }
+                                }
+
+                                activate() {
+                                    if (this.div !== null) {
+                                        this.div.innerHTML = this.html
+                                    }
+                                    this.onActivation.forEach(function (cb) {
+                                        cb()
+                                    })
+                                }
+
+                                deactivate() {
+                                    if (this.div !== null) {
+                                        this.div.innerHTML = this.text
+                                    }
+                                }
+
+                                setContent(html) {
+                                    this.html = html
+                                }
+
+                            }
+                            this.map = new google.maps.Map(element)
+                            this.bounds = new google.maps.LatLngBounds()
+                            resolve()
+                        })
+                    })
+                }
+
+                /**
+                 * Ajoute un marker sur la carte
+                 * @param {string} lat
+                 * @param {string} lng
+                 * @param {string} text
+                 * @return {TextMarker}
+                 */
+                addMarker(lat, lng, text) {
+                    let point = new google.maps.LatLng(lat, lng)
+                    let marker = new this.textMarker(point, this.map, text)
+                    marker.onActivation.push(() => {
+                        this.map.setCenter(marker.pos)
+                    })
+                    this.bounds.extend(point)
+                    return marker
+                }
+
+                /**
+                 * Centre la carte pour englober les markers
+                 */
+                centerMap() {
+                    this.map.panToBounds(this.bounds)
+                    this.map.fitBounds(this.bounds)
+                }
+            }
+
+const initMap = async function () {
+                let map = new GoogleMap()
+                let activeMarker = null
+                let enabledMarker = null
+                await map.load($map)
+                Array.from(document.querySelectorAll('.item')).forEach(function (item) {
+                    let marker = map.addMarker(item.dataset.lat, item.dataset.lng, item.dataset.name)
+                    marker.setContent(item.innerHTML)
+                    marker.onActivation.push(function () {
+                        if (enabledMarker !== null) {
+                            enabledMarker.deactivate()
+                        }
+                        enabledMarker = marker
+                    })
+                    item.addEventListener('mouseover', function () {
+                        marker.hover()
+                        if (activeMarker !== null) {
+                            activeMarker.out()
+                        }
+                        activeMarker = marker
+                    })
+                    item.addEventListener('mouseleave', function () {
+                        if (activeMarker === marker) {
+                            marker.out()
+                            activeMarker = null
+                        }
+                    })
+                })
+                map.centerMap()
+            }
+
+            if ($map !== null) {
+                initMap()
+            }
+
+
+
+</script>
+    
+<script src="{{ asset('js/vendor.js') }}"></script>
+ <script src="{{asset("client/assets/js/shuffle.min.js")}}"></script>
+{% endblock %}

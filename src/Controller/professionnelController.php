@@ -1,0 +1,595 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Ads;
+use App\Classe\Mail;
+use App\Form\AdsType;
+use App\Form\UserType;
+use App\Entity\Calendar;
+use App\Entity\Category;
+use App\Form\CalendarType;
+use App\Form\CategoryType;
+use App\Form\BenevolatType;
+use App\Form\ChangePasswordType;
+use App\Form\professionnelinfoType;
+use App\Entity\Reservation;
+use App\Entity\Competence;
+use App\Entity\Experience;
+use App\Entity\Formation;
+use App\Repository\CompetenceRepository;
+use App\Repository\ExperienceRepository;
+use App\Repository\FormationRepository;
+use App\Form\CompetenceType;
+use App\Form\ExperienceType;
+use App\Form\FormationType;
+use App\Form\MotifRefusType;
+use App\Form\modifierAdsType;
+use App\Repository\CalendarRepository;
+use App\Repository\UserRepository;
+use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\ReservationRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+
+
+/**
+ * @Route("/professionnel", )
+ */
+class professionnelController extends AbstractController
+{
+    /**
+     * @Route("/indexProfessionnel", name="indexProfessionnel")
+     */
+    public function indexProfessionnel(Security $security,ReservationRepository $reservation,EntityManagerInterface $entityManager): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $con = $security->getuser();
+
+        $events = $entityManager->createQuery("select reserv from App\Entity\Reservation reserv,App\Entity\Ads ads where 
+        ads.user = $con and reserv.ads = ads.id")->getResult();
+
+        $rdvs = [];
+        foreach ($events as $event) {
+            $rdvs[] = [
+                'id' => $event->getId(),
+                'start' => $event->getDeteheure()->format('Y-m-d H:i:s'),
+                'end' => $event->getClient()->getLastname(),
+                'title' => $event->getClient()->getLastname(),
+                'description' => $event->getAds()->getTitre(),
+            ];
+        }
+        $data = json_encode($rdvs);
+
+        return $this->render('professionnel/index.html.twig', compact('data'));
+    }
+
+   
+    /**
+     * @Route("/profil", name="profil", methods={"GET", "POST"})
+     */
+    public function profil(UserPasswordEncoderInterface $encoder,Request $request, EntityManagerInterface $entityManager, Security $security, UserRepository $userRepository): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $user = $security->getUser();
+        $form = $this->createForm(professionnelinfoType::class, $user);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get('illustration')->getData();
+            $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+
+            // On copie le fichier dans le dossier uploads
+            $image->move(
+                $this->getParameter('Ads_files_directory'),
+                $fichier
+            );
+
+            // On crée l'image dans la base de données
+            $user->setIllustration($fichier);
+            $entityManager->flush();
+            
+
+            return $this->redirectToRoute('indexProfessionnel', [], Response::HTTP_SEE_OTHER);
+        }
+
+        $formChangePassword = $this->createForm(ChangePasswordType::class, $user);
+        $formChangePassword->handleRequest($request);
+        if ($formChangePassword->isSubmitted() && !$formChangePassword->isValid()) {
+            $err = "Vous avez pas bien remplie les champs";
+        }
+        if ($formChangePassword->isSubmitted() && $formChangePassword->isValid()) {
+            //dd($user);
+            $password = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
+            // dd($user);
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('indexProfessionnel', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('professionnel/profile.html.twig', [
+            'user' => $user,
+            'form' => $form,
+            'formChangePassword' => $formChangePassword,
+            'association' => $userRepository->findAll(),
+        ]);
+    }
+    /**
+     * @Route("/ajoutproduitCommercant", name="ajoutproduitCommercant")
+     */
+    public function ajoutproduit(Request $request, EntityManagerInterface $entityManager,Security $security): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $ads = new Ads();
+        $form = $this->createForm(AdsType::class, $ads);
+        $form->handleRequest($request);
+        //dd($form);
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $entityManager->persist($ads);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('gestionProduit');
+        }
+
+        return $this->render('professionnel/ajoutProduit.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/ajoutproduitCommercant", name="ajoutproduitCommercant", methods={"GET", "POST"})
+     */
+    public function new(Request $request, EntityManagerInterface $entityManager, Security $security): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $ad = new Ads();
+        $form = $this->createForm(AdsType::class, $ad);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ad->setUser($security->getUser());
+            $entityManager->persist($ad);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('gestionProduit', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('professionnel/ajoutProduit.html.twig', [
+            'ad' => $ad,
+            'form' => $form,
+        ]);
+    }
+
+    /**
+     * @Route("/madifierProduit/{id}", name="madifierProduit", methods={"GET", "POST"})
+     */
+    public function madifierProduit(Security $security,Request $request, Ads $ad, EntityManagerInterface $entityManager): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        //dd($ad);
+        $form = $this->createForm(modifierAdsType::class, $ad);
+        $form->handleRequest($request);
+        $ad->setTitre("Reservation");
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if($ad->getTitre() == "Reservation"){
+                $ad->setTitre("Reservation");
+                // dd("bla bla");
+            }
+            $entityManager->flush();
+
+            return $this->redirectToRoute('gestionProduit', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('professionnel/madifierProduit.html.twig', [
+            'ad' => $ad,
+            'form' => $form,
+        ]);
+    }
+    /**
+     * @Route("/{id}/masquerProduit", name="masquerProduit", methods={"GET","POST"})
+     */
+    public function masquerProduit(Security $security,Request $request, Ads $ad): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $ad->setIsDisplay(0);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($ad);
+        $entityManager->flush();
+        return $this->redirectToRoute('gestionProduit');
+    }
+    /**
+     * @Route("/{id}/publierProduit", name="publierProduit", methods={"GET","POST"})
+     */
+    public function publierProduit(Security $security,Request $request, Ads $ad): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $ad->setIsDisplay(1);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($ad);
+        $entityManager->flush();
+        return $this->redirectToRoute('gestionProduit');
+    }
+    /**
+     * @Route("/{id}/supprimerProduit", name="supprimerProduit", methods={"GET","POST"})
+     */
+    public function supprimerProduit(Security $security,Request $request, Ads $ad): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $ad->setIsDeleted(1);
+        $ad->setIsDisplay(0);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($ad);
+        $entityManager->flush();
+        return $this->redirectToRoute('gestionProduit');
+    }
+    /**
+     * @Route("/{id}/valideCommande", name="valideCommande", methods={"GET","POST"})
+     */
+    public function valideCommande(Security $security,Request $request, Reservation $reservation): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $reservation->setAvancement("Valider");
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($reservation);
+        $entityManager->flush();
+        return $this->redirectToRoute('commandes');
+    }
+    /**
+     * @Route("/{id}/commandeServie", name="commandeServie", methods={"GET","POST"})
+     */
+    public function commandeServie(Security $security,Request $request, Reservation $reservation): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $reservation->setAvancement("Servie");
+        $reservation->setIsPret(1);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($reservation);
+        $entityManager->flush();
+        return $this->redirectToRoute('commandes');
+    }
+
+    /**
+     * @Route("/gestionCategory", name="gestionCategory", methods={"GET", "POST"})
+     */
+    public function gestionCategory(Security $security, Request $request, EntityManagerInterface $entityManager,CategoryRepository $categoryRepository): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $category->setUser($security->getUser());
+            $entityManager->persist($category);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('gestionCategory', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('professionnel/gestionCategory.html.twig', [
+            'category' => $category,
+            'form' => $form,
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+    /**
+     * @Route("/competences", name="competences", methods={"GET", "POST"})
+     */
+    public function competences(Security $security,Request $request,CompetenceRepository $competenceRepository, EntityManagerInterface $entityManager): Response
+    {
+        $competence = new Competence();
+        $form = $this->createForm(CompetenceType::class, $competence);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $competence->setUser($security->getUser());
+            $entityManager->persist($competence);
+            $entityManager->flush();
+            return $this->redirectToRoute('competences');
+        }
+        return $this->render('professionnel/competences.html.twig', [
+            'competences' => $competenceRepository->findAll(),
+            'competence' => $competence,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/experiences", name="experiences", methods={"GET", "POST"})
+     */
+    public function experiences(Security $security,Request $request,ExperienceRepository $experienceRepository, EntityManagerInterface $entityManager): Response
+    {
+        $experience = new Experience();
+        $form = $this->createForm(ExperienceType::class, $experience);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $experience->setUser($security->getUser());
+            $entityManager->persist($experience);
+            $entityManager->flush();
+            return $this->redirectToRoute('experiences');
+        }
+        return $this->render('professionnel/experiences.html.twig', [
+            'experiences' => $experienceRepository->findAll(),
+            'experience' => $experience,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/formations", name="formations", methods={"GET", "POST"})
+     */
+    public function formations(Security $security,Request $request,FormationRepository $formationRepository, EntityManagerInterface $entityManager): Response
+    {
+        $formation = new Formation();
+        $form = $this->createForm(FormationType::class, $formation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $formation->setUser($security->getUser());
+            $entityManager->persist($formation);
+            $entityManager->flush();
+            return $this->redirectToRoute('formations');
+        }
+        return $this->render('professionnel/formations.html.twig', [
+            'formations' => $formationRepository->findAll(),
+            'formation' => $formation,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/detailProduit/{id}", name="detailProduit")
+     */
+    public function detailProduit(Security $security,Ads $ads ): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        return $this->render('professionnel/detailProduit.html.twig', [
+            'ad' => $ads,
+        ]);
+    }
+     /**
+     * @Route("/commandes", name="commandes")
+     */
+    public function commandes(ReservationRepository $reservationRepository, Security $security): Response
+    {
+        $user = $security->getUser();
+        return $this->render('professionnel/commandes.html.twig', [
+            'reservations' => $reservationRepository->findBy(["isPaid" => 1], ['createdAt' => 'desc']),
+            'user' => $user,
+        ]);
+    }
+     /**
+     * @Route("/BenevolatPro", name="BenevolatPro")
+     */
+    public function BenevolatPro(ReservationRepository $reservationRepository, Security $security): Response
+    {
+        $user = $security->getUser();
+        return $this->render('professionnel/BenevolatPro.html.twig', [
+            'reservations' => $reservationRepository->findBy(["isBenevolat" => 1], ['createdAt' => 'desc']),
+            'user' => $user,
+        ]);
+    }
+     /**
+     * @Route("/detailCommande", name="detailCommande")
+     */
+    public function detailCommande(): Response
+    {
+        return $this->render('professionnel/detailCommande.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+     /**
+     * @Route("/{id}/motifRefusCommande", name="motifRefusCommande")
+     */
+    public function motifRefusCommande(Request $request,EntityManagerInterface $entityManager, Reservation $reservation, Security $security): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $form = $this->createForm(MotifRefusType::class, $reservation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $reservation->setAvancement("Refuser");
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+            $pro = $security->getUser()->getDomination();
+            $messagerefus = $reservation->getMotifRefus();
+            // dd($reservation);
+            $email = $reservation->getClient()->getEmail();
+            $lastname= $reservation->getClient()->getLastname();
+            $mail = new Mail();
+            $mail->send($email, $lastname, "Réservation non-confirmée ", "Merci d'avoir comander sur notre plateforme PEACE.Le professionnel $pro n'a pas confirmé votre réservation.<h5>$messagerefus</h5 </br> .Vous allez être remboursé dans les meilleurs délais.  ");
+
+            return $this->redirectToRoute('commandes', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->render('professionnel/motifRefusCommande.html.twig', [
+            'controller_name' => 'HomeController',
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/gestionMagasin", name="gestionMagasin" , methods={"GET","POST"})
+     */
+    public function gestionMagasin(ReservationRepository $reservationRepository, Security $security, Request $request, CalendarRepository $calendarRepository): Response
+    {
+        $calendar = new Calendar();
+        $form = $this->createForm(CalendarType::class, $calendar);
+        $form->handleRequest($request);
+        $calendar->setUser($security->getUser());
+        if ($form->isSubmitted() && $form->isValid()) {
+            // dd($request); 
+            $entityManager = $this->getDoctrine()->getManager();
+            $calendar->setTitle("Magasin");
+            $entityManager->persist($calendar);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('gestionMagasin');
+        }
+
+        return $this->render('professionnel/gestionMagasin.html.twig', [
+            'form' => $form->createView(),
+            'user' => $security->getUser(),
+            'calendars' => $calendarRepository->findAll(),
+        ]);
+    }
+    /**
+     * @Route("/modifierCalendar/{id}", name="modifierCalendar" , methods={"GET","POST"})
+     */
+    public function modifierCalendar(ReservationRepository $reservationRepository, Calendar $calendar, Security $security, Request $request, CalendarRepository $calendarRepository): Response
+    {
+        $form = $this->createForm(CalendarType::class, $calendar);
+        $form->handleRequest($request);
+        $calendar->setUser($security->getUser());
+        if ($form->isSubmitted() && $form->isValid()) {
+            // dd($request); 
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($calendar);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('gestionMagasin');
+        }
+
+        return $this->render('professionnel/gestionMagasin.html.twig', [
+            'form' => $form->createView(),
+            'user' => $security->getUser(),
+            'calendars' => $calendarRepository->findAll(),
+        ]);
+    }
+    /**
+     * @Route("/{id}/supprimerCalendar", name="calendar_delete", methods={"GET","DELETE"})
+     */
+    public function delete(Request $request, Calendar $calendar): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($calendar);
+            $entityManager->flush();
+
+
+        return $this->redirectToRoute('gestionMagasin');
+    }
+
+    /**
+     * @Route("/gestionBenevolat", name="gestionBenevolat" , methods={"GET","POST"})
+     */
+    public function gestionBenevolat(ReservationRepository $reservationRepository, Security $security, Request $request, CalendarRepository $calendarRepository): Response
+    {
+        $calendar = new Calendar();
+        $form = $this->createForm(BenevolatType::class, $calendar);
+        $form->handleRequest($request);
+        $calendar->setUser($security->getUser());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $calendar->setTitle("Benevolat");
+            $entityManager->persist($calendar);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('gestionBenevolat');
+        }
+
+        return $this->render('professionnel/gestionBenevolat.html.twig', [
+            'form' => $form->createView(),
+            'user' => $security->getUser(),
+            'calendars' => $calendarRepository->findBy(['title' => 'Benevolat']),
+        ]);
+    }
+    /**
+     * @Route("/modifierCalendarbenevolat/{id}", name="modifierCalendarbenevolat" , methods={"GET","POST"})
+     */
+    public function modifierCalendarbenevolat(ReservationRepository $reservationRepository, Calendar $calendar, Security $security, Request $request, CalendarRepository $calendarRepository): Response
+    {
+        $form = $this->createForm(BenevolatType::class, $calendar);
+        $form->handleRequest($request);
+        $calendar->setUser($security->getUser());
+        if ($form->isSubmitted() && $form->isValid()) {
+            // dd($request); 
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($calendar);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('gestionBenevolat');
+        }
+
+        return $this->render('professionnel/gestionBenevolat.html.twig', [
+            'form' => $form->createView(),
+            'user' => $security->getUser(),
+            'calendars' => $calendarRepository->findAll(),
+        ]);
+    }
+    /**
+     * @Route("/{id}/supprimerCalendarbenevolat", name="supprimerCalendarbenevolat", methods={"GET","DELETE"})
+     */
+    public function supprimerCalendarbenevolat(Request $request, Calendar $calendar): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($calendar);
+            $entityManager->flush();
+
+
+        return $this->redirectToRoute('gestionBenevolat');
+    }
+    
+   
+
+     /**
+     * @Route("/formReductionOrganisme", name="formReductionOrganisme")
+     */
+    public function formReductionOrganisme(): Response
+    {
+        return $this->render('professionnel/formReductionOrganisme.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+    }
+     /**
+     * @Route("/gestionProduit", name="gestionProduit")
+     */
+    public function gestionProduit(EntityManagerInterface $entityManager, Security $security): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $user = $security->getUser();
+        $produits = $entityManager->createQuery("SELECT Ads from App\Entity\Ads Ads, App\Entity\User User  where Ads.user = '$user'  ")
+            ->getResult();
+        // dd($produits);
+        return $this->render('professionnel/gestionProduit.html.twig', [
+            'produits' => $produits,
+        ]);
+    }
+    
+   
+}

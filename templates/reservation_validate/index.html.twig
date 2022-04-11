@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation de réservation{% endblock %}
+
+{% block body %}
+    <div style="margin-top: 10%;margin-bottom: 10%;" class="container">
+        <h2>Confirmation de réservation</h2>
+        <p>
+            Bonjour <strong>{{ reservation.client.firstname }} {{ reservation.client.lastname }}</strong>, <br><br>
+            Nous vous remercions pour votre commande : <strong>{{ reservation.ads.titre }}</strong>,<br>
+            Une confirmation vient de vous être envoyer par email à l'adresse <strong>{{ reservation.client.email }}</strong>
+        </p>
+        Pour suivre votre réservation, rendez-vous sur la page <a href="{{ path('profileClient') }}">Mes commandes</a>
+    </div>
+{% endblock %}

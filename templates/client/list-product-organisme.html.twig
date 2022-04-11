@@ -1,0 +1,309 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+        <section style="margin-top:50px " class="section-two bg-light" id="bookroom">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                        <form class="p-4 shadow bg-white rounded">
+                            <h4 class="mb-3">Book Now !</h4>
+                            <div class="row text-start">
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="mb-3 mb-lg-0">
+                                        <label class="form-label"> Check in : </label>
+                                        <input name="date" type="text" class="form-control start" placeholder="Select date :">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="mb-3 mb-lg-0">
+                                        <label class="form-label"> Check out : </label>
+                                        <input name="date" type="text" class="form-control end" placeholder="Select date :">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-6">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-4">
+                                            <div class="mb-3 mb-lg-0">
+                                                <label class="form-label">Adults : </label>
+                                                <input type="number" min="0" autocomplete="off" id="adult" required="" class="form-control" placeholder="Adults :">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                            <div class="mb-3 mb-lg-0">
+                                                <label class="form-label">Children : </label>
+                                                <input type="number" min="0" autocomplete="off" id="children" class="form-control" placeholder="Children :">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 mt-lg-4 pt-2 pt-lg-1">
+                                            <div class="d-grid">
+                                                <input type="submit" id="search" name="search" class="searchbtn btn btn-primary" value="Search">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!--Blog Lists Start-->
+        <section class="section">
+            <div class="container">
+                <div class="row">
+                    <!-- Blog Post Start -->
+                    <div class="col-lg-8 col-12">
+                        <div class="row">
+                            <div class="col-12 mb-4 pb-2">
+                                <div class="card blog rounded border-0 shadow overflow-hidden">
+                                    <div class="row align-items-center g-0">
+                                        <div class="col-md-6">
+                                            <a href="detailProduit">
+                                                <img src="{{asset("client/assets/images/work/16.jpg")}}" class="img-fluid" alt="">
+                                                <div class="overlay bg-dark"></div>
+                                                <div class="author">
+                                                    <small class="text-light user d-block"><i class="uil uil-user"></i> Calvin Carlo</small>
+                                                    <small class="text-light date"><i class="uil uil-calendar-alt"></i> 25th June 2021</small>
+                                                </div>
+                                            </a>
+                                        </div><!--end col-->
+        
+                                        <div class="col-md-6">
+                                            <div class="card-body content">
+                                                <a href="detailProduit">
+                                                    <h5><a href="javascript:void(0)" class="card-title title text-dark">Design your apps in your own way</a></h5>
+                                                    <p class="text-muted mb-0">Due to its widespread use as filler text for layouts, non-readability</p>
+                                                    <div class="post-meta d-flex justify-content-between mt-3">
+                                                        <ul class="list-unstyled mb-0">
+                                                            <li class="list-inline-item me-2 mb-0"><a href="javascript:void(0)" class="text-muted like"><i class="uil uil-heart me-1"></i>33</a></li>
+                                                            <li class="list-inline-item"><a href="javascript:void(0)" class="text-muted comments"><i class="uil uil-comment me-1"></i>08</a></li>
+                                                        </ul>
+                                                        <a href="detailProduit" class="text-muted readmore">Read More <i class="uil uil-angle-right-b align-middle"></i></a>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><!--end col-->
+                                    </div> <!--end row-->
+                                </div><!--end blog post-->
+                            </div><!--end col-->
+                            <div class="col-12 mb-4 pb-2">
+                                <div class="card blog rounded border-0 shadow overflow-hidden">
+                                    <div class="row align-items-center g-0">
+                                        <div class="col-md-6">
+                                            <a href="detailProduit">
+                                                <img src="{{asset("client/assets/images/work/16.jpg")}}" class="img-fluid" alt="">
+                                                <div class="overlay bg-dark"></div>
+                                                <div class="author">
+                                                    <small class="text-light user d-block"><i class="uil uil-user"></i> Calvin Carlo</small>
+                                                    <small class="text-light date"><i class="uil uil-calendar-alt"></i> 25th June 2021</small>
+                                                </div>
+                                            </a>
+                                        </div><!--end col-->
+        
+                                        <div class="col-md-6">
+                                            <div class="card-body content">
+                                                <a href="detailProduit">
+                                                    <h5><a href="javascript:void(0)" class="card-title title text-dark">Design your apps in your own way</a></h5>
+                                                    <p class="text-muted mb-0">Due to its widespread use as filler text for layouts, non-readability</p>
+                                                    <div class="post-meta d-flex justify-content-between mt-3">
+                                                        <ul class="list-unstyled mb-0">
+                                                            <li class="list-inline-item me-2 mb-0"><a href="javascript:void(0)" class="text-muted like"><i class="uil uil-heart me-1"></i>33</a></li>
+                                                            <li class="list-inline-item"><a href="javascript:void(0)" class="text-muted comments"><i class="uil uil-comment me-1"></i>08</a></li>
+                                                        </ul>
+                                                        <a href="detailProduit" class="text-muted readmore">Read More <i class="uil uil-angle-right-b align-middle"></i></a>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><!--end col-->
+                                    </div> <!--end row-->
+                                </div><!--end blog post-->
+                            </div><!--end col-->
+                            <div class="col-12 mb-4 pb-2">
+                                <div class="card blog rounded border-0 shadow overflow-hidden">
+                                    <div class="row align-items-center g-0">
+                                        <div class="col-md-6">
+                                            <a href="detailProduit">
+                                                <img src="{{asset("client/assets/images/work/16.jpg")}}" class="img-fluid" alt="">
+                                                <div class="overlay bg-dark"></div>
+                                                <div class="author">
+                                                    <small class="text-light user d-block"><i class="uil uil-user"></i> Calvin Carlo</small>
+                                                    <small class="text-light date"><i class="uil uil-calendar-alt"></i> 25th June 2021</small>
+                                                </div>
+                                            </a>
+                                        </div><!--end col-->
+        
+                                        <div class="col-md-6">
+                                            <div class="card-body content">
+                                                <a href="detailProduit">
+                                                    <h5><a href="javascript:void(0)" class="card-title title text-dark">Design your apps in your own way</a></h5>
+                                                    <p class="text-muted mb-0">Due to its widespread use as filler text for layouts, non-readability</p>
+                                                    <div class="post-meta d-flex justify-content-between mt-3">
+                                                        <ul class="list-unstyled mb-0">
+                                                            <li class="list-inline-item me-2 mb-0"><a href="javascript:void(0)" class="text-muted like"><i class="uil uil-heart me-1"></i>33</a></li>
+                                                            <li class="list-inline-item"><a href="javascript:void(0)" class="text-muted comments"><i class="uil uil-comment me-1"></i>08</a></li>
+                                                        </ul>
+                                                        <a href="detailProduit" class="text-muted readmore">Read More <i class="uil uil-angle-right-b align-middle"></i></a>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div><!--end col-->
+                                    </div> <!--end row-->
+                                </div><!--end blog post-->
+                            </div><!--end col-->
+        
+        
+                            <!-- PAGINATION START -->
+                            <div class="col-12">
+                                <ul class="pagination justify-content-center mb-0">
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Previous">Prev</a></li>
+                                    <li class="page-item active"><a class="page-link" href="javascript:void(0)">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">Next</a></li>
+                                </ul>
+                            </div><!--end col-->
+                            <!-- PAGINATION END -->
+                        </div><!--end row-->
+                    </div><!--end col-->
+                    <!-- Blog Post End -->
+
+                    <!-- START SIDEBAR -->
+                    <div class="col-lg-4 col-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
+                        <div class="card border-0 sidebar sticky-bar ms-lg-4">
+                            <div class="card-body p-0">
+
+
+                                <div style="width: 100%;height: 600px;" id="map"></div>
+                                
+                                <!-- SOCIAL -->
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                    <!-- END SIDEBAR -->
+                </div><!--end row-->
+            </div><!--end container-->
+        </section><!--end section -->
+        <!--Blog Lists End-->
+
+        <!-- Footer Start -->
+        
+        <!-- Footer End -->
+
+        <!-- Offcanvas Start -->
+        <div class="offcanvas offcanvas-end bg-white shadow" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header p-4 border-bottom">
+                <h5 id="offcanvasRightLabel" class="mb-0">
+                    <img src="{{asset("client/assets/images/logo-dark.png")}}" height="24" class="light-version" alt="">
+                    <img src="{{asset("client/assets/images/logo-light.png")}}" height="24" class="dark-version" alt="">
+                </h5>
+                <button type="button" class="btn-close d-flex align-items-center text-dark" data-bs-dismiss="offcanvas" aria-label="Close"><i class="uil uil-times fs-4"></i></button>
+            </div>
+            <div class="offcanvas-body p-4">
+                <div class="row">
+                    <div class="col-12">
+                        <img src="{{asset("client/assets/images/contact.svg")}}" class="img-fluid d-block mx-auto" style="max-width: 256px;" alt="">
+                        <div class="card border-0 mt-5" style="z-index: 1">
+                            <div class="card-body p-0">
+                                <form method="post" name="myForm" onsubmit="return validateForm()">
+                                    <p id="error-msg" class="mb-0"></p>
+                                    <div id="simple-msg"></div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Your Name <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="user" class="fea icon-sm icons"></i>
+                                                    <input name="name" id="name" type="text" class="form-control ps-5" placeholder="Name :">
+                                                </div>
+                                            </div>
+                                        </div>
+    
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Your Email <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="mail" class="fea icon-sm icons"></i>
+                                                    <input name="email" id="email" type="email" class="form-control ps-5" placeholder="Email :">
+                                                </div>
+                                            </div> 
+                                        </div><!--end col-->
+    
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Subject</label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="book" class="fea icon-sm icons"></i>
+                                                    <input name="subject" id="subject" class="form-control ps-5" placeholder="subject :">
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+    
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label class="form-label">Comments <span class="text-danger">*</span></label>
+                                                <div class="form-icon position-relative">
+                                                    <i data-feather="message-circle" class="fea icon-sm icons clearfix"></i>
+                                                    <textarea name="comments" id="comments" rows="4" class="form-control ps-5" placeholder="Message :"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-grid">
+                                                <button type="submit" id="submit" name="send" class="btn btn-primary">Send Message</button>
+                                            </div>
+                                        </div><!--end col-->
+                                    </div><!--end row-->
+                                </form>
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
+            </div>
+
+            <div class="offcanvas-footer p-4 border-top text-center">
+                <ul class="list-unstyled social-icon social mb-0">
+                    <li class="list-inline-item mb-0"><a href="https://1.envato.market/4n73n" target="_blank" class="rounded"><i class="uil uil-shopping-cart align-middle" title="Buy Now"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://dribbble.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-dribbble align-middle" title="dribbble"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.facebook.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-facebook-f align-middle" title="facebook"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://www.instagram.com/shreethemes/" target="_blank" class="rounded"><i class="uil uil-instagram align-middle" title="instagram"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://twitter.com/shreethemes" target="_blank" class="rounded"><i class="uil uil-twitter align-middle" title="twitter"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="mailto:support@shreethemes.in" class="rounded"><i class="uil uil-envelope align-middle" title="email"></i></a></li>
+                    <li class="list-inline-item mb-0"><a href="https://shreethemes.in" target="_blank" class="rounded"><i class="uil uil-globe align-middle" title="website"></i></a></li>
+                </ul><!--end icon-->
+            </div>
+        </div>
+        <!-- Offcanvas End -->
+
+        <!-- Back to top -->
+        <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a>
+        <!-- Back to top -->
+
+        {% endblock %}
+        {% block javascripts %}
+        <script src="https://maps.googleapis.com/maps/api/js"></script>
+        <script>
+            function initialize() {
+                var mapCanvas = document.getElementById('map');
+                var myLatLng = {lat: 51.434408, lng: -2.53531};
+                var mapOptions = {
+                    center: new google.maps.LatLng(51.434408, -2.53531),
+                    zoom: 15,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                }
+                var map = new google.maps.Map(mapCanvas, mapOptions);
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: 'Hello Wold'
+        });
+            }
+            google.maps.event.addDomListener(window, 'load', initialize);
+        </script>
+        {% endblock %}
+    

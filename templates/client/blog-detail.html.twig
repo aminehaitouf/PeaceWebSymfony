@@ -1,0 +1,536 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+<style>
+.marker {
+    transform: translate(-50%, calc(-100% - 10px));
+    white-space: nowrap;
+    font-size: 16px;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.marker::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -8px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #FFF;
+}
+
+.marker.is-active {
+    background-color: #5069ff;
+    z-index: 300;
+    color: #FFF;
+}
+
+.marker.is-active::after {
+    border-top-color: #5069ff;
+}
+</style>
+        {% endblock %}
+{% block body %}
+        
+      
+        
+
+        <!-- Blog STart -->
+        <section class="section">
+            <div class="container">
+                <div class="row">
+                    <!-- BLog Start -->
+                    <div class="col-lg-8 col-md-6">
+                        <div class="card blog blog-detail border-0 shadow rounded item js-marker"   data-lat="{{ user.adresse.lat }}"
+                                                     data-lng="{{ user.adresse.longi }}" data-name="{{ user.domination }}">
+                            <img src="{{ asset('uploadsAds/'~user.illustration) }}" class="img-fluid rounded-top" alt="">
+                            <div class="card-body content">
+                                <h6><i class="mdi mdi-tag text-primary me-1"></i><a href="javscript:void(0)" class="text-primary">Réserver en ligne pour un RDV chez </a>, <a href="javscript:void(0)" class="text-primary">{{user.domination}}</a></h6>
+    
+                                <div class="row" id="product">
+                                    
+                                    
+                                    {% for categorie in user.categories %}
+                                             <p style="margin-top: 100px;" class="text-muted mt-3">{{categorie}} </p>                                       
+                                        {% for ads in user.ads %}
+                                            {% if ads.isDeleted != 1 %}
+                                                {% if ads.isDisplay == 1 %}
+                                                {% if ads.categorie == categorie %}
+                                                    <div class="col-lg-12 col-md-6 mt-4 pt-2" >
+                                                    <div class="d-flex key-feature align-items-center p-3 rounded shadow">
+                                                        
+                                                        <div class="flex-1">
+                                                            <h4 class="title mb-0">{{ads.titre}}</h4>
+                                                        <span style="color:grey">
+                                                            {% if ads.durer %}
+                                                                ({{ads.durer}} min)                                                                
+                                                            {% endif %}
+                                                        
+                                                        </span>
+                                                        </div>
+                                                        
+                                                            {% if ads.user.domaine == "Restaurant" and ads.titre == "Reservation" %}
+                                                                <div style="margin-right:10px" class="d-flex justify-content-end">
+                                                                    <h6 >{{(ads.prix * 0.15) + 1}}€</h6>
+                                                                </div>
+                                                            {% else %}
+                                                                
+                                                                <div style="margin-right:100px" class="d-flex justify-content-end">
+                                                                    <h6 ><h6 >{{ads.prix}}€</h6></h6>
+                                                                </div>
+                                                            {% endif %}
+                                                            
+                                                            
+                                                        
+                                                        <div class="d-flex justify-content-end">
+                                                        
+                                                            {% if (app.user and app.user.roles[0] == "ROLE_ASSO") or (ads.user.domaine == "Restaurant" and ads.titre != "Reservation") %}
+                                                        
+                                                            {% else %}
+                                                                <a class="btn btn-pills btn-primary"  href="/choixReservation/{{ads.id}}" >
+                                                                Choisir
+                                                            </a>
+                                                            {% endif %}
+                                                            
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                {% endif %}
+                                                
+                                                
+                                                
+                                                
+                                                {% endif %} 
+                                            {% endif %} 
+                                        {% endfor %}
+   
+                                    {% endfor %}
+                                    
+                                    {% if user.ads %}
+                                        
+                                    {% else %}
+                                        <span>Aucun produit ajouté</span>
+                                    {% endif %}
+                                    
+                                    
+
+                                    
+                                    
+                                </div><!--end row-->
+
+
+                                <p style="margin-top: 100px;" class="text-muted mt-3">Description. </p>
+                                
+                                <p class="text-muted mt-3">
+                                    {% if user.description %}
+                                        {{user.description}}
+                                    {% endif %}
+                                    
+                                </p>
+                                
+                            </div>
+                        </div>
+
+                        <div class="card shadow rounded border-0 mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title mb-0">Comments :</h5>
+
+                                <ul class="media-list list-unstyled mb-0">
+                                {% if commentaires %}
+                                
+                                    {% for commentaire in commentaires %}
+                                        {% if commentaire.user == user %}
+                                            <li class="mt-4">
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex align-items-center">
+                                                        <a class="pe-3" href="#">
+                                                            <img src="{{asset("client/assets/images/client/01.jpg")}}" class="img-fluid avatar avatar-md-sm rounded-circle shadow" alt="img">
+                                                        </a>
+                                                        <div class="commentor-detail">
+                                                            <h6 class="mb-0"><a href="javascript:void(0)" class="text-dark media-heading">{{(commentaire.client.lastname)|upper ~" "~ (commentaire.client.firstname)|lower }}</a></h6>
+                                                            <small class="text-muted">{{commentaire.createdAt|date( 'j/m/Y à  H:i')}}</small>
+                                                        </div>
+                                                    </div>
+                                                    {% if commentaire.client == app.user %}
+                                                        <a href="/{{commentaire.id}}/supprimerCommentaire/{{commentaire.user}}" class="text-muted"><i class="mdi mdi-delete"></i> </a>
+                                                    {% endif %}
+                                                    
+                                                </div>
+                                                <div class="mt-3">
+                                                    <p class="text-muted fst-italic p-3 bg-light rounded">" {{commentaire.commente}} "</p>
+                                                </div>
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                        {# {% if app.user %}
+                        
+                            <div class="card shadow rounded border-0 mt-4">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-0">Leave A Comment :</h5>
+
+                                    {{ form_start(form,{attr:{class:"mt-3"}}) }} 
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Your Comment</label>
+                                                    <div class="form-icon position-relative">
+                                                        {{ form_row(form.commente,{attr:{class:"form-control ps-5"}}) }}
+                                                    </div>
+                                                </div>
+                                            </div><!--end col-->
+        
+                                            
+        
+                                            <div class="col-md-12">
+                                                
+                                                <div class="send d-grid">
+                                                    <button type="submit" class="btn btn-primary">Send Message</button>
+                                                </div>
+                                            </div><!--end col-->
+                                        </div><!--end row-->
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        {% endif %} #}
+
+                        <div class="card shadow rounded border-0 mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title mb-0">Related Posts :</h5>
+
+                                <div class="row">
+                                    {% for salon in salons %}
+                                        
+                                    
+                                        <div class="col-lg-6 mt-4 pt-2 item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
+                                                     data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
+                                            <div class="card blog rounded border-0 shadow">
+                                            <a href="/detailProduitClient/{{salon.id}}">
+                                                <div class="position-relative">
+                                                    <img src="{{ asset('uploadsAds/'~salon.illustration) }}" style="width: 100%;height: 350px;" class="card-img-top rounded-top" alt="...">
+                                                <div class="overlay rounded-top bg-dark"></div>
+                                                </div>
+                                                <div class="card-body content">
+                                                    <h5><a href="javascript:void(0)" class="card-title title text-dark">{{salon.domination}}</a></h5>
+                                                    <div class="post-meta d-flex justify-content-between mt-3">
+                                                        <ul class="list-unstyled mb-0">
+                                                            <li class="list-inline-item me-2 mb-0"><i class="uil uil-user"></i>{{salon.domination}}</li>
+                                                            <li class="list-inline-item"><i class="uil uil-books"></i>{{salon.domaine}}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                            
+                                            
+                                            
+                                            </a>
+                                                
+                                            </div>
+                                        </div><!--end col-->
+                                    {% endfor %}
+                                    
+                                </div><!--end row-->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BLog End -->
+
+                    <!-- START SIDEBAR -->
+                    <div class="col-lg-4 col-md-6 col-12 mt-4 mt-sm-0 pt-2 pt-sm-0">
+                        <div class="card border-0 sidebar sticky-bar ms-lg-4">
+                            <div class="card-body p-0">
+                                <!-- Author -->
+                                <div class="text-center">
+                                    
+
+                                    <div class="mt-4">
+                                        <img src="{{ asset('uploadsAds/'~user.illustration) }}" class="img-fluid avatar avatar-medium rounded-pill shadow-md d-block mx-auto" alt="">
+
+                                        <a href="detailProduit" class="text-primary h5 mt-4 mb-0 d-block">{{user.domination}}</a>
+                                        <small class="text-muted d-block">{{user.domaine}}</small>
+                                    </div>
+                                </div>
+                                <!-- Author -->
+    
+                                <!-- RECENT POST -->
+                                <div class="widget mt-4">
+                                    {% if app.user and app.user.roles[0] == "ROLE_ASSO" %}
+                                        <a  class="btn btn-pills btn-primary d-flex justify-content-center" href="/association/reserverAssociation/{{user.id}}">Reserver une benevolat</a>
+                                    {% else %}
+                                        <a  class="btn btn-pills btn-primary d-flex justify-content-center" href="#product">Prendre RDV</a>
+                                    {% endif %}
+                                    
+
+                                    {# <div class="mt-4">
+                                        <div class="clearfix post-recent">
+                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="{{asset("client/assets/images/blog/07.jpg")}}" class="img-fluid rounded"></a></div>
+                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Consultant Business</a><span class="text-muted mt-2">15th June, 2019</span></div>
+                                        </div>
+                                        <div class="clearfix post-recent">
+                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="{{asset("client/assets/images/blog/08.jpg")}}" class="img-fluid rounded"></a></div>
+                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Look On The Glorious Balance</a> <span class="text-muted mt-2">15th June, 2019</span></div>
+                                        </div>
+                                        <div class="clearfix post-recent">
+                                            <div class="post-recent-thumb float-start"> <a href="jvascript:void(0)"> <img alt="img" src="{{asset("client/assets/images/blog/01.jpg")}}" class="img-fluid rounded"></a></div>
+                                            <div class="post-recent-content float-start"><a href="jvascript:void(0)">Research Financial.</a> <span class="text-muted mt-2">15th June, 2019</span></div>
+                                        </div>
+                                    </div>
+                                </div> #}
+                                <!-- RECENT POST -->
+    
+                                <!-- TAG CLOUDS -->
+                                <div class="widget mt-4">
+                                    <div style="width: 100%;height: 400px;" id="map"></div>
+                                    <span class="bg-soft-dark d-block py-2 rounded shadow text-center h6 mb-0 text-muted">
+                                        Tagclouds
+                                    </span>
+                                    
+                                    <div class="tagcloud text-center mt-4">
+                                        <a href="jvascript:void(0)" class="rounded">Business</a>
+                                        <a href="jvascript:void(0)" class="rounded">Finance</a>
+                                        <a href="jvascript:void(0)" class="rounded">Marketing</a>
+                                        <a href="jvascript:void(0)" class="rounded">Fashion</a>
+                                        <a href="jvascript:void(0)" class="rounded">Bride</a>
+                                        <a href="jvascript:void(0)" class="rounded">Lifestyle</a>
+                                        <a href="jvascript:void(0)" class="rounded">Travel</a>
+                                        <a href="jvascript:void(0)" class="rounded">Beauty</a>
+                                        <a href="jvascript:void(0)" class="rounded">Video</a>
+                                        <a href="jvascript:void(0)" class="rounded">Audio</a>
+                                    </div>
+                                </div>
+                                <!-- TAG CLOUDS -->
+                                
+                                <!-- SOCIAL -->
+                                <div class="widget mt-4">
+                                    <span class="bg-soft-dark d-block py-2 rounded shadow text-center h6 mb-0 text-muted">
+                                        Social Media
+                                    </span>
+
+                                    <ul class="list-unstyled social-icon text-center mb-0 mt-4">
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="facebook" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="instagram" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="twitter" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="linkedin" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="github" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="youtube" class="fea icon-sm fea-social"></i></a></li>
+                                        <li class="list-inline-item"><a href="javascript:void(0)" class="rounded"><i data-feather="gitlab" class="fea icon-sm fea-social"></i></a></li>
+                                    </ul><!--end icon-->
+                                </div>
+                                <!-- SOCIAL -->
+                            </div>
+                        </div>
+                    </div><!--end col-->
+                    <!-- END SIDEBAR -->
+                </div><!--end row-->
+            </div><!--end container-->
+        </section><!--end section-->
+        <!-- Blog End -->
+
+        
+
+        <!-- Offcanvas Start -->
+        
+        <!-- Offcanvas End -->
+
+        <!-- Back to top -->
+        <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a>
+        <!-- Back to top -->
+
+       {% endblock %}
+
+        {% block javascripts %}
+          <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+        <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"
+            async></script>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script>
+/*!
+  * $script.js JS loader & dependency manager
+  * https://github.com/ded/script.js
+  * (c) Dustin Diaz 2014 | License MIT
+  */
+(function(e,t){typeof module!="undefined"&&module.exports?module.exports=t():typeof define=="function"&&define.amd?define(t):this[e]=t()})("$script",function(){function p(e,t){for(var n=0,i=e.length;n<i;++n)if(!t(e[n]))return r;return 1}function d(e,t){p(e,function(e){return t(e),1})}function v(e,t,n){function g(e){return e.call?e():u[e]}function y(){if(!--h){u[o]=1,s&&s();for(var e in f)p(e.split("|"),g)&&!d(f[e],g)&&(f[e]=[])}}e=e[i]?e:[e];var r=t&&t.call,s=r?t:n,o=r?e.join(""):t,h=e.length;return setTimeout(function(){d(e,function t(e,n){if(e===null)return y();!n&&!/^https?:\/\//.test(e)&&c&&(e=e.indexOf(".js")===-1?c+e+".js":c+e);if(l[e])return o&&(a[o]=1),l[e]==2?y():setTimeout(function(){t(e,!0)},0);l[e]=1,o&&(a[o]=1),m(e,y)})},0),v}function m(n,r){var i=e.createElement("script"),u;i.onload=i.onerror=i[o]=function(){if(i[s]&&!/^c|loade/.test(i[s])||u)return;i.onload=i[o]=null,u=1,l[n]=2,r()},i.async=1,i.src=h?n+(n.indexOf("?")===-1?"?":"&")+h:n,t.insertBefore(i,t.lastChild)}var e=document,t=e.getElementsByTagName("head")[0],n="string",r=!1,i="push",s="readyState",o="onreadystatechange",u={},a={},f={},l={},c,h;return v.get=m,v.order=function(e,t,n){(function r(i){i=e.shift(),e.length?v(i,r):v(i,t,n)})()},v.path=function(e){c=e},v.urlArgs=function(e){h=e},v.ready=function(e,t,n){e=e[i]?e:[e];var r=[];return!d(e,function(e){u[e]||r[i](e)})&&p(e,function(e){return u[e]})?t():!function(e){f[e]=f[e]||[],f[e][i](t),n&&n(r)}(e.join("|")),v},v.done=function(e){v([null],e)},v})
+
+</script>
+
+
+
+
+
+
+<script>
+let $map = document.querySelector('#map')
+
+
+class GoogleMap {
+
+                constructor() {
+                    this.map = null
+                    this.bounds = null
+                    this.textMarker = null
+                }
+
+                /**
+                 * Charge la carte sur un élément
+                 * @param {HTMLElement} element
+                 */
+                async load(element) {
+                    return new Promise((resolve, reject) => {
+                        $script('https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWz7ZHJJDK8fs09giiatXHVBA_c0jAUA', () => {
+                            this.textMarker = class TextMarker extends google.maps.OverlayView {
+
+                                constructor(pos, map, text) {
+                                    super()
+                                    this.div = null
+                                    this.html = null
+                                    this.pos = pos
+                                    this.text = text
+                                    this.setMap(map)
+                                    this.onActivation = []
+                                }
+
+                                onAdd() {
+                                    this.div = document.createElement('div')
+                                    this.div.classList.add('marker')
+                                    this.div.style.position = 'absolute'
+                                    this.div.innerHTML = this.text
+                                    this.getPanes().overlayImage.appendChild(this.div)
+                                    this.div.addEventListener('click', (e) => {
+                                        e.preventDefault()
+                                        e.stopPropagation()
+                                        this.activate()
+                                    })
+                                }
+
+                                draw() {
+                                    let position = this.getProjection().fromLatLngToDivPixel(this.pos)
+                                    this.div.style.left = position.x + "px"
+                                    this.div.style.top = position.y + "px"
+                                }
+
+                                onRemove() {
+                                    this.div.parentNode.removeChild(this.div)
+                                }
+
+                                hover() {
+                                    if (this.div !== null) {
+                                        this.div.classList.add('is-active')
+                                    }
+                                }
+
+                                out() {
+                                    if (this.div !== null) {
+                                        this.div.classList.remove('is-active')
+                                    }
+                                }
+
+                                activate() {
+                                    if (this.div !== null) {
+                                        this.div.innerHTML = this.html
+                                    }
+                                    this.onActivation.forEach(function (cb) {
+                                        cb()
+                                    })
+                                }
+
+                                deactivate() {
+                                    if (this.div !== null) {
+                                        this.div.innerHTML = this.text
+                                    }
+                                }
+
+                                setContent(html) {
+                                    this.html = html
+                                }
+
+                            }
+                            this.map = new google.maps.Map(element)
+                            this.bounds = new google.maps.LatLngBounds()
+                            resolve()
+                        })
+                    })
+                }
+
+                /**
+                 * Ajoute un marker sur la carte
+                 * @param {string} lat
+                 * @param {string} lng
+                 * @param {string} text
+                 * @return {TextMarker}
+                 */
+                addMarker(lat, lng, text) {
+                    let point = new google.maps.LatLng(lat, lng)
+                    let marker = new this.textMarker(point, this.map, text)
+                    marker.onActivation.push(() => {
+                        this.map.setCenter(marker.pos)
+                    })
+                    this.bounds.extend(point)
+                    return marker
+                }
+
+                /**
+                 * Centre la carte pour englober les markers
+                 */
+                centerMap() {
+                    this.map.panToBounds(this.bounds)
+                    this.map.fitBounds(this.bounds)
+                }
+            }
+
+const initMap = async function () {
+                let map = new GoogleMap()
+                let activeMarker = null
+                let enabledMarker = null
+                await map.load($map)
+                Array.from(document.querySelectorAll('.item')).forEach(function (item) {
+                    let marker = map.addMarker(item.dataset.lat, item.dataset.lng, item.dataset.name)
+                    marker.setContent(item.innerHTML)
+                    marker.onActivation.push(function () {
+                        if (enabledMarker !== null) {
+                            enabledMarker.deactivate()
+                        }
+                        enabledMarker = marker
+                    })
+                    item.addEventListener('mouseover', function () {
+                        marker.hover()
+                        if (activeMarker !== null) {
+                            activeMarker.out()
+                        }
+                        activeMarker = marker
+                    })
+                    item.addEventListener('mouseleave', function () {
+                        if (activeMarker === marker) {
+                            marker.out()
+                            activeMarker = null
+                        }
+                    })
+                })
+                map.centerMap()
+            }
+
+            if ($map !== null) {
+                initMap()
+            }
+
+
+
+</script>
+    
+<script src="{{ asset('js/vendor.js') }}"></script>
+ <script src="{{asset("client/assets/js/shuffle.min.js")}}"></script>
+{% endblock %}
+
+
+  
