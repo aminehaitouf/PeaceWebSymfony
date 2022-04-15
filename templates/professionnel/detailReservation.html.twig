@@ -1,0 +1,116 @@
+{% extends '/professionnel/baseProfessionnel.html.twig' %}
+ {% block body %}  
+            
+<div class="page-heading">
+    <h3>Profile </h3>
+</div>
+<div class="page-content">
+    <section class="row">
+        <div class="col-12 ">
+                <div class="card">
+                    <div class="card-header">
+                    <h5 class="mt-4">Details reservation :</h5>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                        <form method="get" >
+                                <div class="form-body">
+                                    <div class="row">
+                                    {% if app.user != reservation.client %}
+                                        <div class="col-md-4">
+                                            <label>Nom client<span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group ">
+                                                <div class="position-relative">
+                                                <input type="text"  disabled  name="code" id="inputCode" class="form-control" value="{{reservation.client.firstname ~' '~ reservation.client.lastname|upper}}">
+                                                
+                                                
+                                                
+                                                
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Email<span class="text-danger">*</span></label>
+                                         </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group ">
+                                                <div class="position-relative">
+                                                <input type="text" disabled   name="code" id="inputCode" class="form-control" value="{{reservation.client.email}}">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>telephone<span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group ">
+                                                <div class="position-relative">
+                                                <input type="text"  disabled  name="code" id="inputCode" class="form-control" value="{{reservation.client.mobile}}">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                        <div class="col-md-4">
+                                            <label>produit acheter<span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group ">
+                                                <div class="position-relative">
+                                                <input type="text"  disabled  name="code" id="inputCode" class="form-control" value="{{reservation.ads.titre}}">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Quantité<span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group ">
+                                                <div class="position-relative">
+                                                <input type="text" disabled   name="code" id="inputCode" class="form-control" value="{{reservation.qte}}">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>Date reservation<span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group ">
+                                                <div class="position-relative">
+                                                <input type="text" disabled   name="code" id="inputCode" class="form-control" value="{{reservation.deteheure|date( 'j/m/Y à  H:i')}}">
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-4">
+                                            <label>Description<span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group ">
+                                                <div class="position-relative">
+                                                    <textarea name="comments" disabled id="comments" rows="4" class="form-control ps-5" placeholder="Message :">{{reservation.description}}</textarea>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                    
+                            </form>
+                        
+                    </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+ {% endblock %}

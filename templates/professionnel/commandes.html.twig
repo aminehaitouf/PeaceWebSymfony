@@ -20,13 +20,16 @@
                             <h3>Réservations En cours de traitement</h3>
                         </div>
                         
+                        
                     </div>
                 </div>
             
                 <!-- Basic Tables start -->
                 <section class="section">
                     <div class="card">
-                    
+                    <div class="d-flex justify-content-center card-header">
+                        <a class="btn btn-info" href="/professionnel/autreReservation">Ajout Reservation direct</a>
+                    </div>
                         <div class="card-body">
                             <table id="dataTable3" class="text-center">
 								<thead class="text-capitalize">
@@ -47,14 +50,26 @@
                                             {% if reservation.avancement == "En cours de traitement" %}
                                                 <tr>
                                                     <td>
+                                                        {% if app.user == reservation.client %}
+                                                        reservation par autre moyen
+                                                    {% else %}
                                                         {% if reservation.client.firstname %}
-                                                            {{reservation.client.firstname ~' '~ reservation.client.lastname|upper}}
+                                                             {{reservation.client.firstname ~' '~ reservation.client.lastname|upper}}
                                                         {% else %}
-                                                        {{'Organisme : '~reservation.client.domination|upper}}
+                                                             {{'Organisme : '~reservation.client.domination|upper}}
+                                                        {% endif %}
                                                     {% endif %}
+
+                                                        
                                                         
                                                     </td>
-                                                    <td>{{reservation.client.email}}</td>
+                                                    <td>
+                                                    {% if app.user == reservation.client %}
+                                                        reservation par autre moyen
+                                                    {% else %}
+                                                        {{reservation.client.email}}
+                                                    {% endif %}
+                                                    </td>
                                                     <td>{{reservation.ads.titre}}</td>
                                                         {% if reservation.ads.titre == "Reservation" %}
                                                     <th>{{reservation.qte}}</th>
@@ -62,9 +77,15 @@
                                                     <th>1</th>  
                                                     {% endif %}
                                                     <td>{{reservation.deteheure|date( 'j/m/Y à  H:i')}}</td>
-                                                    <td>{{reservation.client.mobile}}</td>
+                                                    <td>
+                                                        {% if app.user == reservation.client %}
+                                                        reservation par autre moyen
+                                                    {% else %}
+                                                        {{reservation.client.mobile}}
+                                                    {% endif %}
+                                                    </td>
                                                     <td >
-                                                            {# <a href="/professionnel/detailCommande"></a> #}
+                                                            <a class="btn btn-primary" href="/professionnel/detailReservation/{{reservation.id}}">Detail</a>
                                                             <a class="btn btn-success" href="/professionnel/{{reservation.id}}/valideCommande">Valider</a>
                                                             <a class="btn btn-danger" href="/professionnel/{{reservation.id}}/motifRefusCommande">Refuser</a>
                                                     </td>
@@ -108,27 +129,45 @@
                                     {% for reservation in reservations %}
                                        {% if reservation.ads.user == user %}
                                             {% if reservation.avancement == "Valider" %}
-                                                <tr>
-                                                    <td>
-                                                        {% if reservation.client.firstname %}
-                                                            {{reservation.client.firstname ~' '~ reservation.client.lastname|upper}}
-                                                        {% else %}
-                                                        {{'Organisme : '~reservation.client.domination|upper}}
+                                            <tr>
+                                                <td>
+                                                    {% if app.user == reservation.client %}
+                                                    reservation par autre moyen
+                                                {% else %}
+                                                    {% if reservation.client.firstname %}
+                                                         {{reservation.client.firstname ~' '~ reservation.client.lastname|upper}}
+                                                    {% else %}
+                                                         {{'Organisme : '~reservation.client.domination|upper}}
                                                     {% endif %}
-                                                        
-                                                    </td>
-                                                    <td>{{reservation.client.email}}</td>
-                                                    <td>{{reservation.ads.titre}}</td>
-                                                        {% if reservation.ads.titre == "Reservation" %}
-                                                    <th>{{reservation.qte}}</th>
-                                                        {% else %}
-                                                    <th>1</th>  
-                                                    {% endif %}
-                                                    <td>{{reservation.deteheure|date( 'j/m/Y à  H:i')}}</td>
-                                                    <td>{{reservation.client.mobile}}</td>
+                                                {% endif %}
+
+                                                    
+                                                    
+                                                </td>
+                                                <td>
+                                                {% if app.user == reservation.client %}
+                                                    reservation par autre moyen
+                                                {% else %}
+                                                    {{reservation.client.email}}
+                                                {% endif %}
+                                                </td>
+                                                <td>{{reservation.ads.titre}}</td>
+                                                    {% if reservation.ads.titre == "Reservation" %}
+                                                <th>{{reservation.qte}}</th>
+                                                    {% else %}
+                                                <th>1</th>  
+                                                {% endif %}
+                                                <td>{{reservation.deteheure|date( 'j/m/Y à  H:i')}}</td>
+                                                <td>
+                                                    {% if app.user == reservation.client %}
+                                                    reservation par autre moyen
+                                                {% else %}
+                                                    {{reservation.client.mobile}}
+                                                {% endif %}
+                                                </td>
                                                     <td >
                                                             <a class="btn btn-success" href="/professionnel/{{reservation.id}}/commandeServie">Servire</a>
-                                                            {# <a class="btn btn-danger" href="/professionnel/{{reservation.id}}/motifRefusCommande">Refuser</a> #}
+                                                        <a class="btn btn-primary" href="/professionnel/detailReservation/{{reservation.id}}">Detail</a>
                                                     </td>
 
                                                 </tr>
@@ -172,28 +211,46 @@
                                     {% for reservation in reservations %}
                                        {% if reservation.ads.user == user %}
                                             {% if reservation.avancement == "Servie" and reservation.isPret == 1 %}
-                                                <tr>
-                                                    <td>
-                                                        {% if reservation.client.firstname %}
-                                                            {{reservation.client.firstname ~' '~ reservation.client.lastname|upper}}
-                                                        {% else %}
-                                                            {{'Organisme : '~reservation.client.domination|upper}}
-                                                        {% endif %}
-                                                        
-                                                    </td>
-                                                    <td>{{reservation.client.email}}</td>
-                                                    <td>{{reservation.ads.titre}}</td>
-                                                        {% if reservation.ads.titre == "Reservation" %}
-                                                    <th>{{reservation.qte}}</th>
-                                                        {% else %}
-                                                    <th>1</th>  
+                                            <tr>
+                                                <td>
+                                                    {% if app.user == reservation.client %}
+                                                    reservation par autre moyen
+                                                {% else %}
+                                                    {% if reservation.client.firstname %}
+                                                         {{reservation.client.firstname ~' '~ reservation.client.lastname|upper}}
+                                                    {% else %}
+                                                         {{'Organisme : '~reservation.client.domination|upper}}
                                                     {% endif %}
-                                                    <td>{{reservation.deteheure|date( 'j/m/Y à  H:i')}}</td>
-                                                    <td>{{reservation.client.mobile}}</td>
+                                                {% endif %}
+
+                                                    
+                                                    
+                                                </td>
+                                                <td>
+                                                {% if app.user == reservation.client %}
+                                                    reservation par autre moyen
+                                                {% else %}
+                                                    {{reservation.client.email}}
+                                                {% endif %}
+                                                </td>
+                                                <td>{{reservation.ads.titre}}</td>
+                                                    {% if reservation.ads.titre == "Reservation" %}
+                                                <th>{{reservation.qte}}</th>
+                                                    {% else %}
+                                                <th>1</th>  
+                                                {% endif %}
+                                                <td>{{reservation.deteheure|date( 'j/m/Y à  H:i')}}</td>
+                                                <td>
+                                                    {% if app.user == reservation.client %}
+                                                    reservation par autre moyen
+                                                {% else %}
+                                                    {{reservation.client.mobile}}
+                                                {% endif %}
+                                                </td>
                                                     <td >
                                                             {# <a href="/professionnel/detailCommande"><i  class="bi bi-eye icons"></i></a> #}
-                                                            <a href="javascript:void(0)"><i class="bi bi-check2-circle icons"></i></a>
-                                                            {# <a href="/professionnel/motifRefusCommande"><i  class="bi bi-trash icons"></i></a> #}
+                                                        <a class="btn btn-primary" href="/professionnel/detailReservation/{{reservation.id}}">Detail</a>
+                                                    {# <a href="/professionnel/motifRefusCommande"><i  class="bi bi-trash icons"></i></a> #}
                                                     </td>
 
                                                 </tr>

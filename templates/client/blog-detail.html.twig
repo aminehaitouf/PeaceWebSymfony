@@ -57,24 +57,18 @@
                                     
                                     
                                     {% for categorie in user.categories %}
-                                             <p style="margin-top: 100px;" class="text-muted mt-3">{{categorie}} </p>                                       
+                                             <p style="margin-top: 100px;" class="text-primary mt-3">Categirie : {{categorie|upper}} </p>                                       
                                         {% for ads in user.ads %}
                                             {% if ads.isDeleted != 1 %}
                                                 {% if ads.isDisplay == 1 %}
                                                 {% if ads.categorie == categorie %}
-                                                    <div class="col-lg-12 col-md-6 mt-4 pt-2" >
+                                                    <div class="col-lg-12" >
                                                     <div class="d-flex key-feature align-items-center p-3 rounded shadow">
                                                         
                                                         <div class="flex-1">
                                                             <h4 class="title mb-0">{{ads.titre}}</h4>
                                                         <span style="color:grey">
-                                                            {% if ads.durer %}
-                                                                ({{ads.durer}} min)                                                                
-                                                            {% endif %}
-                                                        
-                                                        </span>
-                                                        </div>
-                                                        
+                                                            
                                                             {% if ads.user.domaine == "Restaurant" and ads.titre == "Reservation" %}
                                                                 <div style="margin-right:10px" class="d-flex justify-content-end">
                                                                     <h6 >{{(ads.prix * 0.15) + 1}}€</h6>
@@ -82,9 +76,25 @@
                                                             {% else %}
                                                                 
                                                                 <div style="margin-right:100px" class="d-flex justify-content-end">
-                                                                    <h6 ><h6 >{{ads.prix}}€</h6></h6>
+                                                                    <h6 ><h6 >
+                                                                        {% if user.reduction != null %}
+                                                                            <span style="font-size:0.8em;  text-decoration: line-through;  color:red;">{{ads.prix}}€</span>
+                                                                        <span style="font-size:1em; color:green;">{{ads.prix - (ads.prix * user.reduction / 100)}}€</span>
+                                                                        {% else %}
+                                                                        <span style="font-size:1em; color:green;">{{ads.prix}}€</span>
+                                                                        {% endif %}
+                                                                        
+                                                                        
+                                                                    
+                                                                    </h6></h6>
                                                                 </div>
                                                             {% endif %}
+                                                        
+                                                        </span>
+                                                        
+                                                        </div>
+                                                        
+                                                            
                                                             
                                                             
                                                         
@@ -127,17 +137,134 @@
                                 </div><!--end row-->
 
 
-                                <p style="margin-top: 100px;" class="text-muted mt-3">Description. </p>
                                 
-                                <p class="text-muted mt-3">
-                                    {% if user.description %}
-                                        {{user.description}}
-                                    {% endif %}
-                                    
-                                </p>
                                 
                             </div>
                         </div>
+                        {% if user.description %}
+                        <div  class="card shadow rounded border-0 mt-4">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-0">Description du professionelle :</h5>
+    
+                                
+                                <p class="text-muted mt-3">
+                                   
+                                        {{user.description}}
+                                    
+                                </p>
+                                </div>
+                            </div>
+                        
+                        {% endif %}
+                        
+                        {% if user.experiences|length != 0 %}
+                        <div  class="card shadow rounded border-0 mt-4">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-0">Experiences :</h5>
+    
+                                    <ul class="media-list list-unstyled mb-0">
+                                    {% if user.domaine == "Consultant/Freelance" %}
+                                    {% for experience in user.experiences %}
+                                            <div class="tiny-One-item">
+                                                <div class="tiny-slide">
+                                                    <div class="d-flex client-testi m-2">
+                                                        <div class="flex-1 content p-3 shadow rounded bg-white position-relative">
+                                                            <p class="text-muted mt-2">
+                                                            {{experience.datedebut|date( 'j/m/Y ') }} - 
+                                                            {% if experience.isNow == 1 %}
+                                                                En cours
+                                                            {% else %}
+                                                            {{experience.datefin|date( 'j/m/Y ')}}
+                                                            {% endif %}
+                                                            </p>
+                                                            <p class="text-warning mt-2">{{experience.poste}}</p>
+                                                            <p class="text-muted mt-2">{{experience.description}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    {% endfor %}
+                                    
+                                    {% endif %}
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        
+                        {% endif %}
+                    {% if user.formations|length != 0 %}
+                    <div  class="card shadow rounded border-0 mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title mb-0">Formations :</h5>
+
+                                <ul class="media-list list-unstyled mb-0">
+                                {% if user.domaine == "Consultant/Freelance" %}
+                                {% for formation in user.formations %}
+                                        <div class="tiny-One-item">
+                                            <div class="tiny-slide">
+                                                <div class="d-flex client-testi m-2">
+                                                    <div class="flex-1 content p-3 shadow rounded bg-white position-relative">
+                                                        <p class="text-muted mt-2">
+                                                        {{formation.datedebut|date( 'j/m/Y ') }} - 
+                                                        {% if formation.isNow == 1 %}
+                                                            En cours
+                                                        {% else %}
+                                                        {{formation.datefin|date( 'j/m/Y ')}}
+                                                        {% endif %}
+                                                        </p>
+                                                        <p class="text-warning mt-2">{{formation.titre}}</p>
+                                                        <p class="text-muted mt-2">{{formation.description}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                {% endfor %}
+                                
+                                {% endif %}
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    
+                    {% endif %}
+
+                    {% if user.competences|length != 0 %}
+                     
+                        <div class="card shadow rounded border-0 mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title mb-0">Competences :</h5>
+
+                                <ul class="media-list list-unstyled mb-0">
+                                {% if user.domaine == "Consultant/Freelance" %}
+                                    <div class="container">
+                                        <div class="row">
+                            
+                                            {% for competence in user.competences %}
+                                                <div class="col-lg-3 col-md-4">
+                                                    <div class="card features fea-primary rounded p-4 bg-light text-center position-relative overflow-hidden border-0">
+                                        
+                                                        <div class="card-body p-0 content">
+                                                            <h5>{{competence.titre}}</h5>
+                                                        </div>
+                                                        <span class="big-icon text-center">
+                                                            <i class="uil uil-chart-line"></i>
+                                                        </span>
+                                                    </div>
+                                                 </div><!--end col-->
+                                            {% endfor %}   
+                                
+                                
+                                
+                                        </div><!--end row-->
+                                    </div><!--end container-->
+                                {% endif %}
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    
 
                         <div class="card shadow rounded border-0 mt-4">
                             <div class="card-body">
@@ -175,6 +302,7 @@
                                 </ul>
                             </div>
                         </div>
+                        
                         {# {% if app.user %}
                         
                             <div class="card shadow rounded border-0 mt-4">
@@ -291,25 +419,24 @@
                                 <!-- RECENT POST -->
     
                                 <!-- TAG CLOUDS -->
-                                <div class="widget mt-4">
-                                    <div style="width: 100%;height: 400px;" id="map"></div>
-                                    <span class="bg-soft-dark d-block py-2 rounded shadow text-center h6 mb-0 text-muted">
-                                        Tagclouds
-                                    </span>
-                                    
-                                    <div class="tagcloud text-center mt-4">
-                                        <a href="jvascript:void(0)" class="rounded">Business</a>
-                                        <a href="jvascript:void(0)" class="rounded">Finance</a>
-                                        <a href="jvascript:void(0)" class="rounded">Marketing</a>
-                                        <a href="jvascript:void(0)" class="rounded">Fashion</a>
-                                        <a href="jvascript:void(0)" class="rounded">Bride</a>
-                                        <a href="jvascript:void(0)" class="rounded">Lifestyle</a>
-                                        <a href="jvascript:void(0)" class="rounded">Travel</a>
-                                        <a href="jvascript:void(0)" class="rounded">Beauty</a>
-                                        <a href="jvascript:void(0)" class="rounded">Video</a>
-                                        <a href="jvascript:void(0)" class="rounded">Audio</a>
+                                {% if user.domaine == "Coach" %}
+                                    <div class="widget mt-4">
+                                        <div style="width: 100%;height: 400px;" id="map"></div>
+                                        <span class="bg-soft-dark d-block py-2 rounded shadow text-center h6 mb-0 text-muted">
+                                            Competances
+                                        </span>
+                                        
+                                        <div class="tagcloud text-center mt-4">
+                                                {% for competence in user.competences %}
+                                                    <a href="jvascript:void(0)" class="rounded">{{competence.titre}}</a>
+                                                {% endfor %}
+                                                
+                                            
+                                            
+                                            
+                                        </div>
                                     </div>
-                                </div>
+                                {% endif %}
                                 <!-- TAG CLOUDS -->
                                 
                                 <!-- SOCIAL -->

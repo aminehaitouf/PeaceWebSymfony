@@ -16,6 +16,7 @@ use App\Entity\Reservation;
 use App\Form\RechercheType;
 use App\Form\RegistreAssociationType;
 use App\Form\CommentaireType;
+use App\Form\RemboursementType;
 use App\Form\ConfirmMailType;
 use App\Form\ReservationType;
 use App\Form\ChangePasswordType;
@@ -62,7 +63,7 @@ class HomeController extends AbstractController
     public function indexPeace(EntityManagerInterface $entityManager): Response
     {
         $user = new User();
-        $partenaire = $entityManager->createQuery("SELECT User from App\Entity\User User where User.roles like '%ROLE_COM%' ")
+        $partenaire = $entityManager->createQuery("SELECT User from App\Entity\User User where User.roles like '%ROLE_COM%' and User.isVisible = 1")
             ->getResult();
             $form = $this->createForm(RechercheType::class, $user);
         return $this->render('client/index-hotel.html.twig', [
@@ -117,7 +118,7 @@ class HomeController extends AbstractController
 
         
 
-        $partenaire = $entityManager->createQuery("SELECT User,Ads from App\Entity\User User , App\Entity\Ads Ads where Ads.user = User.id and User.roles like '%ROLE_COM%' and Ads.isDisplay = 1 
+        $partenaire = $entityManager->createQuery("SELECT User,Ads from App\Entity\User User , App\Entity\Ads Ads where Ads.user = User.id and User.roles like '%ROLE_COM%' and User.isVisible = 1 and Ads.isDisplay = 1 
                                             $requete")
             ->getResult();
         // dd($partenaire);
@@ -499,7 +500,7 @@ class HomeController extends AbstractController
     public function detailProduitClient(Request $request,User $user, EntityManagerInterface $entityManager,CommentaireRepository $commentaireRepository, Security $security): Response
     {
         $domaineuser = $user->getDomaine();
-        $partenaire = $entityManager->createQuery("SELECT User from App\Entity\User User where User.roles like '%ROLE_COM%' and User.domaine = '$domaineuser' ")
+        $partenaire = $entityManager->createQuery("SELECT User from App\Entity\User User where User.roles like '%ROLE_COM%' and User.isVisible = 1 and User.domaine = '$domaineuser' ")
             ->getResult();
         // $reservations = $entityManager->createQuery("SELECT Reservation from App\Entity\Reservation Reservation where Reservation.ads.user='$user'")
         // ->getResult();
@@ -554,7 +555,7 @@ class HomeController extends AbstractController
         $requete = "";
         
         if ($user->getDomaine() == null && $user->getDomination() == null){
-            $partenaire = $entityManager->createQuery("SELECT User from App\Entity\User User where User.roles like '%ROLE_COM%' ")
+            $partenaire = $entityManager->createQuery("SELECT User from App\Entity\User User where User.roles like '%ROLE_COM%' and User.isVisible = 1 ")
             ->getResult();
             //dd($partenaire);
         }
@@ -614,6 +615,29 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/demanderRemboursement/{id}", name="demanderRemboursement")
+     */
+    public function demanderRemboursement(Request $request,Reservation $reservation, EntityManagerInterface $entityManager, Security $security): Response
+    {   
+        
+        $user= $security->getUser();
+        $form = $this->createForm(RemboursementType::class, $reservation);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() ) {
+            $reservation->setDemanderemboursement(1);
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('profileClient');
+        }
+       
+        return $this->render('client/demandeRemboursement.html.twig', [
+            'reservation' => $reservation,
+            'form' => $form->createView(),
+        ]);
+    }
     /**
      * @Route("/choixReservation/{id}", name="choixReservation")
      */
@@ -714,7 +738,61 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('indexPeace');
         }
         $reservation = $reservationRepository->findOneBy(['stripeSessionId' => $id]);
-       // dd($reservation);
+        
+
+       if( $reservation->getAds()->getUser()->getDomaine() == "Restaurant" && $reservation->getAds()->getTitre() == "Reservation"){
+            if($reservation->getAds()->getUser()->getDone() != null ){
+            $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
+            $reservation->setPrixproduit(($reservation->getAds()->getPrix()*0.15)+$reservation->getAds()->getUser()->getDone());
+            $reservation->setPrixdon($reservation->getAds()->getUser()->getDone());
+            $reservation->setPrixprofesionnelle(0);
+        }
+            else{
+                $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
+            $reservation->setPrixproduit(($reservation->getAds()->getPrix()*0.15)+ 1);
+            $reservation->setPrixdon(1);
+            $reservation->setPrixprofesionnelle(0);
+
+            }
+       }
+       else{
+            if ( $reservation->getAds()->getUser()->getReduction() != null)
+            {
+                if($reservation->getAds()->getUser()->getDone() != null ){
+                $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
+                $reservation->setPrixproduit($reservation->getAds()->getPrix()- ($reservation->getAds()->getPrix() * $reservation->getAds()->getUser()->getReduction() / 100));
+                $reservation->setPrixdon($reservation->getAds()->getUser()->getDone());
+                $reservation->setPrixprofesionnelle(($reservation->getAds()->getPrix()- ($reservation->getAds()->getPrix() * $reservation->getAds()->getUser()->getReduction() / 100)) - $reservation->getAds()->getUser()->getDone() -$reservation->getAds()->getPrix()*0.15);
+            }
+                else{
+                    $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
+                $reservation->setPrixproduit($reservation->getAds()->getPrix()- ($reservation->getAds()->getPrix() * $reservation->getAds()->getUser()->getReduction() / 100));
+                $reservation->setPrixdon(1);
+                $reservation->setPrixprofesionnelle(($reservation->getAds()->getPrix()- ($reservation->getAds()->getPrix() * $reservation->getAds()->getUser()->getReduction() / 100)) - 1 -$reservation->getAds()->getPrix()*0.15);
+
+                }
+            }
+        
+            else {
+
+
+                if($reservation->getAds()->getUser()->getDone() != null ){
+                    $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
+                    $reservation->setPrixproduit($reservation->getAds()->getPrix());
+                    $reservation->setPrixdon($reservation->getAds()->getUser()->getDone());
+                    $reservation->setPrixprofesionnelle($reservation->getAds()->getPrix() - $reservation->getAds()->getUser()->getDone()-$reservation->getAds()->getPrix()*0.15);
+                }
+                    else{
+                        $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
+                    $reservation->setPrixproduit($reservation->getAds()->getPrix());
+                    $reservation->setPrixdon(1);
+                    $reservation->setPrixprofesionnelle($reservation->getAds()->getPrix() - 1 -$reservation->getAds()->getPrix()*0.15);
+        
+                    }
+
+                    
+            }
+       }
         $reservation->setIsPaid(1);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($reservation);

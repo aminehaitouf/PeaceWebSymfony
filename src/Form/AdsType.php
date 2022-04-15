@@ -46,10 +46,7 @@ class AdsType extends AbstractType
             ->add('description', TextType::class, [
                 'required' => true,
             ])
-            ->add('durer', TextType::class, [
-                'required' => false,
-                'label' => 'Entrer la durer de cette prestation(min)',
-            ])
+            
         ;
     }
 

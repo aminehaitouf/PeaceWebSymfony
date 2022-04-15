@@ -1,7 +1,61 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
+<style>
+    .animation {
+  float:right;
+  background:#c0a905f2;
+  border-radius:50%;
+  width:50px;
+  height:50px;
+  font-size: 15px;
+    color: red;
+    text-align: center;
+    line-height: 50px;
+    margin-top: -90px;
+    font-weight: bold;
+}
+}
 
+@media (prefers-reduced-motion: reduce) {
+  .animation {
+  animation: none;
+  }
+}
 
+.marker {
+    transform: translate(-50%, calc(-100% - 10px));
+    white-space: nowrap;
+    font-size: 16px;
+    padding: 5px 10px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.marker::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -8px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid #FFF;
+}
+
+.marker.is-active {
+    background-color: #5069ff;
+    z-index: 300;
+    color: #FFF;
+}
+
+.marker.is-active::after {
+    border-top-color: #5069ff;
+}
+</style>
         {% endblock %}
 {% block body %}
                 <link href="{{ asset('client/assets/css/jquery-ui.css') }}" rel="stylesheet">
@@ -126,17 +180,22 @@
                         <div class="col-lg-12 mt-4">
                             <div class="tiny-three-item">
                             {% for salon in salons %}
-                                
-                            
-                                <div class="col-lg-4 col-md-6 mt-4 pt-2">
-                                    <div class="card work-container work-modern  border-0 overflow-hidden">
-                                        <div class="card-body p-0">
+                            {% for salon in salons %}
+                            <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
+                                                 data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
+                                <div class="card work-container work-modern  border-0 overflow-hidden ">
+                                    <div class="card-body p-0 ">
                                         <a href="detailProduitClient/{{salon.id}}">
-                                        <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
-                                        <div class="overlay-work "></div>
-                                        <div style="opacity: 1;" class="content ">
+                                            <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
                                             
-                                            <a href="detailProduitClient/{{salon.id}}" class="title text-white pb-2 border-bottom">{{salon.domination}}</a>
+                                            <div class="overlay-work "></div>
+                                            <div style="opacity: 1;" class="content ">
+                                            {% if salon.reduction != null %}
+                                                <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
+                                            {% endif %}
+                                            
+                                                
+                                                <a href="detailProduitClient/{{salon.id}}" class="title text-white pb-2 border-bottom">{{salon.domination}}</a>
                                                 <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
                                                     <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine}}</li>
                                                     {% if salon.adresse %}
@@ -145,13 +204,29 @@
                                                     {% endif %}
                                                     
                                                 </ul>
-                                                {# <p class="text-white d-block mb-0">Rent <span class="text-success">$350</span> /Night</p> #}
+                                                <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
+                                                {% if salon.prixMoyen %}
+                                                    {{salon.prixMoyen ~'€'~}}
+                                                {% endif %}
+                                                </p></p>
+                                                {% if salon.association %}
+                                                    <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
+                                                        {{salon.association }}
+                                                    </button>
+                                                {% endif %}
+
+                                                {% if salon.done %}
+                                                    <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
+                                                            Done {{salon.done }}€
+                                                    </button>
+                                                {% endif %}
                                             </div>
                                             
                                         </a>
-                                        </div>
                                     </div>
-                                </div><!--end col-->
+                                </div>
+                            </div><!--end col-->
+                        {% endfor %}
                             {% endfor %}
                                 
             

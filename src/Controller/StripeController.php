@@ -55,20 +55,37 @@ class StripeController extends AbstractController
         ];
        }
        else{
+        if ( $reservation->getAds()->getUser()->getReduction() != null)
+        {
+            $prixreduc = $reservation->getAds()->getPrix() - ($reservation->getAds()->getPrix() * $reservation->getAds()->getUser()->getReduction() / 100);
+            $ads_stripe[] = [
+                'price_data' => [
+                    'currency' => 'eur',
+                    'unit_amount' => $prixreduc*100,
+                    'product_data' => [
+                        'name' => $reservation->getAds()->getTitre(),
+                        'images' => ["https://i.imgur.com/EHyR2nP.png"],
+                    ],
+                ],
+                'quantity' => 1,
+            ];}
+        
+     else {
+    $ads_stripe[] = [
+        'price_data' => [
+            'currency' => 'eur',
+            'unit_amount' => $reservation->getAds()->getPrix()*100,
+            'product_data' => [
+                'name' => $reservation->getAds()->getTitre(),
+                'images' => ["https://i.imgur.com/EHyR2nP.png"],
+            ],
+        ],
+        'quantity' => 1,
+    ];}}
 
        
         
-        $ads_stripe[] = [
-            'price_data' => [
-                'currency' => 'eur',
-                'unit_amount' => $reservation->getAds()->getPrix()*100,
-                'product_data' => [
-                    'name' => $reservation->getAds()->getTitre(),
-                    'images' => ["https://i.imgur.com/EHyR2nP.png"],
-                ],
-            ],
-            'quantity' => 1,
-        ];}
+        
 
         Stripe::setApiKey('sk_test_51IL3v0FXuCAWxwDZlfITIsyLqREyrb0s9q2hdDfqwvx2j5HLdKNsdpGFZQ41uViEXHZBGybuLQg2BDlUKYiT1PUi00rnegK7Oj');
         $checkout_session = Session::create([

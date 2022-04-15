@@ -62,6 +62,7 @@ class GoogleAuthenticator extends SocialAuthenticator
             $pass=$googleUser->getLastname().'&'.$code;
             $user->setEmail($googleUser->getEmail());
             $user->setRoles(["ROLE_USER"]);
+            $user->setCgu(1);
             $user->setFirstname($googleUser->getFirstname());
             $user->setLastname($googleUser->getLastname());
             $user->setIllustration($googleUser->getAvatar());

@@ -57,6 +57,16 @@
                                                 
 
                                             </div>
+                                    {% else %}
+                                    <div  class="accordion-item rounded mt-2 d-none">
+
+                                        <h2 class="accordion-header" id="headingTwo">
+                                            <h5 class="card-title">Nombre de place :</h5>
+                                        </h2>
+                                        {{ form_widget(formt.qte,{attr:{class:"form-select"}}) }}
+                                        
+
+                                    </div>
                                     {% endif %}
                                     
                                     

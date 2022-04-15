@@ -1,14 +1,18 @@
 <?php
 
 namespace App\Controller;
+use DateTime;
 
 use App\Entity\Ads;
 use App\Classe\Mail;
 use App\Form\AdsType;
 use App\Form\UserType;
+use App\Form\DoneProType;
 use App\Entity\Calendar;
 use App\Entity\Category;
 use App\Form\CalendarType;
+use App\Form\ReductionProType;
+use App\Form\ReservationAssociationType;
 use App\Form\CategoryType;
 use App\Form\BenevolatType;
 use App\Form\ChangePasswordType;
@@ -118,10 +122,23 @@ class professionnelController extends AbstractController
             return $this->redirectToRoute('indexProfessionnel', [], Response::HTTP_SEE_OTHER);
         }
 
+        $formDone = $this->createForm(DoneProType::class, $user);
+        $formDone->handleRequest($request);
+        if ($formDone->isSubmitted() && !$formDone->isValid()) {
+            $err = "Vous avez pas bien remplie les champs";
+        }
+        if ($formDone->isSubmitted() && $formDone->isValid()) {
+            
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('indexProfessionnel', [], Response::HTTP_SEE_OTHER);
+        }
+
         return $this->renderForm('professionnel/profile.html.twig', [
             'user' => $user,
             'form' => $form,
             'formChangePassword' => $formChangePassword,
+            'formDone'=>$formDone,
             'association' => $userRepository->findAll(),
         ]);
     }
@@ -147,6 +164,71 @@ class professionnelController extends AbstractController
 
         return $this->render('professionnel/ajoutProduit.html.twig', [
             'form' => $form,
+        ]);
+    }
+    /**
+     * @Route("/ajoutReduction", name="ajoutReduction")
+     */
+    public function ajoutReduction(Request $request, EntityManagerInterface $entityManager,Security $security): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $user = $security->getUser();
+        $form = $this->createForm(ReductionProType::class, $user);
+        $form->handleRequest($request);
+        //dd($form);
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('gestionProduit');
+        }
+
+        return $this->render('professionnel/ajoutReduction.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+     /**
+     * @Route("/autreReservation", name="autreReservation")
+     */
+    public function autreReservation(Request $request, EntityManagerInterface $entityManager, Security $security): Response
+    {   
+        
+        $con= $security->getUser();
+        $produit = $con->getAds()[1];
+        $reservation = new Reservation();
+        $form = $this->createForm(ReservationAssociationType::class, $reservation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $reservation->setUser($con);
+            $reservation->setClient($con);
+            $reservation->setCreatedAt(new \DateTime('now'));
+            $reservation->setAds($produit);
+            $reservation->setIsPaid(1);
+            $reservation->setAvancement("Valider");
+            $reservation->setIsBenevolat(false);
+            $reservation->setDeteheure(new DateTime($request->get("deteheure")));
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('commandes');
+        }
+       
+        return $this->render('professionnel/autreReservation.html.twig', [
+            'user' => $con,
+            'formt' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/detailReservation/{id}", name="detailReservation", methods={"GET"})
+     */
+    public function show(Reservation $reservation): Response
+    {
+        return $this->render('professionnel/detailReservation.html.twig', [
+            'reservation' => $reservation,
         ]);
     }
 

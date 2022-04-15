@@ -14,9 +14,19 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\UserRepository;
 
 class UserType extends AbstractType
 {
+    private $userRepository;
+    private $association;
+    public function __construct(UserRepository $userRepository, EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+        $this->association = $this->entityManager->createQuery("SELECT User from App\Entity\User User where User.roles like '%ROLE_ASSO%' ")->getResult();
+        // dd($this->association);
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -58,20 +68,19 @@ class UserType extends AbstractType
             'required' => true,
             'choices'  => [
                 'Coiffeurs' => 'Coiffeurs',
-                'Salon Beauté' => 'beaute',
+                'Salon Beauté' => 'Salon Beauté',
+                'Restaurant' => 'Restaurant',
+                'Consultant/Freelance' => 'Consultant/Freelance',
+                'Autre' => 'Autre',
 
            
             ],
         ])
         
-        ->add('association', ChoiceType::class, [
-            'required' => true,
-            'choices'  => [
-                'Unesef' => 'Unesef',
-                'Unesco' => 'Unesco',
-
-           
-            ],
+        ->add('association',ChoiceType::class, [
+            'choice_label' => 'domination',
+            'choices' => $this->association,
+            
         ])
         ->add('illustration', FileType::class, [
 

@@ -83,9 +83,10 @@ class RegistreOrganismeType extends AbstractType
                 'required' => true,
                 'choices'  => [
                     'Coiffeurs' => 'Coiffeurs',
-                    'Salon Beauté' => 'beaute',
+                    'Salon Beauté' => 'Salon Beauté',
                     'Restaurant' => 'Restaurant',
-                    'Coach' => 'Coach',
+                    'Consultant/Freelance' => 'Consultant/Freelance',
+                    'Autre' => 'Autre',
 
                
                 ],
@@ -126,6 +127,11 @@ class RegistreOrganismeType extends AbstractType
                 'required' => true,
                 'first_options' => ['label' => 'Votre mot de passe', 'attr' => ['placeholder' => 'Entrer votre mot de passe']],
                 'second_options' => ['label' => 'Répétez votre mot de passe', 'attr' => ['placeholder' => 'Entrer votre mot de passe']],
+
+            ])
+            ->add('cgu', null, [
+                'label' => false,
+                'required' => true
 
             ])
             

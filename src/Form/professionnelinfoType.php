@@ -66,25 +66,20 @@ class professionnelinfoType extends AbstractType
         ])
        
        
-        ->add('domaine', ChoiceType::class, [
-            'required' => true,
-            'choices'  => [
-                'Coiffeurs' => 'Coiffeurs',
-                'Salon Beauté' => 'beaute',
-
-           
-            ],
-        ])
-        
-        // ->add('association', ChoiceType::class, [
+        // ->add('domaine', ChoiceType::class, [
         //     'required' => true,
         //     'choices'  => [
-        //         'Unesef' => 'Unesef',
-        //         'Unesco' => 'Unesco',
+        //         'Coiffeurs' => 'Coiffeurs',
+        //         'Salon Beauté' => 'Salon Beauté',
+        //         'Restaurant' => 'Restaurant',
+        //         'Consultant/Freelance' => 'Consultant/Freelance',
+        //         'Autre' => 'Autre',
 
            
         //     ],
         // ])
+        
+        
         ->add('association',ChoiceType::class, [
             'choice_label' => 'domination',
             'choices' => $this->association,

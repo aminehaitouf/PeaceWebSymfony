@@ -1,4 +1,12 @@
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+<style>
+    .form-check {
+         display: inline-flex !important;
+}
+
+</style>
+        {% endblock %}
 {% block body %}
         <!-- Loader -->
         <!-- <div id="preloader">
@@ -143,7 +151,7 @@
                                         <div class="col-md-12">
                                             <div class="mb-3">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                                    {{ form_row(form.cgu ,{attr:{class:"form-check"}}) }}
                                                     <label class="form-check-label" for="flexCheckDefault">I Accept <a href="#" class="text-primary">Terms And Condition</a></label>
                                                 </div>
                                             </div>

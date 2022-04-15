@@ -31,7 +31,11 @@
                                                     {{(reservations.ads.prix * 0.15) + 1}}€
                                             {% else %}
                                                 
-                                            {{reservations.ads.prix}} €
+                                            {% if reservations.ads.user.reduction != null %}
+                                                {{reservations.ads.prix - (reservations.ads.prix * reservations.ads.user.reduction / 100)}}€
+                                            {% else %}
+                                                {{reservations.ads.prix}}€
+                                            {% endif %}
                                             {% endif %}
                                             
                                         
@@ -61,7 +65,11 @@
                                             {{(reservations.ads.prix * 0.15) + 1}}€
                                         {% else %}
                                     
-                                            {{reservations.ads.prix}} €
+                                            {% if reservations.ads.user.reduction != null %}
+                                                {{reservations.ads.prix - (reservations.ads.prix * reservations.ads.user.reduction / 100)}}€
+                                            {% else %}
+                                                {{reservations.ads.prix}}€
+                                            {% endif %}
                                         {% endif %}
                                     </td>
                                     </tr>
@@ -75,8 +83,11 @@
                                         {% if reservations.ads.user.domaine == "Restaurant" and reservations.ads.titre == "Reservation" %}
                                             {{(reservations.ads.prix * 0.15) + 1}}€
                                         {% else %}
-                                    
-                                            {{reservations.ads.prix}} €
+                                            {% if reservations.ads.user.reduction != null %}
+                                                {{reservations.ads.prix - (reservations.ads.prix * reservations.ads.user.reduction / 100)}}€
+                                            {% else %}
+                                                {{reservations.ads.prix}}€
+                                            {% endif %}
                                         {% endif %}
                                         </td>
                                     </tr>

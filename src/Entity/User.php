@@ -152,6 +152,26 @@ class User implements UserInterface
      */
     private $experiences;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $done = 1;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $reduction;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isVisible = 1;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $cgu;
+
    
 
     public function __construct()
@@ -676,6 +696,54 @@ class User implements UserInterface
                 $experience->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDone(): ?float
+    {
+        return $this->done;
+    }
+
+    public function setDone(?float $done): self
+    {
+        $this->done = $done;
+
+        return $this;
+    }
+
+    public function getReduction(): ?int
+    {
+        return $this->reduction;
+    }
+
+    public function setReduction(?int $reduction): self
+    {
+        $this->reduction = $reduction;
+
+        return $this;
+    }
+
+    public function getIsVisible(): ?bool
+    {
+        return $this->isVisible;
+    }
+
+    public function setIsVisible(?bool $isVisible): self
+    {
+        $this->isVisible = $isVisible;
+
+        return $this;
+    }
+
+    public function getCgu(): ?bool
+    {
+        return $this->cgu;
+    }
+
+    public function setCgu(?bool $cgu): self
+    {
+        $this->cgu = $cgu;
 
         return $this;
     }

@@ -117,7 +117,21 @@
                                                 {% if reservation.isPaid == 0 %}
                                                     <td class="text-danger">Non Payer</td>
                                                 {% else %}
-                                                    <td class="text-success">Payer</td>
+                                                    <td >
+                                                        <span class="text-success">Payer </span>
+                                                        {% if reservation.isRembourser == null or reservation.isRembourser == 0 %}
+                                                            {% if reservation.demanderemboursement == 0 or reservation.demanderemboursement == null  %}
+                                                                    <a class="text-warning" href="/demanderRemboursement/{{reservation.id}}" >(Demande remboursement)</a> 
+                                                            {% else %}
+                                                                    <span class="text-info">(Attente de remboursement) </span>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <span class="text-info">(Remboursement effectuer) </span>
+                                                        {% endif %}
+                                                        
+                                                        
+                                                        
+                                                    </td>
                                                 {% endif %}
                                                 
                                                  

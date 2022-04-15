@@ -83,6 +83,41 @@ class Reservation
      */
     private $qte;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $prixproduit;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $prixdon;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $prixpeace;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $prixprofesionnelle;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $demanderemboursement;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $motifremboursement;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isRembourser;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -240,6 +275,90 @@ class Reservation
     public function setQte(?int $qte): self
     {
         $this->qte = $qte;
+
+        return $this;
+    }
+
+    public function getPrixproduit(): ?float
+    {
+        return $this->prixproduit;
+    }
+
+    public function setPrixproduit(?float $prixproduit): self
+    {
+        $this->prixproduit = $prixproduit;
+
+        return $this;
+    }
+
+    public function getPrixdon(): ?float
+    {
+        return $this->prixdon;
+    }
+
+    public function setPrixdon(?float $prixdon): self
+    {
+        $this->prixdon = $prixdon;
+
+        return $this;
+    }
+
+    public function getPrixpeace(): ?float
+    {
+        return $this->prixpeace;
+    }
+
+    public function setPrixpeace(?float $prixpeace): self
+    {
+        $this->prixpeace = $prixpeace;
+
+        return $this;
+    }
+
+    public function getPrixprofesionnelle(): ?float
+    {
+        return $this->prixprofesionnelle;
+    }
+
+    public function setPrixprofesionnelle(?float $prixprofesionnelle): self
+    {
+        $this->prixprofesionnelle = $prixprofesionnelle;
+
+        return $this;
+    }
+
+    public function getDemanderemboursement(): ?bool
+    {
+        return $this->demanderemboursement;
+    }
+
+    public function setDemanderemboursement(?bool $demanderemboursement): self
+    {
+        $this->demanderemboursement = $demanderemboursement;
+
+        return $this;
+    }
+
+    public function getMotifremboursement(): ?string
+    {
+        return $this->motifremboursement;
+    }
+
+    public function setMotifremboursement(?string $motifremboursement): self
+    {
+        $this->motifremboursement = $motifremboursement;
+
+        return $this;
+    }
+
+    public function getIsRembourser(): ?bool
+    {
+        return $this->isRembourser;
+    }
+
+    public function setIsRembourser(?bool $isRembourser): self
+    {
+        $this->isRembourser = $isRembourser;
 
         return $this;
     }

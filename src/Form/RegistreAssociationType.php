@@ -84,6 +84,11 @@ class RegistreAssociationType extends AbstractType
                 'second_options' => ['label' => 'Répétez votre mot de passe', 'attr' => ['placeholder' => 'Entrer votre mot de passe']],
 
             ])
+            ->add('cgu', null, [
+                'label' => false,
+                'required' => true
+
+            ])
             
         ;
     }

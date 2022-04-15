@@ -61,6 +61,7 @@
                     <span>Profil</span>
                 </a>
             </li>
+            {% if app.user.domaine == "Consultant/Freelance" %}
             <li {% if route_name == "competences"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
                 <a href="/professionnel/competences" class='sidebar-link'>
@@ -82,6 +83,7 @@
                     <span>Mes formations</span>
                 </a>
             </li>
+        {% endif %}
             <li {% if route_name == "gestionProduit" or route_name == "ajoutproduitCommercant" or route_name == "detailProduit" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
                 <a href="/professionnel/gestionProduit" class='sidebar-link'>

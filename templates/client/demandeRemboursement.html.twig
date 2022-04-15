@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Demande Remboursement
+{% endblock %}
+
+{% block body %}
+
+<section class="bg-home bg-light d-flex align-items-center">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="text-center">
+                <div class="icon d-flex align-items-center justify-content-center bg-soft-primary rounded-circle mx-auto" style="height: 90px; width:90px;">
+                    <i class="uil uil-thumbs-up align-middle h1 mb-0"></i>
+                </div>
+                <h1 class="my-4 fw-bold"></h1>
+                {{ form_start(form,{attr:{class:"login-form mt-4"}}) }}
+			
+
+			
+
+			<h1 class="h3 mb-3 font-weight-normal">Merci de saisir motif du demande remboursement</h1>
+
+			<center><div class="col-lg-6 ">
+				{{form_widget(form.motifremboursement,{attr:{class:"form-control ps-5"}})}}
+			</div></center>
+
+			<input type="hidden" name="_csrf_token">
+
+
+			<button class="btn btn-lg btn-primary mt-2" type="submit">
+				Envoyer
+			</button>
+			{{ form_end(form) }}
+            </div>
+        </div><!--end col-->
+    </div><!--end row-->
+</div> <!--end container-->
+</section>
+
+{% endblock %}

@@ -1,6 +1,58 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
 <style>
+    @media only screen and (max-width: 1024px) {
+	
+	.mp {
+		width: 50% !important;
+
+	}
+   
+	
+
+}
+@media only screen and (max-width: 800px) {
+	
+	.mp {
+		width: 100% !important;
+	
+	}
+    .op{
+        width: 90% !important;
+    }
+	
+
+}
+@media only screen and (min-width: 400px) {
+	
+	
+    .op{
+        width: 90% !important;
+    }
+	
+
+}
+    .animation {
+  float:right;
+  background:#c0a905f2;
+  border-radius:50%;
+  width:50px;
+  height:50px;
+  font-size: 15px;
+    color: red;
+    text-align: center;
+    line-height: 50px;
+    margin-top: -90px;
+    font-weight: bold;
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animation {
+  animation: none;
+  }
+}
+
 .marker {
     transform: translate(-50%, calc(-100% - 10px));
     white-space: nowrap;
@@ -86,7 +138,8 @@
                                         <li class="list-inline-item categories-name border text-dark rounded" data-group="Coiffeurs">Coiffeurs</li>
                                         <li class="list-inline-item categories-name border text-dark rounded" data-group="Beaute">Beaute</li>
                                         <li class="list-inline-item categories-name border text-dark rounded" data-group="Restaurant">Restaurant</li>
-                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Coach">Coach</li>
+                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Consultant/Freelance">Consultant/Freelance</li>
+                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Autre">Autre</li>
                                     </ul>
                                 </div>
                             </div><!--end col-->
@@ -100,9 +153,12 @@
                                         <div class="card-body p-0 ">
                                             <a href="detailProduitClient/{{salon.id}}">
                                                 <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
-                                                <div class="overlay-work "></div>
-                                                <div style="opacity: 1;" class="content ">
                                                 
+                                                <div class="overlay-work "></div>
+                                                <div style="opacity: 1;width: 90%;" class="op content ">
+                                                {% if salon.reduction != null %}
+                                                    <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
+                                                {% endif %}
                                                 
                                                     
                                                     <a href="detailProduitClient/{{salon.id}}" class="title text-white pb-2 border-bottom">{{salon.domination}}</a>
@@ -119,14 +175,17 @@
                                                         {{salon.prixMoyen ~'€'~}}
                                                     {% endif %}
                                                     </p></p>
-                                                    <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
-                                                    
-                                                     {% if salon.association %}
-                                                         {{salon.association }}
+                                                    {% if salon.association %}
+                                                        <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
+                                                            {{salon.association }}
+                                                        </button>
                                                     {% endif %}
-                                                
-                                                    
-                                                </button>
+
+                                                    {% if salon.done %}
+                                                        <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
+                                                                Done {{salon.done }}€
+                                                        </button>
+                                                    {% endif %}
                                                 </div>
                                                 
                                             </a>
@@ -145,7 +204,7 @@
                             </div><!--end col-->
                         </div><!--end row-->
                     </div><!--end col-->
-                    <div  class="col-lg-4 col-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
+                    <div  class="mp col-lg-4 col-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
                         <div class="card border-0 sidebar sticky-bar ms-lg-4">
                             <div class="card-body p-0">
 
