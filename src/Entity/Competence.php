@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\CompetenceRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=CompetenceRepository::class)
+ * @ApiResource()
  */
 class Competence
 {

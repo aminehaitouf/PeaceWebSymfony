@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Repository\ReservationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
 
 /**
  * @ORM\Entity(repositoryClass=ReservationRepository::class)
+ * @ApiResource()
  */
 class Reservation
 {

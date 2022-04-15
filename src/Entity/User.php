@@ -6,11 +6,19 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ * @ApiResource(attributes= {"pagination_enabled" = true, "pagination_items_per_page" = 20})
+ * @ApiFilter(SearchFilter::class, properties={"ads.title":"partial"})
+ * @ApiFilter(OrderFilter::class, properties={"prixMoyen"})
+ * @ApiFilter(OrderFilter::class)
  */
 class User implements UserInterface
 {
