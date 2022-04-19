@@ -13,7 +13,7 @@
 </style>
         {% endblock %}
             <div class="page-heading">
-                <h3>Profile </h3>
+                <h3>Gestion des produits </h3>
             </div>
             <div class="page-content">
             
@@ -24,6 +24,16 @@
                                      <a class="btn btn-info" href="/professionnel/ajoutproduitCommercant">Ajout produit</a>
                                      <a class="btn btn-warning" href="/professionnel/ajoutReduction">Ajout Reduction</a>
                                  </div>
+                                 {% if produits[0].user.reduction != null or produits[0].user.reduction == 0 %}
+                                    <div class="page-title">
+                                        <div class="row">
+                                            <div class="col-12 col-md-6 order-md-1 order-last">
+                                <span style="color: orange">Vous avez fait une reduction de {{produits[0].user.reduction}}% sur tous les produits</span>
+                                            </div>
+                            
+                                        </div>
+                                    </div>
+                                {% endif %}
                         <div class="card-body">
                             <table id="dataTable3" class="text-center">
 								<thead class="text-capitalize">
@@ -50,9 +60,10 @@
 
                                                     <td style="background-color:#bde9ba">
                                                         <a class="btn btn-primary" href="/professionnel/detailProduit/{{produit.id}}">Afficher</a>
-                                                        <a class="btn btn-success" href="/professionnel/madifierProduit/{{produit.id}}">Modifier</a>
+                                                        
                                                         {% if produit.isDisplay == 1  %}
                                                             {% if produit.titre != "Reservation" %}
+                                                                <a class="btn btn-success" href="/professionnel/madifierProduit/{{produit.id}}">Modifier</a>
                                                                 <a class="btn btn-warning" href="/professionnel/{{produit.id}}/masquerProduit">Masquer</a>
                                                             {% endif %}
                                                         {% else %}

@@ -44,7 +44,7 @@ class AdsType extends AbstractType
                 ])
 
             ->add('description', TextType::class, [
-                'required' => true,
+                'required' => false,
             ])
             
         ;

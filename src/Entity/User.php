@@ -7,18 +7,32 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Annotation\ApiFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
- * @ApiResource(attributes= {"pagination_enabled" = true, "pagination_items_per_page" = 20})
+ * @ApiResource(
+ *      normalizationContext={"groups"={"users_read"}},
+ *      collectionOperations={"get"={"path"="/users"},"post"},
+ *      itemOperations={"get","put","delete"},
+ *      subresourceOperations={
+ *          "ads_get_subresource"={"path"="/user/{id}/ads"},
+ *      },
+ *      
+ *      attributes= {"pagination_enabled" = true, "pagination_items_per_page" = 20}
+ * )
  * @ApiFilter(SearchFilter::class, properties={"ads.title":"partial"})
  * @ApiFilter(OrderFilter::class, properties={"prixMoyen"})
  * @ApiFilter(OrderFilter::class)
+ * @UniqueEntity("email",message="ce email existe deja")
  */
 class User implements UserInterface
 {
@@ -26,157 +40,192 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"users_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"users_read"})
+     * @Assert\Length(min=3 , minMessage="les caracteres doivent depaser 3 caracteres" , max=255 , maxMessage="il faut pas depasser 255 caracteres")
+     * @Assert\Email(message="l'adresse mail doit etre valide")
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({"users_read"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"users_read"})
+     * @Assert\NotBlank(message="passwort est obligatoire")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"users_read"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"users_read"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"users_read"})
      */
     private $domination;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"users_read"})
      */
     private $siret;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"users_read"})
      */
     private $domaine;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"users_read"})
      */
     private $illustration;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"users_read"})
      */
     private $association;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"users_read"})
      */
     private $montantdon;
 
     /**
      * @ORM\ManyToOne(targetEntity=Adresse::class, inversedBy="user",cascade={"persist"})
+     * @Groups({"users_read"})
      */
     private $adresse;
 
     /**
      * @ORM\OneToMany(targetEntity=Ads::class, mappedBy="user")
+     * @Groups({"users_read"})
+     * @ApiSubresource
      */
     private $ads;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"users_read"})
      */
     private $mobile;
 
     /**
      * @ORM\OneToMany(targetEntity=Category::class, mappedBy="user")
+     * @Groups({"users_read"})
      */
     private $categories;
 
     /**
      * @ORM\OneToMany(targetEntity=Reservation::class, mappedBy="client", orphanRemoval=true)
+     * @Groups({"users_read"})
      */
     private $reservations;
 
     /**
      * @ORM\OneToMany(targetEntity=Calendar::class, mappedBy="user")
+     * @Groups({"users_read"})
      */
     private $calendars;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"users_read"})
      */
     private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="user")
+     * @Groups({"users_read"})
      */
     private $commentaires;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"users_read"})
      */
     private $activation;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"users_read"})
      */
     private $blocked;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"users_read"})
      */
     private $reinit;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"users_read"})
      */
     private $prixMoyen;
 
     /**
      * @ORM\OneToMany(targetEntity=Competence::class, mappedBy="user")
+     * @Groups({"users_read"})
      */
     private $competences;
 
     /**
      * @ORM\OneToMany(targetEntity=Formation::class, mappedBy="user")
+     * @Groups({"users_read"})
      */
     private $formations;
 
     /**
      * @ORM\OneToMany(targetEntity=Experience::class, mappedBy="user")
+     * @Groups({"users_read"})
      */
     private $experiences;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"users_read"})
      */
     private $done = 1;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"users_read"})
      */
     private $reduction;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"users_read"})
      */
     private $isVisible = 1;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Groups({"users_read"})
      */
     private $cgu;
 

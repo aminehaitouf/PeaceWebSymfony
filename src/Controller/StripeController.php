@@ -39,9 +39,9 @@ class StripeController extends AbstractController
         $ads_stripe = [];
         $YOUR_DOMAIN = 'http://localhost:8000';
         //  $YOUR_DOMAIN = 'https://peace.sc';
-       $prix=((($reservation->getAds()->getPrix()*0.15+1)*100));
+       $prix=(($reservation->getAds()->getPrix()*100));
 
-       if( $reservation->getAds()->getUser()->getDomaine() == "Restaurant" && $reservation->getAds()->getTitre() == "Reservation"){
+       if( $reservation->getAds()->getUser()->getDomaine() == "Restaurant" && $reservation->getAds()->getTitre() == "Réserver une table"){
         $ads_stripe[] = [
             'price_data' => [
                 'currency' => 'eur',

@@ -234,8 +234,8 @@ class HomeController extends AbstractController
                 $form2->handleRequest($request);
                 $ads->setCategorie("Reservation");
                 $ads->setUser($user);
-                $ads->setTitre("Reservation");
-                $ads->setPrix("3.5");
+                $ads->setTitre("Réserver une table");
+                $ads->setPrix("4.5");
                 
                 $entityManager->persist($ads);
                 $entityManager->flush();
@@ -654,6 +654,7 @@ class HomeController extends AbstractController
             $reservation->setClient($user);
             $reservation->setCreatedAt(new \DateTime('now'));
             $reservation->setAds($ads);
+            $reservation->setEndDate(new \DateTime('+ 30 minutes'));
             // if($ads->getTitre() == "Reservation"){
             //     $reservation->setPrix(($ads->getPrix()*0.15)+1);
             // }
@@ -740,16 +741,16 @@ class HomeController extends AbstractController
         $reservation = $reservationRepository->findOneBy(['stripeSessionId' => $id]);
         
 
-       if( $reservation->getAds()->getUser()->getDomaine() == "Restaurant" && $reservation->getAds()->getTitre() == "Reservation"){
+       if( $reservation->getAds()->getUser()->getDomaine() == "Restaurant" && $reservation->getAds()->getTitre() == "Réserver une table"){
             if($reservation->getAds()->getUser()->getDone() != null ){
-            $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
-            $reservation->setPrixproduit(($reservation->getAds()->getPrix()*0.15)+$reservation->getAds()->getUser()->getDone());
+            $reservation->setPrixpeace($reservation->getAds()->getPrix());
+            $reservation->setPrixproduit(($reservation->getAds()->getPrix())+$reservation->getAds()->getUser()->getDone());
             $reservation->setPrixdon($reservation->getAds()->getUser()->getDone());
             $reservation->setPrixprofesionnelle(0);
         }
             else{
-                $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
-            $reservation->setPrixproduit(($reservation->getAds()->getPrix()*0.15)+ 1);
+                $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.2);
+            $reservation->setPrixproduit(($reservation->getAds()->getPrix()*0.2)+ 1);
             $reservation->setPrixdon(1);
             $reservation->setPrixprofesionnelle(0);
 
@@ -759,16 +760,16 @@ class HomeController extends AbstractController
             if ( $reservation->getAds()->getUser()->getReduction() != null)
             {
                 if($reservation->getAds()->getUser()->getDone() != null ){
-                $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
+                $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.2);
                 $reservation->setPrixproduit($reservation->getAds()->getPrix()- ($reservation->getAds()->getPrix() * $reservation->getAds()->getUser()->getReduction() / 100));
                 $reservation->setPrixdon($reservation->getAds()->getUser()->getDone());
-                $reservation->setPrixprofesionnelle(($reservation->getAds()->getPrix()- ($reservation->getAds()->getPrix() * $reservation->getAds()->getUser()->getReduction() / 100)) - $reservation->getAds()->getUser()->getDone() -$reservation->getAds()->getPrix()*0.15);
+                $reservation->setPrixprofesionnelle(($reservation->getAds()->getPrix()- ($reservation->getAds()->getPrix() * $reservation->getAds()->getUser()->getReduction() / 100)) - $reservation->getAds()->getUser()->getDone() -$reservation->getAds()->getPrix()*0.2);
             }
                 else{
-                    $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
+                    $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.2);
                 $reservation->setPrixproduit($reservation->getAds()->getPrix()- ($reservation->getAds()->getPrix() * $reservation->getAds()->getUser()->getReduction() / 100));
                 $reservation->setPrixdon(1);
-                $reservation->setPrixprofesionnelle(($reservation->getAds()->getPrix()- ($reservation->getAds()->getPrix() * $reservation->getAds()->getUser()->getReduction() / 100)) - 1 -$reservation->getAds()->getPrix()*0.15);
+                $reservation->setPrixprofesionnelle(($reservation->getAds()->getPrix()- ($reservation->getAds()->getPrix() * $reservation->getAds()->getUser()->getReduction() / 100)) - 1 -$reservation->getAds()->getPrix()*0.2);
 
                 }
             }
@@ -777,16 +778,16 @@ class HomeController extends AbstractController
 
 
                 if($reservation->getAds()->getUser()->getDone() != null ){
-                    $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
+                    $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.2);
                     $reservation->setPrixproduit($reservation->getAds()->getPrix());
                     $reservation->setPrixdon($reservation->getAds()->getUser()->getDone());
-                    $reservation->setPrixprofesionnelle($reservation->getAds()->getPrix() - $reservation->getAds()->getUser()->getDone()-$reservation->getAds()->getPrix()*0.15);
+                    $reservation->setPrixprofesionnelle($reservation->getAds()->getPrix() - $reservation->getAds()->getUser()->getDone()-$reservation->getAds()->getPrix()*0.2);
                 }
                     else{
-                        $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.15);
+                        $reservation->setPrixpeace($reservation->getAds()->getPrix()*0.2);
                     $reservation->setPrixproduit($reservation->getAds()->getPrix());
                     $reservation->setPrixdon(1);
-                    $reservation->setPrixprofesionnelle($reservation->getAds()->getPrix() - 1 -$reservation->getAds()->getPrix()*0.15);
+                    $reservation->setPrixprofesionnelle($reservation->getAds()->getPrix() - 1 -$reservation->getAds()->getPrix()*0.2);
         
                     }
 

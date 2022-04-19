@@ -24,6 +24,7 @@ class ExperienceType extends AbstractType
                 'widget' => 'single_text', 
             ])
             ->add('datefin',DateType::class, [
+                'required' => false,
                 'input'  => 'datetime',
                 'widget' => 'single_text', 
             ])

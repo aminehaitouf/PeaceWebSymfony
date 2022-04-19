@@ -30,6 +30,7 @@ class CalendarType extends AbstractType
                 'widget' => 'single_text', 
             ])
             ->add('dayon',ChoiceType::class, [
+                'label' => false,
                 'choices' => [
                         'Lundi' => 1,
                         'Mardi' => 2,
@@ -44,11 +45,7 @@ class CalendarType extends AbstractType
                 
             'multiple'=>false,
             "expanded"=>true,
-            'required' => true,
-                'label' => 'Entrer les jours de repos',
-                'attr' => [
-                    'placeholder' => 'Entrer les jours de repos'
-                ]
+            'required' => true
             ])
             
         ;

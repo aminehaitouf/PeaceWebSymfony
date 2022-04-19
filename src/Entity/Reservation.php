@@ -120,6 +120,11 @@ class Reservation
      */
     private $isRembourser;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $endDate;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -361,6 +366,18 @@ class Reservation
     public function setIsRembourser(?bool $isRembourser): self
     {
         $this->isRembourser = $isRembourser;
+
+        return $this;
+    }
+
+    public function getEndDate(): ?\DateTimeInterface
+    {
+        return $this->endDate;
+    }
+
+    public function setEndDate(?\DateTimeInterface $endDate): self
+    {
+        $this->endDate = $endDate;
 
         return $this;
     }

@@ -57,6 +57,7 @@
 								<thead class="text-capitalize">
 									<tr>
 										<th>Titre</th>
+                                        <th>Action</th>
 
 									</tr>
 								</thead>
@@ -66,6 +67,10 @@
                                                 {% if competence.user == app.user %}
                                                     <tr>
                                                         <td>{{competence.titre}}</td>
+                                                        <td>
+                                                            <a class="btn btn-success" href="/professionnel/modifierCompetance/{{competence.id}}">Modifier</a>
+                                                            <a class="btn btn-danger" href="/professionnel/supprimerCompetence/{{competence.id}}">Supprimer</a>
+                                                        </td>
 
                                                     </tr>
                                                 {% endif %}

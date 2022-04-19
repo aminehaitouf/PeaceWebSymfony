@@ -27,8 +27,8 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            {% if reservations.ads.user.domaine == "Restaurant" and reservations.ads.titre == "Reservation" %}
-                                                    {{(reservations.ads.prix * 0.15) + 1}}€
+                                            {% if reservations.ads.user.domaine == "Restaurant" and reservations.ads.titre == "Réserver une table" %}
+                                                    {{reservations.ads.prix }}€
                                             {% else %}
                                                 
                                             {% if reservations.ads.user.reduction != null %}
@@ -61,8 +61,8 @@
                                     <tr>
                                         <td class="h6 ps-4 py-3">Subtotal</td>
                                         <td class="text-end fw-bold pe-4">
-                                        {% if reservations.ads.user.domaine == "Restaurant" and reservations.ads.titre == "Reservation" %}
-                                            {{(reservations.ads.prix * 0.15) + 1}}€
+                                        {% if reservations.ads.user.domaine == "Restaurant" and reservations.ads.titre == "Réserver une table" %}
+                                            {{reservations.ads.prix}}€
                                         {% else %}
                                     
                                             {% if reservations.ads.user.reduction != null %}
@@ -80,8 +80,8 @@
                                     <tr class="bg-light">
                                         <td class="h6 ps-4 py-3">Total</td>
                                         <td class="text-end fw-bold pe-4">
-                                        {% if reservations.ads.user.domaine == "Restaurant" and reservations.ads.titre == "Reservation" %}
-                                            {{(reservations.ads.prix * 0.15) + 1}}€
+                                        {% if reservations.ads.user.domaine == "Restaurant" and reservations.ads.titre == "Réserver une table" %}
+                                            {{reservations.ads.prix}}€
                                         {% else %}
                                             {% if reservations.ads.user.reduction != null %}
                                                 {{reservations.ads.prix - (reservations.ads.prix * reservations.ads.user.reduction / 100)}}€

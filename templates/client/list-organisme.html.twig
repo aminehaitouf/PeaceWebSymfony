@@ -161,9 +161,9 @@
                                                 {% endif %}
                                                 
                                                     
-                                                    <a href="detailProduitClient/{{salon.id}}" class="title text-white pb-2 border-bottom">{{salon.domination}}</a>
+                                                    <a href="detailProduitClient/{{salon.id}}" style="font-weight: bold;font-size:22px !important;color:#1f42e4;" class="title pb-2 border-bottom ">{{salon.domination}}</a>
                                                     <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
-                                                        <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine}}</li>
+                                                        <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
                                                         {% if salon.adresse %}
                                                             <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
                                                             
@@ -322,43 +322,43 @@
         <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a>
         <!-- Back to top -->
 {% endblock %}
- {# {% block jquery %}
+ {% block jquery %}
 <script type="text/javascript">
 $('.ui-autocomplete-input').css({fontSize: '10px', width: '500px'});
 
-	jQuery.noConflict();
-	jQuery('.recherche').last().autocomplete();
-	jQuery('.recherche').last().autocomplete({
-	    source: function (request, response) {
-	        jQuery.ajax({
-	                url: "/ajaxRecherche?recherche=" + jQuery('.recherche').last().val(),
-	                dataType: "json",
-	                data: {},
-	                success: function (data) {
-	                    var result = [];
-	                    var o=data["Magasin"];
-                         
-	                    if (Array.isArray(data.ads))
-		                    for (var i in data.ads) {result.push(/*data["ads"][i].titre);*/data.ads[i].titre)};
-	                            if (Array.isArray(data.Magasin))
-		                            for (var i in data.Magasin) {result.push(/*data["Magasin"][i].nomSociete;*/data.Magasin[i].domination)};
-	                                    console.log(result);
-	                                    response(result);
-                        if (Array.isArray(data.Domaine))
-		                            for (var i in data.Domaine) {result.push(/*data["Magasin"][i].nomSociete;*/data.Domaine[i].domaine)};
-	                                    console.log(result);
-	                                    response(result);        
-	                    },
-	                error: function () {
-	                    console.log("blabla")
-	                }
-	            });
-	    },
+jQuery.noConflict();
+jQuery('.recherche').last().autocomplete();
+jQuery('.recherche').last().autocomplete({
+    source: function (request, response) {
+        jQuery.ajax({
+                url: "/ajaxRecherche?recherche=" + jQuery('.recherche').last().val(),
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    var result = [];
+                    var o=data["Magasin"];
+                     
+                    if (Array.isArray(data.ads))
+                        for (var i in data.ads) {result.push(/*data["ads"][i].titre);*/data.ads[i].titre)};
+                            if (Array.isArray(data.Magasin))
+                                for (var i in data.Magasin) {result.push(/*data["Magasin"][i].nomSociete;*/data.Magasin[i].domination)};
+                                    console.log(result);
+                                    response(result);
+                    if (Array.isArray(data.Domaine))
+                                for (var i in data.Domaine) {result.push(/*data["Magasin"][i].nomSociete;*/data.Domaine[i].domaine)};
+                                    console.log(result);
+                                    response(result);        
+                    },
+                error: function () {
+                    console.log("blabla")
+                }
+            });
+    },
 
-	    minLength: 3 // on indique qu'il faut taper au moins 3 caractères pour afficher l'autocomplétion
-	}); // source : ajaxCompetence(), // on inscrit la liste de suggestions
+    minLength: 3 // on indique qu'il faut taper au moins 3 caractères pour afficher l'autocomplétion
+}); // source : ajaxCompetence(), // on inscrit la liste de suggestions
 </script>
-{% endblock %}  #}
+{% endblock %} 
 {% block javascripts %}
 <script src="{{ asset('client/assets/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('client/assets/js/jquery-migrate-3.0.1.min.js') }}"></script>

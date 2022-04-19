@@ -79,12 +79,12 @@
                                                 <div class="col-lg-7 col-md-10">
                                                     <div class="subcribe-form">
                                                 
-                                                    <input type="text" class="recherche autocomplete rounded-pill border" placeholder="Intitulé du produit">
+                                                    {# <input type="text" class="recherche autocomplete rounded-pill border" placeholder="Intitulé du produit"> #}
 
-                                                    {# {{ form_start(form,{attr:{class:""},action:"/recherche"}) }}
+                                                    {{ form_start(form,{attr:{class:""},action:"/recherche"}) }}
                                                             {{form_widget(form.domination,{attr:{class:"recherche autocomplete rounded-pill border"}})}}
                                                             <button type="submit" class="btn btn-pills btn-primary ">Rechercher <i class="uil uil-arrow-right"></i></button>
-                                                    {{ form_end(form)}} #}
+                                                    {{ form_end(form)}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -180,7 +180,6 @@
                         <div class="col-lg-12 mt-4">
                             <div class="tiny-three-item">
                             {% for salon in salons %}
-                            {% for salon in salons %}
                             <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
                                                  data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
                                 <div class="card work-container work-modern  border-0 overflow-hidden ">
@@ -227,7 +226,6 @@
                                 </div>
                             </div><!--end col-->
                         {% endfor %}
-                            {% endfor %}
                                 
             
                                 
@@ -625,7 +623,7 @@
     integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
 {% endblock %}
 {% block jquery %}
-{# <script type="text/javascript">
+<script type="text/javascript">
 $('.ui-autocomplete-input').css({fontSize: '10px', width: '500px'});
 
 	jQuery.noConflict();
@@ -659,6 +657,6 @@ $('.ui-autocomplete-input').css({fontSize: '10px', width: '500px'});
 
 	    minLength: 3 // on indique qu'il faut taper au moins 3 caractères pour afficher l'autocomplétion
 	}); // source : ajaxCompetence(), // on inscrit la liste de suggestions
-</script> #}
+</script>
 {% endblock %}
         

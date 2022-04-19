@@ -47,7 +47,7 @@
                                     <div style="margin-top:4%; margin-bottom: 4%;">
                                         <!-- <h5 class="card-title">2: Date et heure de la Préstation</h5> -->
                                     </div>
-                                    {% if ads.titre == "Reservation" %}
+                                    {% if ads.titre == "Réserver une table" %}
                                         <div  class="accordion-item rounded mt-2">
 
                                                 <h2 class="accordion-header" id="headingTwo">
@@ -76,10 +76,11 @@
                                         <h2 class="accordion-header" id="headingTwo">
                                             <h5 class="card-title">Choisissez la date et l'heure du RDV</h5>
                                         </h2>
+                                    <div class="d-none">
                                         <h6 class="card-title">Vous voulez etre servie par :</h6>
                                         {{ form_widget(formt.calendar,{'id':'employer'}) }}
                                         
-
+                                    </div>
                                         <button class="accordion-button border-0 bg-light " type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"
                                                 aria-expanded="false" aria-controls="collapseTwo">
                                                 
@@ -218,261 +219,288 @@
     <script src="{{ asset("datePicker/node_modules/php-date-formatter/js/php-date-formatter.min.js") }}"></script>
     <script src="{{ asset("datePicker/node_modules/jquery-mousewheel/jquery.mousewheel.js") }}"></script>
     <script src="{{ asset("datePicker/jquery.datetimepicker.js") }}"></script>
+      <script>
+          var reservations = [];
+          var horaires = new Array();
+          var horaire = horaires;
+          var calendars = [];
+          var maxSupport = 1;
+          var allReservations = new Array();
+          var daysOn = [];
+          var daysOff = new Array();
+          var listHoursToShow = new Array();
+          var calendarData;
+          var reservationsData;
+          
+          fetch("http://localhost:8000/getCalendar/{{ ads.id }}").then(function (response) {
+              console.log("in fetch");
+              var today = new Date();
+              response.json().then(function (data) {
 
-        {# <script>
-           let date= $('#datetimepicker3').datetimepicker({
-            inline:true,
-            });
-            
-        $(window).on('load', async function() {
-           await $('#datetimepicker3').datetimepicker({
+                  calendarData = data.calendar;
+                  reservationsData = data.reservations;
+                  
+                  // TODO: Didn't delete it in case necessary
+                  <!-- $("#employer option").remove() -->
 
-                minDateTime: new Date('-1 day')
-            });
-        })
+                  getCalendarData(today);
+                  getReservationsData(today);
+                  getDaysOff(today);
 
-            $('#datetimepicker3').change(function () {
-             $('#datetimepicker3').val($(this).val())
-            document.getElementById("bockReserver").style.display="contents"
-                
-            
-            
+                  // We launch triDateDay for first time, wen screen appear
+                  triDateDay(today);
 
-            $(this).datetimepicker({
-                minDateTime: new Date('-1 day')
-            });
+                  // TODO: Didn't delete it in case necessary
 
-        })
+                  $("#datetimepicker3").trigger('change');
+  
+              }).catch(function (err) {
+                  console.log('Fetch Error :-S', err);
+              });
+  
+          });
 
-
-        </script> #}
-
-        <script>
-            var reservations = [];
-            var horaires = new Array();
-            var horaire = horaires;
-            var calendars = [];
-            var maxSupport = 1;
-            var ToutesReservations=[]
-            var jouroff=[0,1,2,3,4,5,6]
-            var jouron=[]
-            var jour = ''
-            fetch("http://localhost:8000/getCalendar/{{ ads.id }}").then(function (response) {
-                console.log("in fetch");
-                var today = new Date();
-                console.log(new Date(today.getFullYear(), today.getMonth(), today.getDate()))
-                response.json().then(function (data) {
-                    
-                    ToutesReservations=data.reservations
-                    $("#employer option").remove()
-                    if (data.calendar[0] != null){
-                        data.calendar.forEach(calendar => {
-                            console.log('jouroff',typeof parseInt(calendar.dayon));
-                            if(calendar.title == "Magasin"){
-                                jouron.push(parseInt(calendar.dayon));}
-                            calendar.start.date = calendar.start.date.split(" ")[1].split(":00.000000")[0]
-                            calendar.end.date = calendar.end.date.split(" ")[1].split(":00.000000")[0]
-
-                            if(calendar.dayon == 0){
-                                 jour = "dimanche"}
-                            else if(calendar.dayon == 1){
-                                 jour = "lundi"
-                            }
-                            else if(calendar.dayon == 2){
-                                 jour = "mardi"
-                            }
-                            else if(calendar.dayon == 3){
-                                 jour = "mercredi"
-                            }
-                            else if(calendar.dayon == 4){
-                                 jour = "jeudi"
-                            }
-                            else if(calendar.dayon == 5){
-                                 jour = "vendredi"
-                            }
-                            else{
-                                 jour = "samedi"
-                            }
-                            console.log("data:",data.calendar);
-                            if(calendar.title != "Benevolat"){
-                                 $("#employer").append("<option value='" + calendar.id + "'>" + jour + "</option>");
-                            }
-                        });
-                        //for(var i=0, i>=jouroff.length,i++){
-                        //}
-                        jouroff = jouroff.filter(function(item) {
-                            return !jouron.includes(item); 
-                         })
-                         console.log('jour repot',jouroff);
-                        if(data.calendar[0].maxSupport > 1 ){
-                                maxSupport = data.calendar[0].maxSupport;
-                                console.log("if Maxsupport:",maxSupport)
-                        }
-                        var calendarId= data.calendar[0].id
-                    
-                    }
-                    else{
-                    $("#employer").append("<option value='1'>Magasin</option>");
-                    }
-                    calendars = data.calendar;
-    
-    
-                    data.reservations.forEach(function (reservation) { 
-                        if(reservation.calendarId==calendarId){
-
-                            var date = reservation.reservation_deteheure.date.split(" ");
-                            console.log("in reservation foreach")
-                            date[1] = date[1].split(":00.000000")[0];
-                            if (typeof reservations["" + date[0]] == 'undefined')
-                                reservations["" + date[0]] = [];
-        
-        
-                            reservations["" + date[0]].push(date[1]);
-                        }
-
-                    });
-                    
-                    var currentDate = new Date("2021-04-02 5:00:00");
-                    console.log(currentDate.getTime())
-                    while (currentDate.getTime() <= new Date("2021-04-02 23:30:00")) { // date.setDate(date.getDate() + );
-                        let minutes = currentDate.getMinutes() < 10 ? "00" : "30";
-                        console.log("test")
+          
+          // Function to get Calendar data from API
+          function getCalendarData(date) {
+              
+              console.log("data:",calendarData);
+          
+              if (calendarData[0] != null){
+                  calendarData.forEach(calendar => {
+                  
+                      // In this case, we only do if we are in "Magasin" categoy, and not in case of "Benevolat"
+                      if (calendar.title == "Magasin") {
+                          var startDateTime = new Date().setHours(new Date(calendar.start.date).getHours(), new Date(calendar.start.date).getMinutes(), 0, 0);
+                          var endDateTime = new Date().setHours(new Date(calendar.end.date).getHours(), new Date(calendar.end.date).getMinutes(), 0, 0);
+                          cursorDateTime = new Date(startDateTime);
                       
-                        
-                        console.log("hour:",typeof currentDate.getHours())
-                        let hour=currentDate.getHours()>=10?currentDate.getHours():"0"+currentDate.getHours()
-                        horaires.push(hour + ":" + minutes)
-                        currentDate.setTime(currentDate.getTime() + (30 * 60 * 1000))
-                    }
-                    console.log(horaires)
-    // $('#datetimepicker3').val(new Date())
-                    $('#datetimepicker3').val("2021-06-06 23:00:00")
-                    console.log($("#datetimepicker3"))
-                    console.log("option :")
-                    console.log($("#employer option").val())
-                    $("#employer").trigger('change')
-                    $("#datetimepicker3").trigger('change')
-    
-                    $("#datetimepicker3").data("DateTimePicker").date('1/11/2021 12:23:12')
-    
-    
-                }).catch(function (err) {
-                    console.log('Fetch Error :-S', err);
-                });
-    
-    
-            });
-    
-            $("#employer").change(function () {
-                let calendar = calendars.find(thiscalendar => thiscalendar.id == $(this).val())
-                console.log('calendar',calendar);
-                console.log('jouroff',jouroff);
-                maxSupport=calendar.maxSupport
-                var start = calendar.start.date 
-                var end = calendar.end.date+1
-                calendarId=calendar.id 
-                $('#datetimepicker3').datetimepicker({
-                    format: 'Y-m-d H:i',
-                    minTime: start,
-                    maxTime: end,
-                    disabledWeekDays: jouroff,
+                          // We iterate to add all startTimes (for blocks to appear in UI)
+                          while (cursorDateTime <= endDateTime) {
 
-                });
+                              var object = new Object();
+                              object.day = calendar.dayon;
+                              object.time = JSON.parse(JSON.stringify(cursorDateTime));
+                              object.maxSupport = calendar.maxSupport;
+                              // We set numberReservations as 0, and we will increase it in future with each reservation.
+                              // In order to check, later, if time should appear (= numberReservations < maxSupport)
+                              object.numberReservations = 0;
+                              // We add an item which keep in track if element should be displayed (= we will not show this time if numberReservations < maxSupport)
+                              object.toBeDisplayed = 0;
 
-            })
-    
-    
-            function recept(reponse) {
-                calendar = response;
-                console.log(calendar);
-            }
-    
-            $("#datetimepicker3").ready(async function () {
-    
-    
-                $("#datetimepicker3").data("DateTimePicker").date('1/11/2021 12:23:12')
-            })
-    
-            function triDateDay(date) { // reservations[date]
-                reservations=null
-                reservations=[]
-                console.log("vidage reservations:",reservations)
-                ToutesReservations.forEach(function (reservation) { 
-                    if(reservation.calendarId==calendarId){
+                              horaires.push(object);
+                              
+                              cursorDateTime.setTime(cursorDateTime.getTime()+30*60000);
+                          
+                          }
+                          
+                      }
+                      
+                  });
+              
+              }
+              else{
+              $("#employer").append("<option value='1'>Magasin</option>");
+              }
+              
+              console.log("getCalendarData " + JSON.stringify(horaires,null,2));
+          
+          }
+          
+          // Function to get Reservations data from API
+          function getReservationsData(date) {
+          
+          console.log("data:",reservationsData);
+              
+                  reservationsData.forEach(function (reservation) { 
 
-                        var date = reservation.reservation_deteheure.date.split(" ");
-                        console.log("in reservation foreach")
-                        date[1] = date[1].split(":00.000000")[0];
-                        if (typeof reservations["" + date[0]] == 'undefined')
-                            reservations["" + date[0]] = [];
+                      const object = new Object();
+                      object.startDateTime = reservation.deteheure;
+                      object.endDateTime = reservation.endDate;
 
+                      if (reservation.qte != null) {
+                          object.qte = reservation.qte;
+                      } else {
+                          object.qte = 1;
+                      }
 
-                        reservations["" + date[0]].push(date[1]);
-                    }
+                      allReservations.push(object);
 
-                });
-                horaire = JSON.parse(JSON.stringify(horaires));
-                dat=new Date(date).getDay();
-                
-                console.log("date:",dat)
-                console.log(date.split(" ")[0])
-                console.log("reservations[date] IN FUNCTION TRI",reservations)
-                console.log(reservations["" + date.split(" ")[0]])
-                console.log("blabla")
-                console.log("type of reservations[date]")
-                console.log( reservations["" + date.split(" ")[0]])
-                if (Array.isArray(reservations["" + date.split(" ")[0]])) {
-                    console.log("isarray");
-                    for (var i = 0; i < reservations["" + date.split(" ")[0]].length; i++) {
-                        var hourr=reservations["" + date.split(" ")[0]][i];
+                  });
+                  
+                  console.info("getReservationsData " + JSON.stringify(allReservations,null,2));
+          
+          }
+          
+          // Function to get DaysOff data from API
+          function getDaysOff(date) {
+          
+              if (calendarData[0] != null){
+                      calendarData.forEach(calendar => {
+                  
+                      // In this case, we only do if we are in "Magasin" categoy, and not in case of "Benevolat"
+                      if (calendar.title == "Magasin") {
+                      
+                          daysOn.push(parseInt(calendar.dayon));
 
-                        console.log("nombre pour chaque:"+hourr,(reservations["" + date.split(" ")[0]].filter((hour)=>hour==hourr)).length)
-                        console.log("maxSupport:",maxSupport)
-                        if ( (reservations["" + date.split(" ")[0]].filter((hour)=>hour==hourr)).length>=maxSupport){
-                            console.log("if splice")
-                            horaire.splice(horaire.indexOf(hourr), 1)
-                        }
-                    }
+                          console.log("calendar.dayon " + calendar.dayon);
+                      
+                      }
+                      
+                  });
+              
+              }
+              
+              // In order to remove duplicates
 
-                    console.log("new horaire");
-                    console.log(horaire);
-                    return horaire;
+              uniqueDaysOn = [...new Set(daysOn)];
 
-                } else {
-                    
-                    return horaire
-                }
+              console.log("daysOn " + daysOn);
+              console.log("uniqueDaysOn " + uniqueDaysOn);
+              
+              daysOff = [parseInt(0),parseInt(1),parseInt(2),parseInt(3),parseInt(4),parseInt(5),parseInt(6)];
+              
+              // Get DaysOff by filtering out elements contained in uniqueDaysOn
+              daysOff = daysOff.filter(x => !daysOn.includes(x));
+              
+              console.log("getDaysOff " + daysOff);
+          
+          
+          }
+  
+  
+          function recept(reponse) {
+              calendar = response;
+              console.log(calendar);
+          }
+          
+          // This function is used in order to add 0 before the hour when the hour is a single digit.
+          // Concatenating with '0' makes sure that the target of the operation will always be a string. ('0'+currentMinutes) will yield a 2 or 3 letter string ("07" or "017", for instance). Slicing the last two characters off that string will give you a 0-padded two-digit number.
+          Number.prototype.addZero = function() {
+             return ('0'+this).slice(-2);
+          };
+  
+          function triDateDay(date) { // reservations[date]
+          
+              var day = date.getDay();
+              
+              // We use this method to gat horaires in horaire (get a copy), without deep link
+              horaire = JSON.parse(JSON.stringify(horaires));
+              
+              // Each time we start triDateDay, we empty the existing hours array
+              listHoursToShow = [];
+              
+              // Check if each time in horaires already has  reservations
+              for (var i = 0; i < horaire.length; i++) {
+              
+                  if (horaire[i].day == day) {
+                  
+                      testStartTime = new Date(date).setHours(new Date(horaire[i].time).getHours(), new Date(horaire[i].time).getMinutes(), 0, 0);
+                      testEndTime = new Date(date).setHours(new Date(horaire[i].time).getHours(), new Date(horaire[i].time).getMinutes()+30, 0, 0);
+                      
+                      console.log("testStartTime " + testStartTime);
+                      console.log("testEndTime " + testEndTime);
 
-            }
+                      // Check in reservations and increment numberReservations in horaire
+                      for (var j = 0; j < allReservations.length; j++) {
 
-        var today = new Date();
-        $.datetimepicker.setLocale('fr');
-        $('#datetimepicker3').datetimepicker({
-            inline: true,
-            allowTimes: horaire,
-            format: 'Y-m-d H:i',
-            minTime: horaire[0],
-            maxTime: horaire[horaire.length],
-        });
-        
-            $('#datetimepicker3').change(function () {
-                $('#confirmDate').html(new Date($(this).val()).toLocaleString())
-                $(this).datetimepicker({
-                    allowTimes: triDateDay($(this).val()),
-                    minDateTime: new Date('-2 days')
-                });
-                
+                          console.log("new Date(allReservations[j].startDateTime.date) " + new Date(allReservations[j].startDateTime));
+                          console.log("new Date(allReservations[j].endDateTime.date) " + new Date(allReservations[j].endDateTime));
+                          console.log("horaire[i].numberReservations " + horaire[i].numberReservations);
+                      
+                          if (testStartTime < new Date(allReservations[j].endDateTime.date)
+                          && testEndTime > new Date(allReservations[j].startDateTime.date)) {
+                          
+                              // In case verified, we increment by one
+                              horaire[i].numberReservations = horaire[i].numberReservations+allReservations[j].qte;
+                          
+                          }
 
-            })
+                          console.log("horaire[i].numberReservations " + horaire[i].numberReservations);
+                      
+                      }
+                      
+                  
+                  }
+              
+              }
+              
+              
+              // At the end of the loops, we check which hours in horaire we should keep (= where maxSupport limit is not exceeded)
+              
+              for (var k = 0; k < horaire.length; k++) {
+              
+                  if (horaire[k].day == day) {
 
-        </script>
-        <script>
-            $('#datetimepicker3').change(function () {
-                  console.log('this val',$(this).val())
-                  if($(this).val() != "2021-06-06 23:00:00")
-                  document.getElementById("bockReserver").style.display="contents";
-        
-              })
-        </script>
+                      console.log("new Date(horaire[k].time) " + new Date(horaire[k].time));
+                      console.log("horaire[k].numberReservations " + horaire[k].numberReservations);
+                      console.log("horaire[k].maxSupport " + horaire[k].maxSupport);
+                  
+                      if (horaire[k].numberReservations < horaire[k].maxSupport) {
+                      
+                          listHoursToShow.push(new Date(horaire[k].time).getHours().addZero() + ":" + new Date(horaire[k].time).getMinutes().addZero())
+                      
+                      }
+                  
+                  }
+              
+              }
+              
+              // We then filter out duplicates elements
+              listHoursToShow = [...new Set(listHoursToShow)];
+
+              console.log("daysOff " + daysOff);
+              console.log("parseInt(new Date(date).getDay()) " + parseInt(new Date(date).getDay()));
+              
+              console.log("triDateDay " + JSON.stringify(listHoursToShow,null,2));
+                  
+              return listHoursToShow;
+
+          }
+
+      $.datetimepicker.setLocale('fr');
+      $('#datetimepicker3').datetimepicker({
+          inline: true,
+          allowTimes: listHoursToShow,
+          format: 'Y-m-d H:i',
+          minTime: listHoursToShow[0],
+          maxTime: listHoursToShow[listHoursToShow.length],
+          disabledWeekDays: daysOff,
+      });
       
-      {% endblock %}
+          $('#datetimepicker3').change(function () {
+              $('#confirmDate').html(new Date($(this).val()).toLocaleString())
+              console.log('this val 1',$(this).val());
+
+              // We need to use minDateTime in order to hide timePicker part of the DateTimePIcker
+              // in case the date is today (=we just opened the page reservaztion, so the date is by default today), and today is a dayOff
+              // If not, the user can book a slot event if this is a dayOff
+              if ($(this).val()
+              && !daysOff.includes(parseInt(new Date($(this).val()).getDay()))) {
+              $(this).datetimepicker({
+                  allowTimes: triDateDay(new Date($(this).val())),
+                  minDateTime: new Date(),
+                  disabledWeekDays: daysOff,
+              });
+              }
+              else {
+                  $(this).datetimepicker({
+                      minDateTime: new Date().setHours(23),
+                      disabledWeekDays: daysOff,
+                  });
+              }
+              
+
+          })
+
+      </script>
+      <script>
+          $('#datetimepicker3').change(function () {
+                console.log('this val',$(this).val())
+                if($(this).val() != "2021-06-06 23:00:00")
+                document.getElementById("bockReserver").style.display="contents";
+      
+            })
+      </script>
+    
+    {% endblock %}

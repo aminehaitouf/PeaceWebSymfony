@@ -1,6 +1,58 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
 <style>
+    @media only screen and (max-width: 1024px) {
+	
+	.mp {
+		width: 50% !important;
+
+	}
+   
+	
+
+}
+@media only screen and (max-width: 800px) {
+	
+	.mp {
+		width: 100% !important;
+	
+	}
+    .op{
+        width: 90% !important;
+    }
+	
+
+}
+@media only screen and (min-width: 400px) {
+	
+	
+    .op{
+        width: 90% !important;
+    }
+	
+
+}
+    .animation {
+  float:right;
+  background:#c0a905f2;
+  border-radius:50%;
+  width:50px;
+  height:50px;
+  font-size: 15px;
+    color: red;
+    text-align: center;
+    line-height: 50px;
+    margin-top: -90px;
+    font-weight: bold;
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animation {
+  animation: none;
+  }
+}
+
 .marker {
     transform: translate(-50%, calc(-100% - 10px));
     white-space: nowrap;
@@ -78,46 +130,69 @@
                 <div class="row">
                     <!-- Blog Post Start -->
                     <div class="col-lg-8 col-md-6 mt-4 pt-2 mt-sm-0 pt-sm-0">
-                        <div class="row">
-                            <div class="col-12 filters-group-wrap">
-                                <div class="filters-group">
-                                    <ul class="container-filter list-inline mb-0 filter-options">
-                                        <li class="list-inline-item categories-name border text-dark rounded active" data-group="all">All</li>
-                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Coiffeurs">Coiffeurs</li>
-                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Beaute">Beaute</li>
-                                    </ul>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
+                    <div class="row">
+                    <div class="col-12 filters-group-wrap">
+                        <div class="filters-group">
+                            <ul class="container-filter list-inline mb-0 filter-options">
+                                <li class="list-inline-item categories-name border text-dark rounded active" data-group="all">All</li>
+                                <li class="list-inline-item categories-name border text-dark rounded" data-group="Coiffeurs">Coiffeurs</li>
+                                <li class="list-inline-item categories-name border text-dark rounded" data-group="Beaute">Beaute</li>
+                                <li class="list-inline-item categories-name border text-dark rounded" data-group="Restaurant">Restaurant</li>
+                                <li class="list-inline-item categories-name border text-dark rounded" data-group="Consultant/Freelance">Consultant/Freelance</li>
+                                <li class="list-inline-item categories-name border text-dark rounded" data-group="Autre">Autre</li>
+                            </ul>
+                        </div>
+                    </div><!--end col-->
+                </div><!--end row-->
         
                         <div id="grid" class="row">
-                            {% for salon in salons %}
-                                <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
-                                                     data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
-                                    <div class="card work-container work-modern  border-0 overflow-hidden ">
-                                        <div class="card-body p-0 ">
-                                            <a href="detailProduitClient/{{salon.id}}">
-                                                <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
-                                                <div class="overlay-work "></div>
-                                                <div style="opacity: 1;" class="content ">
+                        {% for salon in salons %}
+                        <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
+                                             data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
+                            <div class="card work-container work-modern  border-0 overflow-hidden ">
+                                <div class="card-body p-0 ">
+                                    <a href="detailProduitClient/{{salon.id}}">
+                                        <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
+                                        
+                                        <div class="overlay-work "></div>
+                                        <div style="opacity: 1;width: 90%;" class="op content ">
+                                        {% if salon.reduction != null %}
+                                            <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
+                                        {% endif %}
+                                        
+                                            
+                                            <a href="detailProduitClient/{{salon.id}}" style="font-weight: bold;font-size:22px !important;color:#1f42e4;" class="title pb-2 border-bottom ">{{salon.domination}}</a>
+                                            <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
+                                                <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
+                                                {% if salon.adresse %}
+                                                    <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
                                                     
-                                                    <a href="detailProduitClient/{{salon.id}}" class="title text-white pb-2 border-bottom">{{salon.domination}}</a>
-                                                    <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
-                                                        <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine}}</li>
-                                                        {% if salon.adresse %}
-                                                            <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
-                                                            
-                                                        {% endif %}
-                                                        
-                                                    </ul>
-                                                    {# <p class="text-white d-block mb-0">Rent <span class="text-success">$350</span> /Night</p> #}
-                                                </div>
+                                                {% endif %}
                                                 
-                                            </a>
+                                            </ul>
+                                            <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
+                                            {% if salon.prixMoyen %}
+                                                {{salon.prixMoyen ~'€'~}}
+                                            {% endif %}
+                                            </p></p>
+                                            {% if salon.association %}
+                                                <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
+                                                    {{salon.association }}
+                                                </button>
+                                            {% endif %}
+
+                                            {% if salon.done %}
+                                                <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
+                                                        Done {{salon.done }}€
+                                                </button>
+                                            {% endif %}
                                         </div>
-                                    </div>
-                                </div><!--end col-->
-                            {% endfor %}
+                                        
+                                    </a>
+                                </div>
+                            </div>
+                        </div><!--end col-->
+                    {% endfor %}
                             
                         </div><!--end row-->
 
@@ -247,43 +322,43 @@
         <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a>
         <!-- Back to top -->
 {% endblock %}
-{# {% block jquery %}
+{% block jquery %}
 <script type="text/javascript">
 $('.ui-autocomplete-input').css({fontSize: '10px', width: '500px'});
 
-	jQuery.noConflict();
-	jQuery('.recherche').last().autocomplete();
-	jQuery('.recherche').last().autocomplete({
-	    source: function (request, response) {
-	        jQuery.ajax({
-	                url: "/ajaxRecherche?recherche=" + jQuery('.recherche').last().val(),
-	                dataType: "json",
-	                data: {},
-	                success: function (data) {
-	                    var result = [];
-	                    var o=data["Magasin"];
-                         
-	                    if (Array.isArray(data.ads))
-		                    for (var i in data.ads) {result.push(/*data["ads"][i].titre);*/data.ads[i].titre)};
-	                            if (Array.isArray(data.Magasin))
-		                            for (var i in data.Magasin) {result.push(/*data["Magasin"][i].nomSociete;*/data.Magasin[i].domination)};
-	                                    console.log(result);
-	                                    response(result);
-                        if (Array.isArray(data.Domaine))
-		                            for (var i in data.Domaine) {result.push(/*data["Magasin"][i].nomSociete;*/data.Domaine[i].domaine)};
-	                                    console.log(result);
-	                                    response(result);        
-	                    },
-	                error: function () {
-	                    console.log("blabla")
-	                }
-	            });
-	    },
+jQuery.noConflict();
+jQuery('.recherche').last().autocomplete();
+jQuery('.recherche').last().autocomplete({
+    source: function (request, response) {
+        jQuery.ajax({
+                url: "/ajaxRecherche?recherche=" + jQuery('.recherche').last().val(),
+                dataType: "json",
+                data: {},
+                success: function (data) {
+                    var result = [];
+                    var o=data["Magasin"];
+                     
+                    if (Array.isArray(data.ads))
+                        for (var i in data.ads) {result.push(/*data["ads"][i].titre);*/data.ads[i].titre)};
+                            if (Array.isArray(data.Magasin))
+                                for (var i in data.Magasin) {result.push(/*data["Magasin"][i].nomSociete;*/data.Magasin[i].domination)};
+                                    console.log(result);
+                                    response(result);
+                    if (Array.isArray(data.Domaine))
+                                for (var i in data.Domaine) {result.push(/*data["Magasin"][i].nomSociete;*/data.Domaine[i].domaine)};
+                                    console.log(result);
+                                    response(result);        
+                    },
+                error: function () {
+                    console.log("blabla")
+                }
+            });
+    },
 
-	    minLength: 3 // on indique qu'il faut taper au moins 3 caractères pour afficher l'autocomplétion
-	}); // source : ajaxCompetence(), // on inscrit la liste de suggestions
+    minLength: 3 // on indique qu'il faut taper au moins 3 caractères pour afficher l'autocomplétion
+}); // source : ajaxCompetence(), // on inscrit la liste de suggestions
 </script>
-{% endblock %} #}
+{% endblock %}
 {% block javascripts %}
 <script src="{{ asset('client/assets/js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('client/assets/js/jquery-migrate-3.0.1.min.js') }}"></script>

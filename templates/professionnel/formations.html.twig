@@ -105,6 +105,7 @@
                                         <th>Date fin</th>
                                         <th>En cours</th>
                                         <th>Description</th>
+                                        <th>Action</th>
 
 									</tr>
 								</thead>
@@ -131,6 +132,10 @@
                                                             
                                                         </td>
                                                         <td>{{formation.description}}</td>
+                                                        <td>
+                                                            <a class="btn btn-success" href="/professionnel/modifierFormation/{{formation.id}}">Modifier</a>
+                                                            <a class="btn btn-danger" href="/professionnel/supprimerFormation/{{formation.id}}">Supprimer</a>
+                                                        </td>
 
                                                     </tr>
                                                 {% endif %}

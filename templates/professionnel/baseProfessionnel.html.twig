@@ -61,6 +61,13 @@
                     <span>Profil</span>
                 </a>
             </li>
+            <li {% if route_name == "gestionCategory" or route_name == "gestionCategory"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+
+                <a href="/professionnel/gestionCategory" class='sidebar-link'>
+                    <i class="bi bi-bar-chart-steps"></i>
+                    <span>Gestion des categories</span>
+                </a>
+            </li>
             {% if app.user.domaine == "Consultant/Freelance" %}
             <li {% if route_name == "competences"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
@@ -95,7 +102,7 @@
 
                 <a href="/professionnel/gestionMagasin" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
-                    <span>Gestion des employer</span>
+                    <span>Gestion des disponibilités</span>
                 </a>
             </li>
             <li {% if route_name == "gestionBenevolat"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
@@ -105,13 +112,7 @@
                     <span>Gestion des benevolats</span>
                 </a>
             </li>
-            <li {% if route_name == "gestionCategory" or route_name == "gestionCategory" or route_name == "detailProduit" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
-
-                <a href="/professionnel/gestionCategory" class='sidebar-link'>
-                    <i class="bi bi-bar-chart-steps"></i>
-                    <span>Gestion des categories</span>
-                </a>
-            </li>
+            
             <li {% if route_name == "commandes" or route_name == "detailCommande" or route_name == "motifRefusCommande" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
                 <a href="/professionnel/commandes " class='sidebar-link'>
                     <i class="bi bi-basket3"></i>

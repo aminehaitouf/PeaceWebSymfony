@@ -91,16 +91,20 @@ class professionnelController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('illustration')->getData();
-            $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+            if($image!= null){
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
             // On copie le fichier dans le dossier uploads
             $image->move(
                 $this->getParameter('Ads_files_directory'),
                 $fichier
             );
+            $user->setIllustration($fichier);
+            }
+            
 
             // On crée l'image dans la base de données
-            $user->setIllustration($fichier);
+            
             $entityManager->flush();
             
 
@@ -406,6 +410,40 @@ class professionnelController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+     /**
+     * @Route("/modifierCompetance/{id}", name="modifierCompetance" , methods={"GET","POST"})
+     */
+    public function modifierCompetance(Security $security,Competence $competence,Request $request,CompetenceRepository $competenceRepository, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(CompetenceType::class, $competence);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // dd($request); 
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($competence);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('competences');
+        }
+
+        return $this->render('professionnel/competences.html.twig', [
+            'competences' => $competenceRepository->findAll(),
+            'competence' => $competence,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/supprimerCompetence/{id}", name="supprimerCompetence", methods={"GET","DELETE"})
+     */
+    public function supprimerCompetence(Request $request, Competence $competence): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($competence);
+            $entityManager->flush();
+
+
+        return $this->redirectToRoute('competences');
+    }
     /**
      * @Route("/experiences", name="experiences", methods={"GET", "POST"})
      */
@@ -427,6 +465,40 @@ class professionnelController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+     /**
+     * @Route("/modifierExperience/{id}", name="modifierExperience" , methods={"GET","POST"})
+     */
+    public function modifierExperience(Security $security,Experience $experience,Request $request,ExperienceRepository $experienceRepository, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ExperienceType::class, $experience);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // dd($request); 
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($experience);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('experiences');
+        }
+
+        return $this->render('professionnel/experiences.html.twig', [
+            'experiences' => $experienceRepository->findAll(),
+            'experience' => $experience,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/supprimerExperience/{id}", name="supprimerExperience", methods={"GET","DELETE"})
+     */
+    public function supprimerExperience(Request $request, Experience $experience): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($experience);
+            $entityManager->flush();
+
+
+        return $this->redirectToRoute('experiences');
+    }
     /**
      * @Route("/formations", name="formations", methods={"GET", "POST"})
      */
@@ -447,6 +519,40 @@ class professionnelController extends AbstractController
             'formation' => $formation,
             'form' => $form->createView(),
         ]);
+    }
+     /**
+     * @Route("/modifierFormation/{id}", name="modifierFormation" , methods={"GET","POST"})
+     */
+    public function modifierFormation(Security $security,Formation $formation,Request $request,FormationRepository $formationRepository, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(FormationType::class, $formation);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // dd($request); 
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($formation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('formations');
+        }
+
+        return $this->render('professionnel/formations.html.twig', [
+            'formations' => $formationRepository->findAll(),
+            'formation' => $formation,
+            'form' => $form->createView(),
+        ]);
+    }
+    /**
+     * @Route("/supprimerFormation/{id}", name="supprimerFormation", methods={"GET","DELETE"})
+     */
+    public function supprimerFormation(Request $request, Formation $formation): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($formation);
+            $entityManager->flush();
+
+
+        return $this->redirectToRoute('formations');
     }
 
     /**
@@ -578,7 +684,7 @@ class professionnelController extends AbstractController
     public function delete(Request $request, Calendar $calendar): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($calendar);
+        $entityManager->remove($calendar);
             $entityManager->flush();
 
 
@@ -638,7 +744,7 @@ class professionnelController extends AbstractController
     public function supprimerCalendarbenevolat(Request $request, Calendar $calendar): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($calendar);
+        $entityManager->remove($calendar);
             $entityManager->flush();
 
 

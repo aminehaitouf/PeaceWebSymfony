@@ -60,9 +60,9 @@ class RegistreOrganismeType extends AbstractType
             ])
             ->add('domination', TextType::class, [
                 'required' => true,
-                'label' => 'Domination organisme',
+                'label' => 'Dénomination organisme',
                 'attr' => [
-                    'placeholder' => 'Entrer Domination organisme'
+                    'placeholder' => 'Entrer dénomination organisme'
                 ]
             ])
             ->add('siret', TextType::class, [
