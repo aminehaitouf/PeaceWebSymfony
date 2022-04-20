@@ -96,29 +96,30 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
-                        <form class="p-4 shadow bg-white rounded">
-                        {{ form_start(form,{attr:{class:"p-4 shadow bg-white rounded"},action:"/recherche"}) }}
-                            <h4 class="mb-3">Recherche !</h4>
-                            <div class="row text-start">
-                                <div class="col-lg-10">
-                                    <div class="mb-3 mb-lg-0">
-                                        <label class="form-label"> Mot clé : </label>
-                                        {{form_widget(form.domination,{attr:{class:"recherche autocomplete form-control"}})}}
-                                    </div>
+                    {{ form_start(form,{attr:{class:"p-4 shadow bg-white rounded"},action:"/recherche"}) }}
+                        <h4 class="mb-3">Recherche !</h4>
+                        <div class="row text-start">
+                            <div class="col-lg-10">
+                                <div class="mb-3 mb-lg-0">
+                                    <label class="form-label"> Mot clé : </label>
+                                    {{form_widget(form.domination,{attr:{class:"recherche autocomplete form-control"}})}}
                                 </div>
+                            </div>
 
-                                
-                                <div class="col-lg-2">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-4 mt-lg-4 pt-2 pt-lg-1">
-                                            <div class="d-grid">
-                                                <input type="submit" id="search" name="search" class="searchbtn btn btn-primary" value="Search">
-                                            </div>
+                            
+                            <div class="col-lg-2">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4 mt-lg-4 pt-2 pt-lg-1">
+                                        <div class="d-grid">
+                                            {# <input type="submit" id="search" name="search"  value="Search"> #}
+                                            <button type="submit" class="searchbtn btn btn-primary">Rechercher</button>
+                
                                         </div>
                                     </div>
-                                </div> 
-                            </div>
-                        </form>
+                                </div>
+                            </div> 
+                        </div>
+                {{ form_end(form)}}
                     </div>
                 </div>
             </div>

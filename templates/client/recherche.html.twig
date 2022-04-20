@@ -96,7 +96,6 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
-                        <form class="p-4 shadow bg-white rounded">
                         {{ form_start(form,{attr:{class:"p-4 shadow bg-white rounded"},action:"/recherche"}) }}
                             <h4 class="mb-3">Recherche !</h4>
                             <div class="row text-start">
@@ -112,13 +111,15 @@
                                     <div class="row align-items-center">
                                         <div class="col-md-4 mt-lg-4 pt-2 pt-lg-1">
                                             <div class="d-grid">
-                                                <input type="submit" id="search" name="search" class="searchbtn btn btn-primary" value="Search">
+                                                {# <input type="submit" id="search" name="search"  value="Search"> #}
+                                                <button type="submit" class="searchbtn btn btn-primary">Rechercher</button>
+                    
                                             </div>
                                         </div>
                                     </div>
                                 </div> 
                             </div>
-                        </form>
+                    {{ form_end(form)}}
                     </div>
                 </div>
             </div>
