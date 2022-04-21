@@ -59,7 +59,7 @@ class professionnelinfoType extends AbstractType
 
             'attr' => [
 
-                'placeholder' => 'Enter votre numéro de téléphone'
+                'placeholder' => 'Entrer votre numéro de téléphone'
 
             ]
 
@@ -87,7 +87,7 @@ class professionnelinfoType extends AbstractType
         ])
         ->add('illustration', FileType::class, [
 
-            'label' => 'sélectionner une photo de magasin',
+            'label' => 'sélectionner une photo',
 
             'mapped' => false,
             'required'   => false,

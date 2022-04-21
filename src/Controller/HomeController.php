@@ -489,7 +489,7 @@ class HomeController extends AbstractController
         }
         return new JsonResponse([
             "calendar" => $entityManager->createQuery("select Calendar from App\Entity\Calendar Calendar where Calendar.user= $user ")->getArrayResult(),
-            "reservations" => $entityManager->createQuery("select reservation,calendar.id as calendarId from App\Entity\Reservation reservation, App\Entity\Calendar calendar  where reservation.ads in (select ads.id from App\Entity\Ads ads where ads.user=$user ) ")->getResult(Query::HYDRATE_SCALAR)
+            "reservations" => $entityManager->createQuery("select reservation from App\Entity\Reservation reservation  where reservation.ads in (select ads.id from App\Entity\Ads ads where ads.user=$user ) ")->getArrayResult()
         ]);
     }
 
@@ -654,7 +654,11 @@ class HomeController extends AbstractController
             $reservation->setClient($user);
             $reservation->setCreatedAt(new \DateTime('now'));
             $reservation->setAds($ads);
-            $reservation->setEndDate(new \DateTime('+ 30 minutes'));
+            // $reservation->setEndDate(new  DateTime($request->get("deteheure"))'+ 30 minutes');
+            // dd(new \DateTime(date('Y-m-d H:i:s', strtotime('+30 minutes', strtotime($request->get("deteheure"))))));
+            $reservation->setEndDate(new \DateTime(date('Y-m-d H:i:s', strtotime('+30 minutes', strtotime($request->get("deteheure"))))));
+
+            // dd($reservation);
             // if($ads->getTitre() == "Reservation"){
             //     $reservation->setPrix(($ads->getPrix()*0.15)+1);
             // }

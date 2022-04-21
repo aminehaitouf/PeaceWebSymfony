@@ -64,10 +64,11 @@
                                         {% if categories %}                                        
                                             {% for categorie in categories %}
                                                 {% if categorie.user == app.user %}
-                                                    <tr>
-                                                        <td>{{categorie.titre}}</td>
-
-                                                    </tr>
+                                                        <tr>
+                                                            <td>{{categorie.titre}}</td>
+                                                        </tr>
+                                                    
+                                                    
                                                 {% endif %}
                                             {% endfor %}
                                         {% else %}

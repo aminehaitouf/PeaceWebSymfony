@@ -60,7 +60,7 @@ class RegistreOrganismeType extends AbstractType
             ])
             ->add('domination', TextType::class, [
                 'required' => true,
-                'label' => 'Dénomination organisme',
+                'label' => 'Votre dénomination',
                 'attr' => [
                     'placeholder' => 'Entrer dénomination organisme'
                 ]
@@ -74,16 +74,16 @@ class RegistreOrganismeType extends AbstractType
             ])
             ->add('prixMoyen', TextType::class, [
                 'required' => true,
-                'label' => 'Votre Prix moyen de vous produits',
+                'label' => 'Votre prix moyen (prestation)',
                 'attr' => [
                     'placeholder' => 'Prix moyen de vous produits'
                 ]
             ])
             ->add('domaine', ChoiceType::class, [
                 'required' => true,
+                'label' => "Votre domaine d'activité",
                 'choices'  => [
-                    'Coiffeurs' => 'Coiffeurs',
-                    'Salon Beauté' => 'Salon Beauté',
+                    'Salon de coiffure/Beauté' => 'Salon de coiffure/Beauté',
                     'Restaurant' => 'Restaurant',
                     'Consultant/Freelance' => 'Consultant/Freelance',
                     'Autre' => 'Autre',
@@ -99,13 +99,14 @@ class RegistreOrganismeType extends AbstractType
 
             ])
             ->add('association',ChoiceType::class, [
+                'label' => "Votre association",
                 'choice_label' => 'domination',
                 'choices' => $this->association,
                 
             ])
             ->add('illustration', FileType::class, [
 
-                'label' => 'sélectionner une photo de magasin',
+                'label' => 'sélectionner une photo',
 
                 'mapped' => false,
 

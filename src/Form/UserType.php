@@ -57,7 +57,7 @@ class UserType extends AbstractType
 
             'attr' => [
 
-                'placeholder' => 'Enter votre numéro de téléphone'
+                'placeholder' => 'Entrer votre numéro de téléphone'
 
             ]
 
@@ -66,9 +66,9 @@ class UserType extends AbstractType
        
         ->add('domaine', ChoiceType::class, [
             'required' => true,
+            'label' => "Votre domaine d'activité",
             'choices'  => [
-                'Coiffeurs' => 'Coiffeurs',
-                'Salon Beauté' => 'Salon Beauté',
+                'Salon de coiffure/Beauté' => 'Salon de coiffure/Beauté',
                 'Restaurant' => 'Restaurant',
                 'Consultant/Freelance' => 'Consultant/Freelance',
                 'Autre' => 'Autre',
@@ -78,13 +78,14 @@ class UserType extends AbstractType
         ])
         
         ->add('association',ChoiceType::class, [
+            'label' => "Votre association",
             'choice_label' => 'domination',
             'choices' => $this->association,
             
         ])
         ->add('illustration', FileType::class, [
 
-            'label' => 'sélectionner une photo de magasin',
+            'label' => 'sélectionner une photo',
 
             'mapped' => false,
             'required'   => false,

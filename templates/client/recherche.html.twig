@@ -135,9 +135,8 @@
                     <div class="col-12 filters-group-wrap">
                         <div class="filters-group">
                             <ul class="container-filter list-inline mb-0 filter-options">
-                                <li class="list-inline-item categories-name border text-dark rounded active" data-group="all">All</li>
-                                <li class="list-inline-item categories-name border text-dark rounded" data-group="Coiffeurs">Coiffeurs</li>
-                                <li class="list-inline-item categories-name border text-dark rounded" data-group="Beaute">Beaute</li>
+                                <li class="list-inline-item categories-name border text-dark rounded active" data-group="all">Tous</li>
+                                <li class="list-inline-item categories-name border text-dark rounded" data-group="Salon de coiffure/Beauté">Salon de coiffure/Beauté</li>
                                 <li class="list-inline-item categories-name border text-dark rounded" data-group="Restaurant">Restaurant</li>
                                 <li class="list-inline-item categories-name border text-dark rounded" data-group="Consultant/Freelance">Consultant/Freelance</li>
                                 <li class="list-inline-item categories-name border text-dark rounded" data-group="Autre">Autre</li>
@@ -161,8 +160,8 @@
                                             <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
                                         {% endif %}
                                         
-                                            
-                                            <a href="detailProduitClient/{{salon.id}}" style="font-weight: bold;font-size:22px !important;color:#1f42e4;" class="title pb-2 border-bottom ">{{salon.domination}}</a>
+                                                    
+                                            <a href="detailProduitClient/{{salon.id}}"  class="title pb-2 border-bottom ">{{salon.domination}}
                                             <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
                                                 <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
                                                 {% if salon.adresse %}
@@ -170,7 +169,7 @@
                                                     
                                                 {% endif %}
                                                 
-                                            </ul>
+                                            </ul></a>
                                             <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
                                             {% if salon.prixMoyen %}
                                                 {{salon.prixMoyen ~'€'~}}

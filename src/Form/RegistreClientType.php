@@ -37,7 +37,7 @@ class RegistreClientType extends AbstractType
 
                 'attr' => [
 
-                    'placeholder' => 'Enter votre numéro de téléphone'
+                    'placeholder' => 'Entrer votre numéro de téléphone'
 
                 ]
 

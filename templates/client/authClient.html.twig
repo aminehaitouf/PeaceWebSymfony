@@ -18,9 +18,7 @@
         </div>
     </div> -->
     <!-- Loader -->
-    <div class="back-to-home rounded d-none d-sm-block">
-        <a href="indexPeace" class="btn btn-icon btn-soft-primary"><i data-feather="home" class="icons"></i></a>
-    </div>
+
 
     <!-- Hero Start -->
     <section style="margin-top:30px" class="bg-auth-home d-table w-100">
@@ -40,7 +38,7 @@
                                 {{err}}
                             </div>
                         {% endif %}
-                            <h4 class="card-title text-center">Signup client</h4>  
+                            <h4 class="card-title text-center">Inscription client</h4>  
                             {{ form_start(form,{attr:{class:"login-form mt-4"}}) }} 
                                 <div class="row">
                                     <div class="col-md-6">
@@ -87,7 +85,7 @@
                                         <div class="mb-3">
                                             <div class="form-icon position-relative">
                                                 <label for="{{ form.password.children["second"].vars.id }}">{{ form.password.children["second"].vars.label }}</label>
-                                                <input type="password" placeholder="Repeat Password" class="form-control ps-5" id="{{ form.password.children["second"].vars.id }}"
+                                                <input type="password" placeholder="Confirmer votre mot de passe" class="form-control ps-5" id="{{ form.password.children["second"].vars.id }}"
                                                     name="{{ form.password.children["second"].vars.full_name }}">
                                             </div>
                                         </div>
@@ -99,7 +97,7 @@
                                    <div class="mb-3">
                                        <div class=" form-check">
                                            {{ form_row(form.cgu ,{attr:{class:" form-check"}}) }}
-                                           <label class="form-check-label" for="flexCheckDefault">I Accept <a href="#" class="text-primary">Terms And Condition</a></label>
+                                           <label style="margin-left:5px" class="form-check-label" for="flexCheckDefault">J'accepte <a href="/peace.CGU.pdf" class="text-primary">les Conditions Générales d'Utilisation</a></label>
                                        </div>
                                    </div>
                                </div>
@@ -111,7 +109,7 @@
                                     </div><!--end col-->
 
                                     <div class="col-lg-12 mt-4 text-center">
-                                        <h6>Or Signup With</h6>
+                                        <h6>S'enregistrer avec :</h6>
                                         <div class="row">
                                             <div class="col-lg-12 mt-4 text-center">
                                                 <div class="d-grid">
@@ -122,7 +120,7 @@
                                     </div><!--end col-->
 
                                     <div class="mx-auto">
-                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login" class="text-dark fw-bold">Sign in</a></p>
+                                        <p class="mb-0 mt-3"><small class="text-dark me-2">Vous avez déjà un compte ?</small> <a href="/login" class="text-dark fw-bold">Se Connecter</a></p>
                                     </div>
                                 </div><!--end row-->
                             {{ form_end(form) }}

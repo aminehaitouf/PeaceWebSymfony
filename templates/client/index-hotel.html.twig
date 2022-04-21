@@ -192,33 +192,33 @@
                                             {% if salon.reduction != null %}
                                                 <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
                                             {% endif %}
-                                            
-                                                
-                                                <a href="detailProduitClient/{{salon.id}}" class="title text-white pb-2 border-bottom">{{salon.domination}}</a>
-                                                <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
-                                                    <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine}}</li>
-                                                    {% if salon.adresse %}
-                                                        <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
-                                                        
-                                                    {% endif %}
                                                     
-                                                </ul>
-                                                <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
-                                                {% if salon.prixMoyen %}
-                                                    {{salon.prixMoyen ~'€'~}}
-                                                {% endif %}
-                                                </p></p>
-                                                {% if salon.association %}
-                                                    <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
-                                                        {{salon.association }}
-                                                    </button>
-                                                {% endif %}
+                                                            
+                                                    <a href="detailProduitClient/{{salon.id}}"  class="title pb-2 border-bottom ">{{salon.domination}}
+                                                    <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
+                                                        <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
+                                                        {% if salon.adresse %}
+                                                            <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
+                                                            
+                                                        {% endif %}
+                                                        
+                                                    </ul></a>
+                                                    <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
+                                                    {% if salon.prixMoyen %}
+                                                        {{salon.prixMoyen ~'€'~}}
+                                                    {% endif %}
+                                                    </p></p>
+                                                    {% if salon.association %}
+                                                        <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
+                                                            {{salon.association }}
+                                                        </button>
+                                                    {% endif %}
 
-                                                {% if salon.done %}
-                                                    <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
-                                                            Done {{salon.done }}€
-                                                    </button>
-                                                {% endif %}
+                                                    {% if salon.done %}
+                                                        <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
+                                                                Done {{salon.done }}€
+                                                        </button>
+                                                    {% endif %}
                                             </div>
                                             
                                         </a>

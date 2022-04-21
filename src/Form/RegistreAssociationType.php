@@ -29,14 +29,14 @@ class RegistreAssociationType extends AbstractType
 
                 'attr' => [
 
-                    'placeholder' => 'Enter votre numéro de téléphone'
+                    'placeholder' => 'Entrer votre numéro de téléphone'
 
                 ]
 
             ])
             ->add('domination', TextType::class, [
                 'required' => true,
-                'label' => 'Dénomination organisme',
+                'label' => 'Votre dénomination',
                 'attr' => [
                     'placeholder' => 'Entrer dénomination organisme'
                 ]
@@ -60,7 +60,7 @@ class RegistreAssociationType extends AbstractType
 
             ->add('illustration', FileType::class, [
 
-                'label' => 'sélectionner une photo de magasin',
+                'label' => 'sélectionner une photo',
 
                 'mapped' => false,
 

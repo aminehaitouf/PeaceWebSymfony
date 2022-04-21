@@ -212,6 +212,7 @@ class professionnelController extends AbstractController
             $reservation->setCreatedAt(new \DateTime('now'));
             $reservation->setAds($produit);
             $reservation->setIsPaid(1);
+            $reservation->setEndDate(new \DateTime(date('Y-m-d H:i:s', strtotime('+30 minutes', strtotime($request->get("deteheure"))))));
             $reservation->setAvancement("Valider");
             $reservation->setIsBenevolat(false);
             $reservation->setDeteheure(new DateTime($request->get("deteheure")));

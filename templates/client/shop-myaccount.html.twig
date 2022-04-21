@@ -15,7 +15,7 @@
                     </div><!--end col-->
 
                     <div class="col-md-8 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                        <p class="text-muted mb-0">Launch your campaign and benefit from our expertise on designing and managing conversion centered bootstrap v5 html page.</p>
+                        <p class="text-muted mb-0"></p>
                     </div><!--end col-->
                 </div><!--end row-->
                 {% if err %}
@@ -27,16 +27,10 @@
                 <div class="row">
                     <div class="col-md-4 mt-4 pt-2">
                         <ul class="nav nav-pills nav-justified flex-column bg-white rounded shadow p-3 mb-0" id="pills-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link rounded active" id="dashboard" data-bs-toggle="pill" href="#dash" role="tab" aria-controls="dash" aria-selected="false">
-                                    <div class="text-start py-1 px-3">
-                                        <h6 class="mb-0"><i class="uil uil-dashboard h5 align-middle me-2 mb-0"></i> Dashboard</h6>
-                                    </div>
-                                </a><!--end nav link-->
-                            </li><!--end nav item-->
+                            
                             
                             <li class="nav-item mt-2">
-                                <a class="nav-link rounded" id="order-history" data-bs-toggle="pill" href="#orders" role="tab" aria-controls="orders" aria-selected="false">
+                                <a class="nav-link rounded active" id="order-history" data-bs-toggle="pill" href="#orders" role="tab" aria-controls="orders" aria-selected="false">
                                     <div class="text-start py-1 px-3">
                                         <h6 class="mb-0"><i class="uil uil-list-ul h5 align-middle me-2 mb-0"></i> Orders</h6>
                                     </div>
@@ -79,13 +73,9 @@
 
                     <div class="col-md-8 col-12 mt-4 pt-2">
                         <div class="tab-content" id="pills-tabContent">
-                            <div class="tab-pane fade bg-white show active shadow rounded p-4" id="dash" role="tabpanel" aria-labelledby="dashboard">
-                                <h6 class="text-muted">Hello <span class="text-dark">{{(user.lastname)|upper ~ ' ' ~ (user.firstname)|lower }}</span> (not <span class="text-dark">{{(user.lastname)|upper ~ ' ' ~ (user.firstname)|lower }}</span>? <a href="{{ path('app_logout') }}" class="text-danger">Log out</a>)</h6>
+                            
 
-                                <h6 class="text-muted mb-0">From your account dashboard you can view your <a href="javascript:void(0)" class="text-danger">recent orders</a>, manage your <a href="javascript:void(0)" class="text-danger">shipping and billing addresses</a>, and <a href="javascript:void(0)" class="text-danger">edit your password and account details</a>.</h6>
-                            </div><!--end teb pane-->
-
-                            <div class="tab-pane fade bg-white shadow rounded p-4" id="orders" role="tabpanel" aria-labelledby="order-history">
+                            <div class="tab-pane fade bg-white show active shadow rounded p-4" id="orders" role="tabpanel" aria-labelledby="order-history">
                                 <div style="margin:20px">
                                     <h3 class="text-warning">Mes Reservation </h3>
                                 </div>
@@ -164,7 +154,7 @@
                                                     
                     
                                                     <div class="col-lg-12 mt-4 mt-lg-0 pt-2 pt-lg-0">
-                                                        <h4 class="title" id="produit">Branded T-Shirts</h4>
+                                                        <h4 class="title" id="produit">Branded T-Shirts</h4>Chez(<span id="professionnel">Professionnel</span>)
                                                         <h5 class="text-muted" id="prix">$21.00 <del class="text-danger ms-2">$25.00</del> </h5>
                                                         <ul class="list-unstyled text-warning h5">
                                                             <li class="list-inline-item" id="servipar"></li>

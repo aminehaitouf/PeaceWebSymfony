@@ -18,9 +18,7 @@
             </div>
         </div> -->
         <!-- Loader -->
-        <div class="back-to-home rounded d-none d-sm-block">
-            <a href="indexPeace" class="btn btn-icon btn-soft-primary"><i data-feather="home" class="icons"></i></a>
-        </div>
+
 
         <!-- Hero Start -->
         <section style="margin-top:30px" class="bg-auth-home d-table w-100">
@@ -34,7 +32,7 @@
                     <div class="col-lg-5 col-md-6">
                         <div class="card shadow rounded border-0">
                             <div class="card-body">
-                                <h4 class="card-title text-center">Signup organisme</h4>  
+                                <h4 class="card-title text-center">Inscription organisme</h4>  
                                     {{ form_start(form,{attr:{class:"login-form mt-4"}}) }} 
                                     <div class="row">
                                         <div class="col-md-6">
@@ -131,7 +129,7 @@
                                             <div class="mb-3">
                                                 <div class="form-icon position-relative">
                                                     <label for="{{ form.password.children["first"].vars.id }}">{{ form.password.children["first"].vars.label }}</label>
-                                                    <input type="password" placeholder="Password" class="form-control ps-5" id="{{ form.password.children["first"].vars.id }}"
+                                                    <input type="password" placeholder="Votre mot de passe" class="form-control ps-5" id="{{ form.password.children["first"].vars.id }}"
                                                         name="{{ form.password.children["first"].vars.full_name }}">
                                                 </div>
                                             </div>
@@ -140,7 +138,7 @@
                                             <div class="mb-3">
                                                 <div class="form-icon position-relative">
                                                     <label for="{{ form.password.children["second"].vars.id }}">{{ form.password.children["second"].vars.label }}</label>
-                                                    <input type="password" placeholder="Repeat Password" class="form-control ps-5" id="{{ form.password.children["second"].vars.id }}"
+                                                    <input type="password" placeholder="Confirmer votre mot de passe" class="form-control ps-5" id="{{ form.password.children["second"].vars.id }}"
                                                         name="{{ form.password.children["second"].vars.full_name }}">
                                                 </div>
                                             </div>
@@ -152,8 +150,8 @@
                                             <div class="mb-3">
                                                 <div class="form-check">
                                                     {{ form_row(form.cgu ,{attr:{class:"form-check"}}) }}
-                                                    <label class="form-check-label" for="flexCheckDefault">I Accept <a href="#" class="text-primary">Terms And Condition</a></label>
-                                                </div>
+                                                <label style="margin-left:5px" class="form-check-label" for="flexCheckDefault">J'accepte <a href="/peace.CGU.pdf" class="text-primary">les Conditions Générales d'Utilisation</a></label>
+                                            </div>
                                             </div>
                                         </div>
 
@@ -182,7 +180,7 @@
                                         </div> -->
 
                                         <div class="mx-auto">
-                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Already have an account ?</small> <a href="login" class="text-dark fw-bold">Sign in</a></p>
+                                            <p class="mb-0 mt-3"><small class="text-dark me-2">Vous avez déjà un compte ?</small> <a href="/login" class="text-dark fw-bold">Se Connecter</a></p>
                                         </div>
                                     </div><!--end row-->
                                 {{ form_end(form) }}

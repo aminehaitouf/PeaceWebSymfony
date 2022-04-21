@@ -112,7 +112,7 @@
                         <!-- SOCIAL -->
                         <div class="widget mt-4">
                             <span class="bg-soft-dark d-block py-2 rounded shadow text-center h6 mb-0 text-muted">
-                                Social Media
+                            Support {{user.association}}
                             </span>
 
                             <ul class="list-unstyled social-icon text-center mb-0 mt-4">
@@ -168,8 +168,8 @@
                                                                 <div style="margin-right:100px" class="d-flex justify-content-end">
                                                                     <h6 ><h6 >
                                                                         {% if user.reduction != null %}
-                                                                            <span style="font-size:0.8em;  text-decoration: line-through;  color:red;">{{ads.prix}}€</span>
-                                                                        <span style="font-size:1em; color:green;">{{ads.prix - (ads.prix * user.reduction / 100)}}€</span>
+                                                                            <span style="font-size:0.8em;color:red;">{{ads.prix}}€</span>
+                                                                        <span style="margin-left:5px;font-size:1em; color:green;">-{{user.reduction}}%</span>
                                                                         {% else %}
                                                                         <span style="font-size:1em; color:green;">{{ads.prix}}€</span>
                                                                         {% endif %}
@@ -549,7 +549,7 @@
                         <!-- SOCIAL -->
                         <div class="widget mt-4">
                             <span class="bg-soft-dark d-block py-2 rounded shadow text-center h6 mb-0 text-muted">
-                                Social Media
+                                Support {{user.association}}
                             </span>
 
                             <ul class="list-unstyled social-icon text-center mb-0 mt-4">

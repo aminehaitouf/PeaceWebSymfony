@@ -89,7 +89,7 @@ class Calendar
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $maxSupport;
+    private $maxSupport=1;
     public function __construct()
     {
         $this->pause= new ArrayCollection();
