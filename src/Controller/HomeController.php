@@ -218,7 +218,7 @@ class HomeController extends AbstractController
 
             $user->setActivation($code);
             $user-> setAssociation($partenaire[0]->getDomination());
-            
+            // dd($user);
             $entityManager->persist($user);
             $entityManager->flush();
             $lastname = $user->getLastname();

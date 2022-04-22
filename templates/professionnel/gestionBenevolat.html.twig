@@ -12,11 +12,17 @@
     }
 </style>
 {% endblock %}
-
+<div class="page-heading">
+                <h3>Gestion des bénévolats </h3>
+            </div>
     <div class="main-content-inner">
         <div class="row">
         <div class="col-12 ">
                 <div class="card">
+                    <div class="d-flex justify-content-center card-header">
+                        <a class="btn btn-info" href="/professionnel/gestionMagasin">Gestion professionnelle</a>
+                        <a class="btn btn-warning" href="/professionnel/gestionBenevolat">Gestion des bénévolats </a>
+                    </div>
                     <div class="card-header">
                     </div>
                     <div class="card-content">
@@ -25,8 +31,6 @@
                             {{ form_start(form) }} 
                                 <div class="form-body">
                                     <div class="row">
-                                       
-                                        
                                         <div class="col-md-4">
                                             <label>Heure de début :<span class="text-danger">*</span></label>
                                         </div>
@@ -47,18 +51,9 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="col-md-4">
-                                            <label class="form-label">Le nombre du support de chaque heure : <span class="text-danger">*</span></label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="form-group has-icon-left">
-                                                <div class="position-relative">
-                                                    {{ form_row(form.maxSupport,{attr:{class:"form-control"}}) }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label">Jours de repos: <span class="text-danger">*</span></label>
+                                            <label class="form-label">Jours (concerné) : <span class="text-danger">*</span></label>
                                         </div>
                                             <div class="col-md-8">
                                                 <div class="form-group ">
@@ -67,9 +62,9 @@
                                             </div>
                                         
                                         <div class="col-12 d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                            <button type="submit" class="btn btn-primary me-1 mb-1">Enregistrer</button>
                                             <button type="reset"
-                                                class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                                class="btn btn-light-secondary me-1 mb-1">Annuler</button>
                                         </div>
                                     </div>
                                 </div>
@@ -84,15 +79,15 @@
             <div class="col-12 mt-5">
                 <div class="card">
                     <div class="card-body">
-                        <h4 >Liste des employés et heures de travail</h4>
+                        <h4 >Liste des disponibilités</h4>
 
                         <div class="data-tables datatable-dark">
                             <table id="dataTable3" class="text-center">
                                 <thead class="text-capitalize">
                                 <tr>
-                                    <th>Jours Repos</th>
-                                    <th>Heure début</th>
-                                    <th>Heure Fin</th>
+                                    <th>Jour</th>
+                                    <th>début</th>
+                                    <th>Fin</th>
                                     <th>Action</th>
 
                                 </tr>
@@ -101,35 +96,39 @@
                                     
                                     {% for calendar in calendars %}
                                     {% if calendar.user == user  %}
+                                    {% if calendar.title != "Benevolat" %}
+                                    
                                         <tr>
-                                            <td>{{calendar.dayon }}
-                                            <td>{{calendar.start|date( 'H:i') }}</td>
-                                            <td>{{calendar.end|date( 'H:i') }}</td>
+                                        <td>
+
+
+
+                                                    {% if calendar.dayon == 0 %}Dimanche
+                                                    {% elseif calendar.dayon == 1 %}Lundi
+                                                    {% elseif calendar.dayon == 2 %}Mardi
+                                                    {% elseif calendar.dayon == 3 %}Mercredi
+                                                    {% elseif calendar.dayon == 4 %}Jeudi
+                                                    {% elseif calendar.dayon == 5 %}Vendredi
+                                                    {% elseif calendar.dayon == 6 %}Samedi
                                             
-                                            {# {% for day in calendar.dayoff %}
-
-
-
-                                                    {% if day == 0 %}Dimanche,
-                                                    {% elseif day == 1 %}Lundi,
-                                                    {% elseif day == 2 %}Mardi,
-                                                    {% elseif day == 3 %}Mercredi,
-                                                    {% elseif day == 4 %}Jeudi,
-                                                    {% elseif day == 5 %}Vendredi,
-                                                    {% elseif day == 6 %}Samedi,
-                                                
                                                     {% endif %} 
                                                     
                                                 
                                                
                                                 
-                                            {% endfor %} #}
+                                        
+                                        </td>
+                                            <td>{{calendar.start|date( 'H:i') }}</td>
+                                            <td>{{calendar.end|date( 'H:i') }}</td>
+                                            
+                                            
                                             
                                             <td>
-                                                 <a href="/professionnel/{{calendar.id}}/supprimerCalendarbenevolat" class="btn btn-danger">Supprimer</a>
-                                                  <a href="/professionnel/modifierCalendarbenevolat/{{calendar.id}}" class="btn btn-success">Modifier</a>
+                                                 <a href="/professionnel/{{calendar.id}}/supprimerCalendar" class="btn btn-danger">Supprimer</a>
+                                                  <a href="/professionnel/modifierCalendar/{{calendar.id}}" class="btn btn-success">Modifier</a>
                                             </td>
                                         </tr>
+                                    {% endif %}
                                         {% endif %}
                                       {% endfor %}
                                 </tbody>

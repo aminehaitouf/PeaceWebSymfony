@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 
 class reserverDirectAssociation extends AbstractType
@@ -18,6 +19,13 @@ class reserverDirectAssociation extends AbstractType
         $builder
         
             ->add('description')
+            ->add('durebenevolat', NumberType::class, [
+                'required' => true,
+                'label' => 'Nombre d\'heures de bénévolat',
+                'attr' => [
+                    'placeholder' => 'Entrer le nombre d\'heures '
+                ]
+            ])
         ;
     }
 

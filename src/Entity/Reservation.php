@@ -125,6 +125,11 @@ class Reservation
      */
     private $endDate;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $durebenevolat = 2;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -378,6 +383,18 @@ class Reservation
     public function setEndDate(?\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
+
+        return $this;
+    }
+
+    public function getDurebenevolat(): ?int
+    {
+        return $this->durebenevolat;
+    }
+
+    public function setDurebenevolat(?int $durebenevolat): self
+    {
+        $this->durebenevolat = $durebenevolat;
 
         return $this;
     }

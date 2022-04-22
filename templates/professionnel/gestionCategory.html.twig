@@ -18,10 +18,10 @@
                                 <div style="margin-left:15%;margin-right:15%" class="card">
                                     <div class="card-content">
                                         <center><div class="card-body ">
-                                            <h4 >Ajouter une categorie</h4>
+                                            <h4 >Ajouter une catégorie</h4>
                                             {{ form_start(form,{attr:{class:"form form-horizontal "}})}}
                                             <div class="col-md-4">
-                                                <label>Titre du categorie</label>
+                                                <label>Titre de la catégorie</label>
                                             </div>
                                             <div class="col-md-8">
                                                 <div class="form-group has-icon-left">
@@ -32,7 +32,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 d-flex justify-content-center">
-                                                <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                                <button type="submit" class="btn btn-primary me-1 mb-1">Enregistrer</button>
                                             </div>
                                         {{ form_end(form)}}</center>
                                         </div>
@@ -57,6 +57,7 @@
 								<thead class="text-capitalize">
 									<tr>
 										<th>Titre</th>
+                                        <th>Action</th> 
 
 									</tr>
 								</thead>
@@ -66,6 +67,7 @@
                                                 {% if categorie.user == app.user %}
                                                         <tr>
                                                             <td>{{categorie.titre}}</td>
+                                                            <td><a href="/professionnel/modifierCategory/{{categorie.id}}" class="btn btn-success">Modifier</a></td>
                                                         </tr>
                                                     
                                                     

@@ -40,7 +40,7 @@ class Ads
     private $prix;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $categorie;
 
@@ -80,7 +80,7 @@ class Ads
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $durer;
+    private $durer= "60";
 
     public function __construct()
     {

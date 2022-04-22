@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 use DateTime;
-
+use App\Entity\User;
 use App\Entity\Ads;
 use App\Classe\Mail;
 use App\Form\AdsType;
@@ -86,6 +86,7 @@ class professionnelController extends AbstractController
             return $this->redirectToRoute('indexPeace');
         }
         $user = $security->getUser();
+        $asso = $user->getAssociation();
         $form = $this->createForm(professionnelinfoType::class, $user);
         $form->handleRequest($request);
         
@@ -99,16 +100,19 @@ class professionnelController extends AbstractController
                 $this->getParameter('Ads_files_directory'),
                 $fichier
             );
+            
             $user->setIllustration($fichier);
             }
-            
+            $partenaire = $entityManager->createQuery("SELECT User from App\Entity\User User where User.id = $asso ")
+            ->getResult();
+            $user-> setAssociation($partenaire[0]->getDomination());
 
             // On crée l'image dans la base de données
             
             $entityManager->flush();
             
 
-            return $this->redirectToRoute('indexProfessionnel', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('profil', [], Response::HTTP_SEE_OTHER);
         }
 
         $formChangePassword = $this->createForm(ChangePasswordType::class, $user);
@@ -218,6 +222,7 @@ class professionnelController extends AbstractController
             $reservation->setDeteheure(new DateTime($request->get("deteheure")));
             $entityManager->persist($reservation);
             $entityManager->flush();
+            
 
             return $this->redirectToRoute('commandes');
         }
@@ -274,11 +279,10 @@ class professionnelController extends AbstractController
         //dd($ad);
         $form = $this->createForm(modifierAdsType::class, $ad);
         $form->handleRequest($request);
-        $ad->setTitre("Reservation");
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if($ad->getTitre() == "Reservation"){
-                $ad->setTitre("Reservation");
+            if($ad->getTitre() == "Réserver une table"){
+                $ad->setTitre("Réserver une table");
                 // dd("bla bla");
             }
             $entityManager->flush();
@@ -373,6 +377,32 @@ class professionnelController extends AbstractController
             return $this->redirectToRoute('indexPeace');
         }
         $category = new Category();
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $category->setUser($security->getUser());
+            $entityManager->persist($category);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('gestionCategory', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('professionnel/gestionCategory.html.twig', [
+            'category' => $category,
+            'form' => $form,
+            'categories' => $categoryRepository->findAll(),
+        ]);
+    }
+     /**
+     * @Route("/modifierCategory/{id}", name="modifierCategory", methods={"GET", "POST"})
+     */
+    public function modifierCategory( Category $category,Security $security, Request $request, EntityManagerInterface $entityManager,CategoryRepository $categoryRepository): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
@@ -778,6 +808,62 @@ class professionnelController extends AbstractController
         return $this->render('professionnel/gestionProduit.html.twig', [
             'produits' => $produits,
         ]);
+    }
+    /**
+     * @Route("/{id}/visiblePourAssociation", name="visiblePourAssociation", methods={"GET","POST"})
+     */
+    public function visiblePourAssociation(Security $security,Request $request, User $user): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $user->setIsvisiblepourassociation(1);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $this->redirectToRoute('gestionMagasin');
+    }
+    /**
+     * @Route("/{id}/masquerPourAssociation", name="masquerPourAssociation", methods={"GET","POST"})
+     */
+    public function masquerPourAssociation(Security $security,Request $request, User $user): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $user->setIsvisiblepourassociation(0);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $this->redirectToRoute('gestionMagasin');
+    }
+    /**
+     * @Route("/{id}/visiblePourClient", name="visiblePourClient", methods={"GET","POST"})
+     */
+    public function visiblePourClient(Security $security,Request $request, User $user): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $user->setIsvisiblepourclient(1);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $this->redirectToRoute('gestionMagasin');
+    }
+    /**
+     * @Route("/{id}/masquerPourClient", name="masquerPourClient", methods={"GET","POST"})
+     */
+    public function masquerPourClient(Security $security,Request $request,User $user): Response
+    {
+        if (!$security->getUser()) {
+            return $this->redirectToRoute('indexPeace');
+        }
+        $user->setIsvisiblepourclient(0);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+        return $this->redirectToRoute('gestionMagasin');
     }
     
    

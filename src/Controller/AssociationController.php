@@ -75,20 +75,24 @@ class AssociationController extends AbstractController
         
         if ($form->isSubmitted() && $form->isValid()) {
             $image = $form->get('illustration')->getData();
-            $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+            if($image!= null){
+                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
 
             // On copie le fichier dans le dossier uploads
             $image->move(
                 $this->getParameter('Ads_files_directory'),
                 $fichier
             );
+            $user->setIllustration($fichier);
+            }
+
+        
 
             // On crée l'image dans la base de données
-            $user->setIllustration($fichier);
             $entityManager->flush();
             
 
-            return $this->redirectToRoute('indexProfessionnel', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('profilAssociation', [], Response::HTTP_SEE_OTHER);
         }
 
         $formChangePassword = $this->createForm(ChangePasswordType::class, $user);
@@ -103,7 +107,7 @@ class AssociationController extends AbstractController
             // dd($user);
             $entityManager->persist($user);
             $entityManager->flush();
-            return $this->redirectToRoute('indexProfessionnel', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('profilAssociation', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('association/profile.html.twig', [
@@ -147,6 +151,13 @@ class AssociationController extends AbstractController
             $reservation->setDeteheure(new DateTime($request->get("deteheure")));
             $entityManager->persist($reservation);
             $entityManager->flush();
+            $asso = $user->getDomination();
+            $emailprofessionnel = $produit->getUser()->getEmail();
+            $dominationprofessionnel = $produit->getUser()->getDomination();
+            $dateresrvation = $reservation->getDeteheure()->format('d-m-Y à H:i:s');
+            $adresse = $produit->getUser()->getAdresse()->getNom();
+            $mail2 = new Mail();
+            $mail2->send($emailprofessionnel, $dominationprofessionnel, "Demande en Bénévolat ", "Monsieur/Madame l\'association $asso souhaite réserver un RDV du bénévolta. la reservation pour le $dateresrvation</h3>  ");
 
             return $this->redirectToRoute('commandesAssociation');
         }
@@ -177,7 +188,12 @@ class AssociationController extends AbstractController
             $reservation->setDeteheure(new DateTime('2020-01-01 10:00:00'));
             $entityManager->persist($reservation);
             $entityManager->flush();
-
+            $asso = $user->getDomination();
+            $emailprofessionnel = $produit->getUser()->getEmail();
+            $dominationprofessionnel = $produit->getUser()->getDomination();
+            $adresse = $produit->getUser()->getAdresse()->getNom();
+            $mail2 = new Mail();
+            $mail2->send($emailprofessionnel, $dominationprofessionnel, "Demande en Bénévolat direct ", "Monsieur/Madame l\'association $asso souhaite réserver un RDV du bénévolta. la reservation contient un bénévolat direct");
             return $this->redirectToRoute('commandesAssociation');
         }
        

@@ -39,12 +39,23 @@
                                         </div>
                                        
                                         <div class="col-md-4">
-                                            <label class="form-label">Categirie <span class="text-danger">*</span></label>
+                                            <label class="form-label">Catégorie <span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group has-icon-left">
                                                 <div class="position-relative">
-                                                    {{ form_row(form.categorie,{attr:{class:"form-select"}}) }}
+                                                    {{ form_row(form.category,{attr:{class:"form-select"}}) }}
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label class="form-label">Durée de la prestation <span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="form-group has-icon-left">
+                                                <div class="position-relative">
+                                                    {{ form_row(form.durer,{attr:{class:"form-control",'type':'number'}}) }}
                                                     
                                                 </div>
                                             </div>
@@ -55,14 +66,14 @@
                                             <div class="col-md-8">
                                                 <div class="form-group with-title mb-3">
                                                     {{ form_row(form.description,{attr:{class:"form-control"}}) }}
-                                                    <label>Descriptez vos produit</label>
+                                                    <label>Décrivez votre produit</label>
                                                 </div>
                                             </div>
                                         
                                         <div class="col-12 d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">Submit</button>
+                                            <button type="submit" class="btn btn-primary me-1 mb-1">Enregistrer</button>
                                             <button type="reset"
-                                                class="btn btn-light-secondary me-1 mb-1">Reset</button>
+                                                class="btn btn-light-secondary me-1 mb-1">Annuler</button>
                                         </div>
                                     </div>
                                 </div>

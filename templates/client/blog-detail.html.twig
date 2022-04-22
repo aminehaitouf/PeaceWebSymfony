@@ -66,7 +66,7 @@
                         <!-- RECENT POST -->
                         <div class="widget mt-4">
                             {% if app.user and app.user.roles[0] == "ROLE_ASSO" %}
-                                <a  class="btn btn-pills btn-primary d-flex justify-content-center" href="/association/reserverAssociation/{{user.id}}">Réserver un bénévolat</a>
+                                <a  class="btn btn-pills btn-primary d-flex justify-content-center" href="/association/reserverAssociation/{{user.id}}">Réserver en bénévolat</a>
                             {% else %}
                                 <a  class="btn btn-pills btn-primary d-flex justify-content-center" href="#product">Prendre RDV</a>
                             {% endif %}
@@ -151,7 +151,7 @@
                                         {% for ads in user.ads %}
                                             {% if ads.isDeleted != 1 %}
                                                 {% if ads.isDisplay == 1 %}
-                                                {% if ads.categorie == categorie %}
+                                                {% if ads.category == categorie %}
                                                     <div class="col-lg-12" >
                                                     <div class="d-flex key-feature align-items-center p-3 rounded shadow">
                                                         
@@ -445,34 +445,107 @@
                                 <h5 class="card-title mb-0">Related Posts :</h5>
 
                                 <div class="row">
-                                    {% for salon in salons %}
-                                        
-                                    
-                                        <div class="col-lg-6 mt-4 pt-2">
-                                            <div class="card blog rounded border-0 shadow">
-                                            <a href="/detailProduitClient/{{salon.id}}">
-                                                <div class="position-relative">
-                                                    <img src="{{ asset('uploadsAds/'~salon.illustration) }}" style=" height: 300px; object-fit: cover;" class="card-img-top rounded-top" alt="...">
-                                                <div class="overlay rounded-top bg-dark"></div>
-                                                </div>
-                                                <div class="card-body content">
-                                                    <h5><a href="javascript:void(0)" class="card-title title text-dark">{{salon.domination}}</a></h5>
-                                                    <div class="post-meta d-flex justify-content-between mt-3">
-                                                        <ul class="list-unstyled mb-0">
-                                                            <li class="list-inline-item me-2 mb-0"><i class="uil uil-user"></i>{{salon.domination}}</li>
-                                                            <li class="list-inline-item"><i class="uil uil-books"></i>{{salon.domaine}}</li>
-                                                        </ul>
+                                {% for salon in salons %}
+                                {% if app.user != null and app.user.roles[0] == "ROLE_ASSO"%}
+                                    {% if salon.isvisiblepourassociation == 1 %}
+                                        <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
+                                                                data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
+                                                <div class="card work-container work-modern  border-0 overflow-hidden ">
+                                                    <div class="card-body p-0 ">
+                                                        <a href="detailProduitClient/{{salon.id}}">
+                                                            <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
+                                                            
+                                                            <div class="overlay-work "></div>
+                                                            <div style="opacity: 1;width: 90%;" class="op content ">
+                                                            {% if salon.reduction != null %}
+                                                                <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
+                                                            {% endif %}
+                                                            
+                                                                
+                                                                <a href="detailProduitClient/{{salon.id}}"  class="title pb-2 border-bottom ">{{salon.domination}}
+                                                                <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
+                                                                    <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
+                                                                    {% if salon.adresse %}
+                                                                        <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
+                                                                        
+                                                                    {% endif %}
+                                                                    
+                                                                </ul></a>
+                                                                <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
+                                                                {% if salon.prixMoyen %}
+                                                                    {{salon.prixMoyen ~'€'~}}
+                                                                {% endif %}
+                                                                </p></p>
+                                                                {% if salon.association %}
+                                                                    <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
+                                                                        {{salon.association }}
+                                                                    </button>
+                                                                {% endif %}
+    
+                                                                {% if salon.done %}
+                                                                    <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
+                                                                            Done {{salon.done }}€
+                                                                    </button>
+                                                                {% endif %}
+                                                            </div>
+                                                            
+                                                        </a>
                                                     </div>
                                                 </div>
-
-                                            
-                                            
-                                            
-                                            </a>
+                                            </div><!--end col-->
+                                    {% endif %}
+                                {% else %}
+                                {% if salon.isvisiblepourclient == 1 %}
+                                <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
+                                data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
+                                    <div class="card work-container work-modern  border-0 overflow-hidden ">
+                                        <div class="card-body p-0 ">
+                                            <a href="detailProduitClient/{{salon.id}}">
+                                                <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
                                                 
-                                            </div>
-                                        </div><!--end col-->
-                                    {% endfor %}
+                                                <div class="overlay-work "></div>
+                                                <div style="opacity: 1;width: 90%;" class="op content ">
+                                                {% if salon.reduction != null %}
+                                                    <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
+                                                {% endif %}
+                                                
+                                                    
+                                                    <a href="detailProduitClient/{{salon.id}}"  class="title pb-2 border-bottom ">{{salon.domination}}
+                                                    <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
+                                                        <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
+                                                        {% if salon.adresse %}
+                                                            <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
+                                                            
+                                                        {% endif %}
+                                                        
+                                                    </ul></a>
+                                                    <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
+                                                    {% if salon.prixMoyen %}
+                                                        {{salon.prixMoyen ~'€'~}}
+                                                    {% endif %}
+                                                    </p></p>
+                                                    {% if salon.association %}
+                                                        <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
+                                                            {{salon.association }}
+                                                        </button>
+                                                    {% endif %}
+    
+                                                    {% if salon.done %}
+                                                        <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
+                                                                Done {{salon.done }}€
+                                                        </button>
+                                                    {% endif %}
+                                                </div>
+                                                
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div><!--end col-->
+                                {% endif %}
+                                {% endif %}
+                                
+                                    
+                                {% endfor %}
                                     
                                 </div><!--end row-->
                             </div>
@@ -503,7 +576,7 @@
                         <!-- RECENT POST -->
                         <div class="widget mt-4">
                             {% if app.user and app.user.roles[0] == "ROLE_ASSO" %}
-                                <a  class="btn btn-pills btn-primary d-flex justify-content-center" href="/association/reserverAssociation/{{user.id}}">Réserver un bénévolat</a>
+                                <a  class="btn btn-pills btn-primary d-flex justify-content-center" href="/association/reserverAssociation/{{user.id}}">Réserver en bénévolat</a>
                             {% else %}
                                 <a  class="btn btn-pills btn-primary d-flex justify-content-center" href="#product">Prendre RDV</a>
                             {% endif %}
@@ -549,7 +622,7 @@
                         <!-- SOCIAL -->
                         <div class="widget mt-4">
                             <span class="bg-soft-dark d-block py-2 rounded shadow text-center h6 mb-0 text-muted">
-                                Support {{user.association}}
+                                 {{user.association}}
                             </span>
 
                             <ul class="list-unstyled social-icon text-center mb-0 mt-4">

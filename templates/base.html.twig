@@ -174,13 +174,13 @@
                                         <div style="margin-top:10%" class="col-lg-12 mb-0">
                                             <div class="d-grid">
                                                 {% if app.user.roles[0] == "ROLE_COM" %}
-                                                    <a href="{{ path('indexProfessionnel') }}" class="btn btn-primary">Mon information</a>
+                                                    <a href="{{ path('indexProfessionnel') }}" class="btn btn-primary">Mes informations</a>
                                                 {% endif %}
                                                 {% if app.user.roles[0] == "ROLE_ASSO" %}
-                                                    <a href="{{ path('indexAssociation') }}" class="btn btn-primary">Mon information</a>
+                                                    <a href="{{ path('indexAssociation') }}" class="btn btn-primary">Mes informations</a>
                                                 {% endif %}
                                                 {% if app.user.roles[0] == "ROLE_USER" %}
-                                                    <a href="/profileClient" class="btn btn-primary">Mon information</a>
+                                                    <a href="/profileClient" class="btn btn-primary">Mes informations</a>
                                                 {% endif %}
                                             </div>
                                         </div><!--end col-->

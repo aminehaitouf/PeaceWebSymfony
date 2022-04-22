@@ -22,18 +22,21 @@
                     <div class="card">
                                 <div class="d-flex justify-content-center card-header">
                                      <a class="btn btn-info" href="/professionnel/ajoutproduitCommercant">Ajout produit</a>
-                                     <a class="btn btn-warning" href="/professionnel/ajoutReduction">Ajout Reduction</a>
+                                     {# <a class="btn btn-warning" href="/professionnel/ajoutReduction">Ajout Reduction</a> #}
                                  </div>
-                                 {% if produits[0].user.reduction != null or produits[0].user.reduction == 0 %}
+                                 {# {% if produits[0] is not empty %}
+                                 
+                                 {% if produits[0].user.reduction != null or produits[0].user.reduction != 0 %}
                                     <div class="page-title">
                                         <div class="row">
                                             <div class="col-12 col-md-6 order-md-1 order-last">
-                                <span style="color: orange">Vous avez fait une reduction de {{produits[0].user.reduction}}% sur tous les produits</span>
+                                                <span style="color: orange">Vous avez fait une reduction de {{produits[0].user.reduction}}% sur tous les produits</span>
                                             </div>
                             
                                         </div>
                                     </div>
                                 {% endif %}
+                            {% endif %} #}
                         <div class="card-body">
                             <table id="dataTable3" class="text-center">
 								<thead class="text-capitalize">
@@ -56,7 +59,12 @@
                                                 <tr >
                                                     <td style="background-color:#bde9ba">{{produit.titre}}</td>
                                                     <td style="background-color:#bde9ba">{{produit.prix}}</td>
-                                                    <td style="background-color:#bde9ba">{{produit.categorie}}</td>
+                                                    <td style="background-color:#bde9ba">
+                                                        {% if produit.category %}
+                                                        {{produit.category.titre}}
+                                                        {% endif %}
+                                                        
+                                                </td>
 
                                                     <td style="background-color:#bde9ba">
                                                         <a class="btn btn-primary" href="/professionnel/detailProduit/{{produit.id}}">Afficher</a>

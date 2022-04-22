@@ -15,6 +15,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -27,7 +29,7 @@ class professionnelinfoType extends AbstractType
     {
         $this->entityManager = $entityManager;
         $this->association = $this->entityManager->createQuery("SELECT User from App\Entity\User User where User.roles like '%ROLE_ASSO%' ")->getResult();
-        //dd($this->association);
+        // dd($this->association->getDomination());
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -46,11 +48,18 @@ class professionnelinfoType extends AbstractType
                 'placeholder' => 'Entrer votre nom'
             ]
         ])
+        ->add('prixMoyen', TextType::class, [
+            'required' => true,
+            'label' => 'Votre prix moyen (prestation)',
+            'attr' => [
+                'placeholder' => 'Prix moyen de vos prestations'
+            ]
+        ])
         ->add('description', TextType::class, [
             'required' => true,
             'label' => 'Votre description de la boutique',
             'attr' => [
-                'placeholder' => 'Entrer votre description de la boutique'
+                'placeholder' => 'Entrer la description de votre activité'
             ]
         ])
         ->add('mobile', TelType::class, [
@@ -79,15 +88,43 @@ class professionnelinfoType extends AbstractType
         //     ],
         // ])
         
+        ->add('nbrheurebenevole', NumberType::class, [
+            'required' => true,
+            'label' => 'Aide bénévole (par an)',
+            'attr' => [
+                'placeholder' => 'Entrer votre nombre d\'heures de bénévolat (par an)  '
+            ]
+        ])
         
+        ->add('done', NumberType::class, [
+            'required' => true,
+            'label' => 'Don à l\'association (par réservation)',
+            'attr' => [
+                'placeholder' => 'Entrer la veleur du don (par réservation)'
+            ]
+        ])
         ->add('association',ChoiceType::class, [
             'choice_label' => 'domination',
             'choices' => $this->association,
             
         ])
+        ->add('reduction', ChoiceType::class, [
+            'required' => true,
+            'label' => 'Pourcentage de réduction',
+            'choices'  => [
+                '0 %' => 0,
+                '10 %' => 10,
+                '20 %' => 20,
+                '30 %' => 30,
+                '40 %' => 40,
+                '50 %' => 50,
+
+            ]
+            
+        ])
         ->add('illustration', FileType::class, [
 
-            'label' => 'sélectionner une photo',
+            'label' => 'Sélectionner une photo',
 
             'mapped' => false,
             'required'   => false,

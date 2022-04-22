@@ -38,7 +38,7 @@ class RegistreAssociationType extends AbstractType
                 'required' => true,
                 'label' => 'Votre dénomination',
                 'attr' => [
-                    'placeholder' => 'Entrer dénomination organisme'
+                    'placeholder' => 'Entrer dénomination de l\'organisme'
                 ]
             ])
             ->add('siret', TextType::class, [
@@ -60,7 +60,7 @@ class RegistreAssociationType extends AbstractType
 
             ->add('illustration', FileType::class, [
 
-                'label' => 'sélectionner une photo',
+                'label' => 'Sélectionner une photo',
 
                 'mapped' => false,
 
@@ -70,7 +70,7 @@ class RegistreAssociationType extends AbstractType
 
             ->add('email', EmailType::class, [
                 'required' => true,
-                'label' => 'Votre Courriel',
+                'label' => 'Votre courriel',
                 'attr' => [
                     'placeholder' => 'Entrer votre courriel'
                 ]

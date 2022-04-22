@@ -185,7 +185,7 @@ class User implements UserInterface
      * @ORM\Column(type="float", nullable=true)
      * @Groups({"users_read"})
      */
-    private $prixMoyen;
+    private $prixMoyen = 16;
 
     /**
      * @ORM\OneToMany(targetEntity=Competence::class, mappedBy="user")
@@ -228,6 +228,21 @@ class User implements UserInterface
      * @Groups({"users_read"})
      */
     private $cgu;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $nbrheurebenevole = 7;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isvisiblepourassociation = 1;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isvisiblepourclient = 1;
 
    
 
@@ -801,6 +816,42 @@ class User implements UserInterface
     public function setCgu(?bool $cgu): self
     {
         $this->cgu = $cgu;
+
+        return $this;
+    }
+
+    public function getNbrheurebenevole(): ?int
+    {
+        return $this->nbrheurebenevole;
+    }
+
+    public function setNbrheurebenevole(?int $nbrheurebenevole): self
+    {
+        $this->nbrheurebenevole = $nbrheurebenevole;
+
+        return $this;
+    }
+
+    public function getIsvisiblepourassociation(): ?bool
+    {
+        return $this->isvisiblepourassociation;
+    }
+
+    public function setIsvisiblepourassociation(?bool $isvisiblepourassociation): self
+    {
+        $this->isvisiblepourassociation = $isvisiblepourassociation;
+
+        return $this;
+    }
+
+    public function getIsvisiblepourclient(): ?bool
+    {
+        return $this->isvisiblepourclient;
+    }
+
+    public function setIsvisiblepourclient(?bool $isvisiblepourclient): self
+    {
+        $this->isvisiblepourclient = $isvisiblepourclient;
 
         return $this;
     }

@@ -17,15 +17,16 @@ class CalendarType extends AbstractType
     {
         $builder
             ->add('start',TimeType::class, [
+                'label' => false,
                 'input'  => 'datetime',
                 'widget' => 'single_text', 
             ])
             ->add('maxSupport', TextType::class, [
                 'required' => true,
-                'label' => 'Le nombre du support de chaque heure',
-                
+                'label' => false,                
             ])
             ->add('end',TimeType::class, [
+                'label' => false,
                 'input'  => 'datetime',
                 'widget' => 'single_text', 
             ])

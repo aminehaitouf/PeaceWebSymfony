@@ -16,7 +16,7 @@ class AdresseType extends AbstractType
         $builder
             ->add('nom', TextType::class, [
                 'required' => true,
-                'label' => 'Entrer votre Adresse',
+                'label' => 'Entrer votre adresse',
                 'attr' => [
                     'placeholder' => 'Entrer votre adresse'
                 ]

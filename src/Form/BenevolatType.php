@@ -18,16 +18,14 @@ class BenevolatType extends AbstractType
         $builder
             ->add('start',TimeType::class, [
                 'input'  => 'datetime',
-                'widget' => 'single_text', 
+                'widget' => 'single_text',
+                'label' => false,
             ])
-            ->add('maxSupport', TextType::class, [
-                'required' => true,
-                'label' => 'Le nombre du support de chaque heure',
-                
-            ])
+
             ->add('end',TimeType::class, [
                 'input'  => 'datetime',
                 'widget' => 'single_text', 
+                'label' => false,
             ])
             ->add('dayon',ChoiceType::class, [
                 'choices' => [
@@ -45,10 +43,7 @@ class BenevolatType extends AbstractType
             'multiple'=>false,
             "expanded"=>true,
             'required' => true,
-                'label' => 'Entrer les jours de repos',
-                'attr' => [
-                    'placeholder' => 'Entrer les jours de repos'
-                ]
+                'label' => false,
             ])
             
         ;

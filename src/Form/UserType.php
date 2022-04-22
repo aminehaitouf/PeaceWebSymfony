@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\UserRepository;
 
@@ -76,6 +78,13 @@ class UserType extends AbstractType
            
             ],
         ])
+        ->add('done', NumberType::class, [
+            'required' => true,
+            'label' => 'Don à l\'association',
+            'attr' => [
+                'placeholder' => 'Entrer la veleur du don de chaque prestation '
+            ]
+        ])
         
         ->add('association',ChoiceType::class, [
             'label' => "Votre association",
@@ -85,7 +94,7 @@ class UserType extends AbstractType
         ])
         ->add('illustration', FileType::class, [
 
-            'label' => 'sélectionner une photo',
+            'label' => 'Sélectionner une photo',
 
             'mapped' => false,
             'required'   => false,

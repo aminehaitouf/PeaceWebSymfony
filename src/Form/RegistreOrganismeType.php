@@ -72,18 +72,13 @@ class RegistreOrganismeType extends AbstractType
                     'placeholder' => 'Entrer votre SIRET'
                 ]
             ])
-            ->add('prixMoyen', TextType::class, [
-                'required' => true,
-                'label' => 'Votre prix moyen (prestation)',
-                'attr' => [
-                    'placeholder' => 'Prix moyen de vous produits'
-                ]
-            ])
+            
             ->add('domaine', ChoiceType::class, [
                 'required' => true,
                 'label' => "Votre domaine d'activité",
                 'choices'  => [
-                    'Salon de coiffure/Beauté' => 'Salon de coiffure/Beauté',
+                    'Salon de coiffure' => 'Salon de coiffure',
+                    'Salon de beauté' => 'Salon de beauté',
                     'Restaurant' => 'Restaurant',
                     'Consultant/Freelance' => 'Consultant/Freelance',
                     'Autre' => 'Autre',

@@ -65,7 +65,7 @@
 
                 <a href="/professionnel/gestionCategory" class='sidebar-link'>
                     <i class="bi bi-bar-chart-steps"></i>
-                    <span>Gestion des categories</span>
+                    <span>Gestion des catégories</span>
                 </a>
             </li>
             {% if app.user.domaine == "Consultant/Freelance" %}
@@ -95,23 +95,17 @@
 
                 <a href="/professionnel/gestionProduit" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
-                    <span>Gestion des Produits</span>
+                    <span>Gestion des produits</span>
                 </a>
             </li>
-            <li {% if route_name == "gestionMagasin"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+            <li {% if route_name == "gestionMagasin" or route_name == "gestionBenevolat"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
                 <a href="/professionnel/gestionMagasin" class='sidebar-link'>
                     <i class="bi bi-grid-fill"></i>
                     <span>Gestion des disponibilités</span>
                 </a>
             </li>
-            <li {% if route_name == "gestionBenevolat"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
-
-                <a href="/professionnel/gestionBenevolat" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
-                    <span>Gestion des benevolats</span>
-                </a>
-            </li>
+            
             
             <li {% if route_name == "commandes" or route_name == "detailCommande" or route_name == "motifRefusCommande" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
                 <a href="/professionnel/commandes " class='sidebar-link'>
@@ -122,7 +116,7 @@
             <li {% if route_name == "BenevolatPro" or route_name == "BenevolatPro" or route_name == "motifRefusCommande" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
                 <a href="/professionnel/BenevolatPro " class='sidebar-link'>
                     <i class="bi bi-basket3"></i>
-                    <span>Benevolats</span><h5><span style="color:red" class="badge badge-danger">{{ getBenevolat() }}</span></h5>
+                    <span>Bénévolats</span><h5><span style="color:red" class="badge badge-danger">{{ getBenevolat() }}</span></h5>
                 </a>
             </li>
             <li >

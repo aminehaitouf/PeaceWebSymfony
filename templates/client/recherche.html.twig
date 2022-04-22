@@ -136,7 +136,8 @@
                         <div class="filters-group">
                             <ul class="container-filter list-inline mb-0 filter-options">
                                 <li class="list-inline-item categories-name border text-dark rounded active" data-group="all">Tous</li>
-                                <li class="list-inline-item categories-name border text-dark rounded" data-group="Salon de coiffure/Beauté">Salon de coiffure/Beauté</li>
+                                <li class="list-inline-item categories-name border text-dark rounded" data-group="Salon de coiffure">Salon de coiffure</li>
+                                <li class="list-inline-item categories-name border text-dark rounded" data-group="Salon de beauté">Salon de beauté</li>
                                 <li class="list-inline-item categories-name border text-dark rounded" data-group="Restaurant">Restaurant</li>
                                 <li class="list-inline-item categories-name border text-dark rounded" data-group="Consultant/Freelance">Consultant/Freelance</li>
                                 <li class="list-inline-item categories-name border text-dark rounded" data-group="Autre">Autre</li>
@@ -147,52 +148,106 @@
         
                         <div id="grid" class="row">
                         {% for salon in salons %}
-                        <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
-                                             data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
-                            <div class="card work-container work-modern  border-0 overflow-hidden ">
-                                <div class="card-body p-0 ">
-                                    <a href="detailProduitClient/{{salon.id}}">
-                                        <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
-                                        
-                                        <div class="overlay-work "></div>
-                                        <div style="opacity: 1;width: 90%;" class="op content ">
-                                        {% if salon.reduction != null %}
-                                            <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
-                                        {% endif %}
-                                        
-                                                    
-                                            <a href="detailProduitClient/{{salon.id}}"  class="title pb-2 border-bottom ">{{salon.domination}}
-                                            <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
-                                                <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
-                                                {% if salon.adresse %}
-                                                    <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
-                                                    
-                                                {% endif %}
-                                                
-                                            </ul></a>
-                                            <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
-                                            {% if salon.prixMoyen %}
-                                                {{salon.prixMoyen ~'€'~}}
-                                            {% endif %}
-                                            </p></p>
-                                            {% if salon.association %}
-                                                <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
-                                                    {{salon.association }}
-                                                </button>
-                                            {% endif %}
+                            {% if app.user != null and app.user.roles[0] == "ROLE_ASSO"%}
+                                {% if salon.isvisiblepourassociation == 1 %}
+                                    <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
+                                                            data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
+                                            <div class="card work-container work-modern  border-0 overflow-hidden ">
+                                                <div class="card-body p-0 ">
+                                                    <a href="detailProduitClient/{{salon.id}}">
+                                                        <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
+                                                        
+                                                        <div class="overlay-work "></div>
+                                                        <div style="opacity: 1;width: 90%;" class="op content ">
+                                                        {% if salon.reduction != null %}
+                                                            <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
+                                                        {% endif %}
+                                                        
+                                                            
+                                                            <a href="detailProduitClient/{{salon.id}}"  class="title pb-2 border-bottom ">{{salon.domination}}
+                                                            <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
+                                                                <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
+                                                                {% if salon.adresse %}
+                                                                    <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
+                                                                    
+                                                                {% endif %}
+                                                                
+                                                            </ul></a>
+                                                            <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
+                                                            {% if salon.prixMoyen %}
+                                                                {{salon.prixMoyen ~'€'~}}
+                                                            {% endif %}
+                                                            </p></p>
+                                                            {% if salon.association %}
+                                                                <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
+                                                                    {{salon.association }}
+                                                                </button>
+                                                            {% endif %}
 
-                                            {% if salon.done %}
-                                                <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
-                                                        Done {{salon.done }}€
-                                                </button>
+                                                            {% if salon.done %}
+                                                                <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
+                                                                        Done {{salon.done }}€
+                                                                </button>
+                                                            {% endif %}
+                                                        </div>
+                                                        
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div><!--end col-->
+                                {% endif %}
+                            {% else %}
+                            {% if salon.isvisiblepourclient == 1 %}
+                            <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
+                            data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
+                                <div class="card work-container work-modern  border-0 overflow-hidden ">
+                                    <div class="card-body p-0 ">
+                                        <a href="detailProduitClient/{{salon.id}}">
+                                            <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
+                                            
+                                            <div class="overlay-work "></div>
+                                            <div style="opacity: 1;width: 90%;" class="op content ">
+                                            {% if salon.reduction != null %}
+                                                <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
                                             {% endif %}
-                                        </div>
-                                        
-                                    </a>
+                                            
+                                                
+                                                <a href="detailProduitClient/{{salon.id}}"  class="title pb-2 border-bottom ">{{salon.domination}}
+                                                <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
+                                                    <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
+                                                    {% if salon.adresse %}
+                                                        <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
+                                                        
+                                                    {% endif %}
+                                                    
+                                                </ul></a>
+                                                <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
+                                                {% if salon.prixMoyen %}
+                                                    {{salon.prixMoyen ~'€'~}}
+                                                {% endif %}
+                                                </p></p>
+                                                {% if salon.association %}
+                                                    <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
+                                                        {{salon.association }}
+                                                    </button>
+                                                {% endif %}
+
+                                                {% if salon.done %}
+                                                    <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
+                                                            Done {{salon.done }}€
+                                                    </button>
+                                                {% endif %}
+                                            </div>
+                                            
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </div><!--end col-->
-                    {% endfor %}
+                            </div><!--end col-->
+                            {% endif %}
+                            {% endif %}
+                            
+                                
+                            {% endfor %}
                             
                         </div><!--end row-->
 

@@ -17,7 +17,7 @@
                 <div class="page-title">
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-1 order-last">
-                            <h3>Réservations En cours de traitement</h3>
+                            <h3>Réservations à confirmer (en cours de traitement)</h3>
                         </div>
                         
                         
@@ -34,13 +34,13 @@
                             <table id="dataTable3" class="text-center">
 								<thead class="text-capitalize">
 									<tr>
-										<th>Nom du client</th>
-										<th>Email du client</th>
-										<th>Produit acheté</th>
-                                        <th>Quantité</th>  
-										<th>date du réservation</th>
-										<th>telephone</th>
-										<th>Action</th>
+                                    <th>Nom du client</th>
+                                    <th>Email du client</th>
+                                    <th>Produit</th>
+                                    <th>Quantité</th>
+                                    <th>date</th>
+                                    <th>téléphone</th>
+                                    <th>Action</th>
 
 									</tr>
 								</thead>
@@ -51,7 +51,7 @@
                                                 <tr>
                                                     <td>
                                                         {% if app.user == reservation.client %}
-                                                        reservation par autre moyen
+                                                        Réservation manuelle
                                                     {% else %}
                                                         {% if reservation.client.firstname %}
                                                              {{reservation.client.firstname ~' '~ reservation.client.lastname|upper}}
@@ -65,7 +65,7 @@
                                                     </td>
                                                     <td>
                                                     {% if app.user == reservation.client %}
-                                                        reservation par autre moyen
+                                                        Réservation manuelle
                                                     {% else %}
                                                         {{reservation.client.email}}
                                                     {% endif %}
@@ -79,13 +79,13 @@
                                                     <td>{{reservation.deteheure|date( 'j/m/Y à  H:i')}}</td>
                                                     <td>
                                                         {% if app.user == reservation.client %}
-                                                        reservation par autre moyen
+                                                        Réservation manuelle
                                                     {% else %}
                                                         {{reservation.client.mobile}}
                                                     {% endif %}
                                                     </td>
                                                     <td >
-                                                            <a class="btn btn-primary" href="/professionnel/detailReservation/{{reservation.id}}">Detail</a>
+                                                            <a class="btn btn-primary" href="/professionnel/detailReservation/{{reservation.id}}">Détail</a>
                                                             <a class="btn btn-success" href="/professionnel/{{reservation.id}}/valideCommande">Valider</a>
                                                             <a class="btn btn-danger" href="/professionnel/{{reservation.id}}/motifRefusCommande">Refuser</a>
                                                     </td>
@@ -103,7 +103,7 @@
                 <div class="page-title">
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-1 order-last">
-                            <h3>Réservations Valider</h3>
+                            <h3>Réservations confirmées</h3>
                         </div>
                         
                     </div>
@@ -115,13 +115,13 @@
                             <table id="dataTable2" class="text-center">
 								<thead class="text-capitalize">
 									<tr>
-										<th>Nom du client</th>
-										<th>Email du client</th>
-										<th>Produit acheté</th>
-                                        <th>Quantité</th>
-										<th>date du réservation</th>
-										<th>telephone</th>
-										<th>Action</th>
+                                    <th>Nom du client</th>
+                                    <th>Email du client</th>
+                                    <th>Produit</th>
+                                    <th>Quantité</th>
+                                    <th>date</th>
+                                    <th>téléphone</th>
+                                    <th>Action</th>
 
 									</tr>
 								</thead>
@@ -132,7 +132,7 @@
                                             <tr>
                                                 <td>
                                                     {% if app.user == reservation.client %}
-                                                    reservation par autre moyen
+                                                    Réservation manuelle
                                                 {% else %}
                                                     {% if reservation.client.firstname %}
                                                          {{reservation.client.firstname ~' '~ reservation.client.lastname|upper}}
@@ -146,7 +146,7 @@
                                                 </td>
                                                 <td>
                                                 {% if app.user == reservation.client %}
-                                                    reservation par autre moyen
+                                                    Réservation manuelle
                                                 {% else %}
                                                     {{reservation.client.email}}
                                                 {% endif %}
@@ -160,14 +160,14 @@
                                                 <td>{{reservation.deteheure|date( 'j/m/Y à  H:i')}}</td>
                                                 <td>
                                                     {% if app.user == reservation.client %}
-                                                    reservation par autre moyen
+                                                    Réservation manuelle
                                                 {% else %}
                                                     {{reservation.client.mobile}}
                                                 {% endif %}
                                                 </td>
                                                     <td >
-                                                            <a class="btn btn-success" href="/professionnel/{{reservation.id}}/commandeServie">Servire</a>
-                                                        <a class="btn btn-primary" href="/professionnel/detailReservation/{{reservation.id}}">Detail</a>
+                                                            <a class="btn btn-success" href="/professionnel/{{reservation.id}}/commandeServie">Servir</a>
+                                                        <a class="btn btn-primary" href="/professionnel/detailReservation/{{reservation.id}}">Détail</a>
                                                     </td>
 
                                                 </tr>
@@ -185,7 +185,7 @@
                 <div class="page-title">
                     <div class="row">
                         <div class="col-12 col-md-6 order-md-1 order-last">
-                            <h3>Réservations Servie</h3>
+                            <h3>Réservations accomplies</h3>
                         </div>
                         
                     </div>
@@ -199,10 +199,10 @@
 									<tr>
 										<th>Nom du client</th>
 										<th>Email du client</th>
-										<th>Produit acheté</th>
+										<th>Produit</th>
                                         <th>Quantité</th>
-										<th>date du réservation</th>
-										<th>telephone</th>
+										<th>date</th>
+										<th>téléphone</th>
 										<th>Action</th>
 
 									</tr>
@@ -214,7 +214,7 @@
                                             <tr>
                                                 <td>
                                                     {% if app.user == reservation.client %}
-                                                    reservation par autre moyen
+                                                    Réservation manuelle
                                                 {% else %}
                                                     {% if reservation.client.firstname %}
                                                          {{reservation.client.firstname ~' '~ reservation.client.lastname|upper}}
@@ -228,7 +228,7 @@
                                                 </td>
                                                 <td>
                                                 {% if app.user == reservation.client %}
-                                                    reservation par autre moyen
+                                                    Réservation manuelle
                                                 {% else %}
                                                     {{reservation.client.email}}
                                                 {% endif %}
@@ -242,14 +242,14 @@
                                                 <td>{{reservation.deteheure|date( 'j/m/Y à  H:i')}}</td>
                                                 <td>
                                                     {% if app.user == reservation.client %}
-                                                    reservation par autre moyen
+                                                    Réservation manuelle
                                                 {% else %}
                                                     {{reservation.client.mobile}}
                                                 {% endif %}
                                                 </td>
                                                     <td >
                                                             {# <a href="/professionnel/detailCommande"><i  class="bi bi-eye icons"></i></a> #}
-                                                        <a class="btn btn-primary" href="/professionnel/detailReservation/{{reservation.id}}">Detail</a>
+                                                        <a class="btn btn-primary" href="/professionnel/detailReservation/{{reservation.id}}">Détail</a>
                                                     {# <a href="/professionnel/motifRefusCommande"><i  class="bi bi-trash icons"></i></a> #}
                                                     </td>
 

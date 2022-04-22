@@ -2,14 +2,14 @@
  {% block body %}  
             
 <div class="page-heading">
-    <h3>Profile </h3>
+    <h3>Réservation </h3>
 </div>
 <div class="page-content">
     <section class="row">
         <div class="col-12 ">
                 <div class="card">
                     <div class="card-header">
-                    <h5 class="mt-4">Details reservation :</h5>
+                    <h5 class="mt-4">Détails de la réservation :</h5>
                     </div>
                     <div class="card-content">
                         <div class="card-body">
@@ -18,7 +18,7 @@
                                     <div class="row">
                                     {% if app.user != reservation.client %}
                                         <div class="col-md-4">
-                                            <label>Nom client<span class="text-danger">*</span></label>
+                                            <label>Nom du client<span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group ">
@@ -44,7 +44,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <label>telephone<span class="text-danger">*</span></label>
+                                            <label>Téléphone<span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group ">
@@ -56,7 +56,7 @@
                                         </div>
                                     {% endif %}
                                         <div class="col-md-4">
-                                            <label>produit acheter<span class="text-danger">*</span></label>
+                                            <label>Produit commandé<span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group ">
@@ -78,7 +78,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <label>Date reservation<span class="text-danger">*</span></label>
+                                            <label>Date de la réservation<span class="text-danger">*</span></label>
                                         </div>
                                         <div class="col-md-8">
                                             <div class="form-group ">
@@ -95,7 +95,7 @@
                                         <div class="col-md-8">
                                             <div class="form-group ">
                                                 <div class="position-relative">
-                                                    <textarea name="comments" disabled id="comments" rows="4" class="form-control ps-5" placeholder="Message :">{{reservation.description}}</textarea>
+                                                    <textarea name="comments" disabled id="comments" rows="4" class="form-control ps-5" placeholder="Description :">{{reservation.description}}</textarea>
                                                     
                                                 </div>
                                             </div>

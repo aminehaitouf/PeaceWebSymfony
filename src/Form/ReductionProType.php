@@ -28,7 +28,7 @@ class ReductionProType extends AbstractType
             'required' => true,
             'label' => 'Pourcentage de réducrtion',
             'choices'  => [
-                '0 %' => 1,
+                '0 %' => 0,
                 '10 %' => 10,
                 '20 %' => 20,
                 '30 %' => 30,

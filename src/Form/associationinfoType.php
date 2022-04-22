@@ -24,7 +24,7 @@ class associationinfoType extends AbstractType
 
         ->add('mobile', TelType::class, [
 
-            'label' => 'Votre numéro de téléphone',
+            'label' => false,
 
             'attr' => [
 
@@ -36,7 +36,7 @@ class associationinfoType extends AbstractType
 
         ->add('illustration', FileType::class, [
 
-            'label' => 'sélectionner une photo de magasin',
+            'label' => false,
 
             'mapped' => false,
             'required'   => false,

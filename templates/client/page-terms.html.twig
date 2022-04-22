@@ -232,7 +232,7 @@
           var calendarData;
           var reservationsData;
           
-          fetch("http://localhost:8000/getCalendar/{{ ads.id }}").then(function (response) {
+          fetch("/getCalendar/{{ ads.id }}").then(function (response) {
               console.log("in fetch");
               var today = new Date();
               response.json().then(function (data) {
@@ -315,16 +315,20 @@
                   reservationsData.forEach(function (reservation) { 
 
                       const object = new Object();
-                      object.startDateTime = reservation.deteheure;
-                      object.endDateTime = reservation.endDate;
+                      if(reservation.endDate != null) {
 
-                      if (reservation.qte != null) {
-                          object.qte = reservation.qte;
-                      } else {
-                          object.qte = 1;
+                        object.startDateTime = reservation.deteheure;
+                        object.endDateTime = reservation.endDate;
+
+                        if (reservation.qte != null) {
+                            object.qte = reservation.qte;
+                        } else {
+                            object.qte = 1;
+                        }
+
+                        allReservations.push(object);
+
                       }
-
-                      allReservations.push(object);
 
                   });
                   
