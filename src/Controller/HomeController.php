@@ -39,15 +39,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class HomeController extends AbstractController
 {
-    /**
-     * @Route("/", name="home")
-     */
-    public function index(): Response
-    {
-        return $this->render('client/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
-    }
+    
     /**
      * @Route("/comingsoon", name="comingsoon")
      */
@@ -58,7 +50,7 @@ class HomeController extends AbstractController
         ]);
     }
     /**
-     * @Route("/indexPeace", name="indexPeace")
+     * @Route("/", name="indexPeace")
      */
     public function indexPeace(EntityManagerInterface $entityManager): Response
     {
@@ -74,6 +66,9 @@ class HomeController extends AbstractController
     }
      /**
      * @Route("/login", name="app_login" , methods={"GET", "POST"})
+     * @param AuthenticationUtils $authenticationUtils
+     * @param Request $request
+     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils, Request $request): Response
     {   

@@ -86,11 +86,12 @@ class professionnelController extends AbstractController
             return $this->redirectToRoute('indexPeace');
         }
         $user = $security->getUser();
-        $asso = $user->getAssociation();
+        
         $form = $this->createForm(professionnelinfoType::class, $user);
         $form->handleRequest($request);
         
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+            
             $image = $form->get('illustration')->getData();
             if($image!= null){
                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
@@ -103,10 +104,14 @@ class professionnelController extends AbstractController
             
             $user->setIllustration($fichier);
             }
+            $asso = $user->getAssociation();
+            // dd($asso);
             $partenaire = $entityManager->createQuery("SELECT User from App\Entity\User User where User.id = $asso ")
             ->getResult();
+            
+            // dd("SELECT User from App\Entity\User User where User.id = '$asso' ");
             $user-> setAssociation($partenaire[0]->getDomination());
-
+            //  dd($user);
             // On crée l'image dans la base de données
             
             $entityManager->flush();

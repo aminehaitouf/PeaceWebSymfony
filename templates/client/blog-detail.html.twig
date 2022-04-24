@@ -190,12 +190,13 @@
                                                         
                                                         <div class="d-flex justify-content-end">
                                                         
-                                                            {% if (app.user and app.user.roles[0] == "ROLE_ASSO") or (ads.user.domaine == "Restaurant" and ads.titre != "Réserver une table") %}
-                                                        
+                                                            {% if app.user != null  %}
+                                                                {% if ( app.user.roles[0] == "ROLE_ASSO") or (ads.user.domaine == "Restaurant" and ads.titre != "Réserver une table") %}
+                                                                
+                                                                {% endif %}
+                                                                <a class="btn btn-pills btn-primary"  href="/choixReservation/{{ads.id}}" >Choisir</a>
                                                             {% else %}
-                                                                <a class="btn btn-pills btn-primary"  href="/choixReservation/{{ads.id}}" >
-                                                                Choisir
-                                                            </a>
+                                                                <a class="btn btn-pills btn-primary"  href="/login?name=detailProduitClient&id={{user.id}}" >Choisir</a>
                                                             {% endif %}
                                                             
                                                             

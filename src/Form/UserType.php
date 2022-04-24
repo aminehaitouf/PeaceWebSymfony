@@ -70,7 +70,8 @@ class UserType extends AbstractType
             'required' => true,
             'label' => "Votre domaine d'activité",
             'choices'  => [
-                'Salon de coiffure/Beauté' => 'Salon de coiffure/Beauté',
+                'Salon de coiffure' => 'Salon de coiffure',
+                'Salon de beauté' => 'Salon de beauté',
                 'Restaurant' => 'Restaurant',
                 'Consultant/Freelance' => 'Consultant/Freelance',
                 'Autre' => 'Autre',
