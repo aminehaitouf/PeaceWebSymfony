@@ -20,6 +20,7 @@
         "lcobucci/jwt": "3.3",
         "league/oauth2-facebook": "^2.2",
         "league/oauth2-google": "^4.0",
+        "lexik/jwt-authentication-bundle": "v2.X",
         "mailjet/mailjet-apiv3-php": "^1.5",
         "nelmio/cors-bundle": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.2",

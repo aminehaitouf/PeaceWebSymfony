@@ -171,6 +171,18 @@
     "league/oauth2-google": {
         "version": "4.0.0"
     },
+    "lexik/jwt-authentication-bundle": {
+        "version": "2.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "5b2157bcd5778166a5696e42f552ad36529a07a6"
+        },
+        "files": [
+            "./config/packages/lexik_jwt_authentication.yaml"
+        ]
+    },
     "mailjet/mailjet-apiv3-php": {
         "version": "v1.5.5"
     },
@@ -179,6 +191,9 @@
     },
     "monolog/monolog": {
         "version": "2.3.5"
+    },
+    "namshi/jose": {
+        "version": "7.2.3"
     },
     "nelmio/cors-bundle": {
         "version": "2.2",
@@ -502,6 +517,9 @@
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.25.0"
+    },
+    "symfony/polyfill-php56": {
+        "version": "v1.20.0"
     },
     "symfony/polyfill-php73": {
         "version": "v1.25.0"
