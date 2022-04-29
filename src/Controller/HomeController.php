@@ -64,6 +64,7 @@ class HomeController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
      /**
      * @Route("/login", name="app_login" , methods={"GET", "POST"})
      * @param AuthenticationUtils $authenticationUtils
@@ -832,4 +833,17 @@ class HomeController extends AbstractController
             'reservation' => $reservation,
         ]);
     }
+    /**
+     * @Route("/api/login", name= "api_login", methods= {"POST","GET"})
+     */
+        public function apiLogin(Security $security): JsonResponse
+        {
+            $user = $security->getUser();
+            // dd($this->getUser());
+            return $this->json([
+                'username' => $user->getEmail(),
+                'roles' => $user->getRoles()
+            ]);
+        }
+
 }

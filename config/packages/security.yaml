@@ -37,6 +37,9 @@ security:
         main:
             # lazy: true
             # provider: app_user_provider
+            # json_login:
+            #     check_path: api_login
+            
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
@@ -59,7 +62,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/api/users, roles: IS_AUTHENTICATED_FULLY, methods:[GET,PUT,DELETE] }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/ads, roles: IS_AUTHENTICATED_FULLY }
 
 # when@test:
 #     security:
