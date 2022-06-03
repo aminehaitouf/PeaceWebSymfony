@@ -36,21 +36,21 @@ class professionnelinfoType extends AbstractType
         $builder
         ->add('firstname', TextType::class, [
             'required' => true,
-            'label' => 'Votre Prénom',
+            'label' => 'Prénom',
             'attr' => [
                 'placeholder' => 'Entrer votre prénom'
             ]
         ])
         ->add('lastname', TextType::class, [
             'required' => true,
-            'label' => 'Votre Nom',
+            'label' => 'Nom',
             'attr' => [
                 'placeholder' => 'Entrer votre nom'
             ]
         ])
         ->add('prixMoyen', TextType::class, [
             'required' => true,
-            'label' => 'Votre prix moyen (prestation)',
+            'label' => 'Prix moyen (par réservation)',
             'attr' => [
                 'placeholder' => 'Prix moyen de vos prestations'
             ]
@@ -64,7 +64,7 @@ class professionnelinfoType extends AbstractType
         ])
         ->add('mobile', TelType::class, [
 
-            'label' => 'Votre numéro de téléphone',
+            'label' => 'Numéro de téléphone (portable)',
 
             'attr' => [
 
@@ -90,7 +90,7 @@ class professionnelinfoType extends AbstractType
         
         ->add('nbrheurebenevole', NumberType::class, [
             'required' => true,
-            'label' => 'Aide bénévole (par an)',
+            'label' => 'Votre aide bénévole (heures de bénévolat par an max.)',
             'attr' => [
                 'placeholder' => 'Entrer votre nombre d\'heures de bénévolat (par an)  '
             ]
@@ -98,13 +98,14 @@ class professionnelinfoType extends AbstractType
         
         ->add('done', NumberType::class, [
             'required' => true,
-            'label' => 'Don à l\'association (par réservation)',
+            'label' => 'Votre don à l\'association (par réservation)',
             'attr' => [
                 'placeholder' => 'Entrer la veleur du don (par réservation)'
             ]
         ])
         ->add('association',ChoiceType::class, [
-            'choice_label' => 'domination',
+            'label' => 'Vous soutenez l\'association',
+            'choice_label' => 'Association',
             'choices' => $this->association,
             
         ])

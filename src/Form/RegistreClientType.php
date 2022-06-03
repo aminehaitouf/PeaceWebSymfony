@@ -43,9 +43,9 @@ class RegistreClientType extends AbstractType
 
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Votre Courriel',
+                'label' => 'Votre email',
                 'attr' => [
-                    'placeholder' => 'Entrer votre courriel'
+                    'placeholder' => 'Entrer votre email'
                 ]
             ])
             ->add('password', RepeatedType::class, [

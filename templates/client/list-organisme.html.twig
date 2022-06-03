@@ -97,11 +97,11 @@
                 <div class="row justify-content-center">
                     <div class="col-lg-12">
                     {{ form_start(form,{attr:{class:"p-4 shadow bg-white rounded"},action:"/recherche"}) }}
-                        <h4 class="mb-3">Recherche !</h4>
+                        <h4 class="mb-3">Recherche :</h4>
                         <div class="row text-start">
                             <div class="col-lg-10">
                                 <div class="mb-3 mb-lg-0">
-                                    <label class="form-label"> Mot clé : </label>
+                                    <label class="form-label"> Mot-clé : </label>
                                     {{form_widget(form.domination,{attr:{class:"recherche autocomplete form-control"}})}}
                                 </div>
                             </div>
@@ -136,11 +136,9 @@
                                 <div class="filters-group">
                                     <ul class="container-filter list-inline mb-0 filter-options">
                                         <li class="list-inline-item categories-name border text-dark rounded active" data-group="all">Tous</li>
-                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Salon de coiffure">Salon de coiffure</li>
-                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Salon de beauté">Salon de beauté</li>
-                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Restaurant">Restaurant</li>
-                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Consultant/Freelance">Consultant/Freelance</li>
-                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Autre">Autre</li>
+                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Salon de coiffure">Coiffure</li>
+                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Salon de beauté">Beauté</li>
+                                        <li class="list-inline-item categories-name border text-dark rounded" data-group="Autre">Autres</li>
                                     </ul>
                                 </div>
                             </div><!--end col-->
@@ -149,8 +147,8 @@
                         <div id="grid" class="row">
                             {% for salon in salons %}
                             {% if app.user != null and app.user.roles[0] == "ROLE_ASSO"%}
-                                {% if salon.isvisiblepourassociation == 1 %}
-                                    <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
+                               {% if salon.isvisiblepourassociation == 1 %}
+ <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
                                                             data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
                                             <div class="card work-container work-modern  border-0 overflow-hidden ">
                                                 <div class="card-body p-0 ">
@@ -159,14 +157,11 @@
                                                         
                                                         <div class="overlay-work "></div>
                                                         <div style="opacity: 1;width: 90%;" class="op content ">
-                                                        {% if salon.reduction != null %}
-                                                            <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
-                                                        {% endif %}
                                                         
                                                             
                                                             <a href="detailProduitClient/{{salon.id}}"  class="title pb-2 border-bottom ">{{salon.domination}}
                                                             <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
-                                                                <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
+                                                                <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine}}</li>
                                                                 {% if salon.adresse %}
                                                                     <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
                                                                     
@@ -178,17 +173,28 @@
                                                                 {{salon.prixMoyen ~'€'~}}
                                                             {% endif %}
                                                             </p></p>
-                                                            {% if salon.association %}
-                                                                <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
-                                                                    {{salon.association }}
-                                                                </button>
-                                                            {% endif %}
 
-                                                            {% if salon.done %}
-                                                                <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
-                                                                        Done {{salon.done }}€
-                                                                </button>
-                                                            {% endif %}
+                                                
+                                                {% if salon.association %}
+                                                    <button style="font-size: small; float:right; padding-right:12px; padding-left:12px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" type="button" class="btn btn-pills btn-primary">
+                                                        {{salon.association }}
+                                                    </button>
+                                                {% endif %}
+
+                                                <div style="float:left">
+                                                {% if salon.done %}
+                                                    <button style="font-size: small; padding-right:12px; padding-left:12px" type="button" class="btn btn-pills btn-light">
+                                                            Don {{salon.done }} €
+                                                    </button>
+                                                {% endif %}
+
+                                                {% if salon.reduction != null %}
+                                                    <button style="font-size: small; padding-right:12px; padding-left:11px; margin-left: 4px" type="button" class="btn btn-pills btn-light">
+                                                        {{~'-'~ salon.reduction ~'%'~}}
+                                                    </button>
+                                                {% endif %}
+                                                </div>
+
                                                         </div>
                                                         
                                                     </a>
@@ -207,14 +213,16 @@
                                             
                                             <div class="overlay-work "></div>
                                             <div style="opacity: 1;width: 90%;" class="op content ">
+                                            <!-- Comment start
                                             {% if salon.reduction != null %}
                                                 <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
                                             {% endif %}
+                                            Comment end -->
                                             
                                                 
                                                 <a href="detailProduitClient/{{salon.id}}"  class="title pb-2 border-bottom ">{{salon.domination}}
                                                 <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
-                                                    <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
+                                                    <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine}}</li>
                                                     {% if salon.adresse %}
                                                         <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
                                                         
@@ -227,16 +235,25 @@
                                                 {% endif %}
                                                 </p></p>
                                                 {% if salon.association %}
-                                                    <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
+                                                    <button style="font-size: small; float:right; padding-right:12px; padding-left:12px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" type="button" class="btn btn-pills btn-primary">
                                                         {{salon.association }}
                                                     </button>
                                                 {% endif %}
 
+                                                <div style="float:left">
                                                 {% if salon.done %}
-                                                    <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
-                                                            Done {{salon.done }}€
+                                                    <button style="font-size: small; padding-right:12px; padding-left:12px" type="button" class="btn btn-pills btn-light">
+                                                            Don {{salon.done }} €
                                                     </button>
                                                 {% endif %}
+
+                                                {% if salon.reduction != null %}
+                                                    <button style="font-size: small; padding-right:12px; padding-left:11px; margin-left: 4px" type="button" class="btn btn-pills btn-light">
+                                                        {{~'-'~ salon.reduction ~'%'~}}
+                                                    </button>
+                                                {% endif %}
+                                                </div>
+
                                             </div>
                                             
                                         </a>
@@ -453,7 +470,7 @@ class GoogleMap {
                  */
                 async load(element) {
                     return new Promise((resolve, reject) => {
-                        $script('https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWz7ZHJJDK8fs09giiatXHVBA_c0jAUA', () => {
+                        $script('https://maps.googleapis.com/maps/api/js?key=AIzaSyA9B0lj-IoN-sAYLFztQa2hcaPXZoTiZTA', () => {
                             this.textMarker = class TextMarker extends google.maps.OverlayView {
 
                                 constructor(pos, map, text) {

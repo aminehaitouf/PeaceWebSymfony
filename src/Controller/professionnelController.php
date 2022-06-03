@@ -123,7 +123,7 @@ class professionnelController extends AbstractController
         $formChangePassword = $this->createForm(ChangePasswordType::class, $user);
         $formChangePassword->handleRequest($request);
         if ($formChangePassword->isSubmitted() && !$formChangePassword->isValid()) {
-            $err = "Vous avez pas bien remplie les champs";
+            $err = "Vous n'avez pas bien remplie les champs";
         }
         if ($formChangePassword->isSubmitted() && $formChangePassword->isValid()) {
             //dd($user);
@@ -138,7 +138,7 @@ class professionnelController extends AbstractController
         $formDone = $this->createForm(DoneProType::class, $user);
         $formDone->handleRequest($request);
         if ($formDone->isSubmitted() && !$formDone->isValid()) {
-            $err = "Vous avez pas bien remplie les champs";
+            $err = "Vous n'avez pas bien remplie les champs";
         }
         if ($formDone->isSubmitted() && $formDone->isValid()) {
             
@@ -854,7 +854,7 @@ class professionnelController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
-        return $this->redirectToRoute('gestionMagasin');
+        return $this->redirectToRoute('profil');
     }
     /**
      * @Route("/{id}/masquerPourClient", name="masquerPourClient", methods={"GET","POST"})
@@ -868,7 +868,7 @@ class professionnelController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
-        return $this->redirectToRoute('gestionMagasin');
+        return $this->redirectToRoute('profil');
     }
     
    

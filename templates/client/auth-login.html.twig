@@ -1,148 +1,173 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
-<style>
+	<style>
 
-    @media only screen and (max-width: 600px) {
-	
-        .imag {
-            width: 0 !important;
-        }
-        .bg-home{
-            margin-top:10px !important;
-        }
-    
-    }
+		@media only screen and(max-width: 600px) {
 
+			.imag {
+				width: 0 !important;
+			}
+			.bg-home {
+				margin-top: 10px !important;
+			}
 
-
-</style>
-        {% endblock %}
-{% block body %}
-        <!-- Loader -->
-        <!-- <div id="preloader">
-            <div id="status">
-                <div class="spinner">
-                    <div class="double-bounce1"></div>
-                    <div class="double-bounce2"></div>
-                </div>
-            </div>
-        </div> -->
-        <!-- Loader -->
-        
-        
-
-        <!-- Hero Start -->
-        <section style="margin-top:100px" class="bg-home d-flex align-items-center">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-lg-7 col-md-6" >
-                        <div class="me-lg-5">   
-                            <img src="{{asset("client/assets/images/user/login.svg")}}" class="imag img-fluid d-block mx-auto" alt="">
-                        </div>
-                    </div>
-                    <div class="col-lg-5 col-md-6 ">
-                        <div class="card login-page bg-white shadow rounded border-0">
-                            <div class="card-body">
-                                <h4 class="card-title text-center">Connexion au compte</h4>  
-                                 <form class="login-form mt-4" method="post" action="/login?
-                                  {% if parameters %}
-                                    {% for key, parameter in parameters %}
-                                        {{key}}={{parameter}}&
-                                    {% endfor %}
-                                 {% endif %} ">
-                                 {% if error %}
-                                      <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                                 {% endif %}
-
-                                {% if app.user %}
-                                    <div class="mb-3">
-                                        Vous êtes connectés en tant que
-                                        {{ app.user.username }},
-                                        <a href="{{ path('app_logout') }}">Se déconnecter</a>
-                                    </div>
-                                    {% else %}
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Votre email <span class="text-danger">*</span></label>
-                                                    <div class="form-icon position-relative">
-                                                        <i data-feather="user" class="fea icon-sm icons"></i>
-                                                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control ps-5" required autofocus>
-                                                    </div>
-                                                </div>
-                                            </div><!--end col-->
-
-                                            <div class="col-lg-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Vore mot de passe <span class="text-danger">*</span></label>
-                                                    <div class="form-icon position-relative">
-                                                        <i data-feather="key" class="fea icon-sm icons"></i>
-                                                        <input type="password" name="password" id="inputPassword" class="form-control ps-5" required>
-                                                    {# <center><div style="margin-top: 3%" class="g-recaptcha" data-sitekey="6LdR-ioeAAAAAIT0k17vyN_CVc1PSDjyejjWjF4q"></div></center> #}
-                                                    <input
-                                                    type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                                                    </div>
-                                                </div>
-                                            </div><!--end col-->
-
-                                            <div class="col-lg-12">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="mb-3">
-                                                        <div class="form-check">
-                                                            {# <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                            <label class="form-check-label" for="flexCheckDefault">Se souvenir de mes identifiants</label> #}
-                                                        </div>
-                                                    </div>
-                                                    <p class="forgot-pass mb-0"><a href="/confirmeMail" class="text-dark fw-bold">Mot de passe oublié ?</a></p>
-                                                </div>
-                                            </div><!--end col-->
-
-                                            <div class="col-lg-12 mb-0">
-                                                <div class="d-grid">
-                                                    <button class="btn btn-lg btn-primary mt-2" type="submit">Connexion</button>
-                                                </div>
-                                            </div><!--end col-->
-
-                                            <div class="col-lg-12 mt-4 text-center">
-                                                <h6>Ou se connecter avec :</h6>
-                                                <div class="row">
-                                                    {# <div class="col-6 mt-3">
-                                                        <div class="d-grid">
-                                                            <a href="/connect/facebook" class="btn btn-light"><i class="mdi mdi-facebook text-primary"></i> Facebook</a>
-                                                        </div>
-                                                    </div> #}
-                                                    
-                                                    <div class="col-lg-12 mt-4 text-center">
-                                                        <div class="d-grid">
-                                                            <a href="/connect/google" class="btn btn-light"><i class="mdi mdi-google text-danger"></i> Google</a>
-                                                            {# <a href="#" class="btn btn-light"><i class="mdi mdi-google text-danger"></i> Google</a> #}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-12 text-center">
-                                                <p class="mb-0 mt-3"><small class="text-dark me-2">S'inscrire :</small> <a href="registreOrganisation" class="text-dark fw-bold">Professionnel</a></p>
-                                                <p style="margin-left: 80px" class="mb-0 mt-3"><small class="text-dark me-2"></small> <a href="registreAssociation" class="text-dark fw-bold">Association</a></p>
-                                                <p style="margin-left: 80px" class="mb-0 mt-3"><small class="text-dark me-2"></small> <a href="registreClient" class="text-dark fw-bold">Client</a></p>
-
-
-                                            </div><!--end col-->
-                                            
-                                        </div><!--end row--> 
-                                {% endif %} 
-                                    
-                                </form>
-                            </div>
-                        </div><!---->
-                    </div> <!--end col-->
-                </div><!--end row-->
-            </div> <!--end container-->
-        </section><!--end section-->
-        <!-- Hero End -->
-
+		}
+	</style>
 {% endblock %}
-{% block javascripts %}
+{% block body %}
+	<!-- Loader -->
+	<!-- <div id="preloader">
+				            <div id="status">
+				                <div class="spinner">
+				                    <div class="double-bounce1"></div>
+				                    <div class="double-bounce2"></div>
+				                </div>
+				            </div>
+				        </div> -->
+	<!-- Loader -->
 
-        
-      {% endblock %}
+
+	<!-- Hero Start -->
+		<section style="margin-top:100px" class="bg-home d-flex align-items-center"> <div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-7 col-md-6">
+					<div class="me-lg-5">
+						<img src="{{asset("client/assets/images/user/login.svg")}}" class="imag img-fluid d-block mx-auto" alt="">
+					</div>
+				</div>
+				<div class="col-lg-5 col-md-6 ">
+					<div class="card login-page bg-white shadow rounded border-0">
+						<div class="card-body">
+							<h4 class="card-title text-center">Connexion au compte</h4>
+							<form class="login-form mt-4" method="post" action="/login?
+																																				                                  {% if parameters %}
+																																				                                    {% for key, parameter in parameters %}
+																																				                                        {{key}}={{parameter}}&
+																																				                                    {% endfor %}
+																																				                                 {% endif %} ">
+								{% if error %}
+									<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+								{% endif %}
+
+								{% if app.user %}
+									<div class="mb-3">
+										Vous êtes connectés en tant que
+										{{ app.user.username }},
+										<a href="{{ path('app_logout') }}">Se déconnecter</a>
+									</div>
+								{% else %}
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="mb-3">
+												<label class="form-label">Votre email
+													<span class="text-danger">*</span>
+												</label>
+												<div class="form-icon position-relative">
+													<i data-feather="user" class="fea icon-sm icons"></i>
+													<input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control ps-5" required autofocus>
+												</div>
+											</div>
+										</div>
+										<!--end col-->
+
+										<div class="col-lg-12">
+											<div class="mb-3">
+												<label class="form-label">Vore mot de passe
+													<span class="text-danger">*</span>
+												</label>
+												<div class="form-icon position-relative">
+													<i data-feather="key" class="fea icon-sm icons"></i>
+													<input
+													type="password" name="password" id="inputPassword" class="form-control ps-5" required>
+													{# <center><div style="margin-top: 3%" class="g-recaptcha" data-sitekey="6LdR-ioeAAAAAIT0k17vyN_CVc1PSDjyejjWjF4q"></div></center> #}
+													<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+												</div>
+											</div>
+										</div>
+										<!--end col-->
+
+										<div class="col-lg-12">
+											<div class="d-flex justify-content-between">
+												<div class="mb-3">
+													<div
+														class="form-check">{# <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+																																																												                                                            <label class="form-check-label" for="flexCheckDefault">Se souvenir de mes identifiants</label> #}
+													</div>
+												</div>
+												<p class="forgot-pass mb-0">
+													<a href="/confirmeMail" class="text-dark fw-bold">Mot de passe oublié ?</a>
+												</p>
+											</div>
+										</div>
+										<!--end col-->
+
+										<div class="col-lg-12 mb-0">
+											<div class="d-grid">
+												<button class="btn btn-lg btn-primary mt-2" type="submit">Connexion</button>
+											</div>
+										</div>
+										<!--end col-->
+
+										<div class="col-lg-12 mt-4 text-center">
+											<h6>Ou se connecter avec :</h6>
+											<div
+												class="row">
+												{# <div class="col-6 mt-3">
+																																																                                                        <div class="d-grid">
+																																																                                                            <a href="/connect/facebook" class="btn btn-light"><i class="mdi mdi-facebook text-primary"></i> Facebook</a>
+																																																                                                        </div>
+																																																                                                    </div> #}
+
+												<div class="col-lg-12 mt-4 text-center">
+													<div class="d-grid">
+														<a href="/connect/google" class="btn btn-light">
+															<i class="mdi mdi-google text-danger"></i>
+															Google</a>
+														{# <a href="#" class="btn btn-light"><i class="mdi mdi-google text-danger"></i> Google</a> #}
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<div class="col-2"></div>
+										<!--end col-->
+										<div class="col-4  mx-0 px-0 mt-3 text-end">
+											<p class="mb-0">
+												<small class="text-dark me-2">S'inscrire :</small>
+											</p>
+										</div>
+										<!--end col-->
+										<div class="col-4 mt-3">
+											<p class="mb-2">
+												<a href="registreOrganisation" class="text-dark fw-bold">Professionnel</a>
+											</p>
+											<p class="mb-2">
+												<a href="registreAssociation" class="text-dark fw-bold">Association</a>
+											</p>
+											<p class="mb-2">
+												<a href="registreClient" class="text-dark fw-bold">Client</a>
+											</p>
+										</div>
+										<!--end col-->
+										<div class="col-2"></div>
+										<!--end col-->
+
+									</div>
+									<!--end row-->
+								{% endif %}
+
+							</form>
+						</div>
+					</div>
+					<!---->
+				</div>
+				<!--end col-->
+			</div>
+			<!--end row-->
+		</div>
+		<!--end container-->
+	</section>
+	<!--end section-->
+	<!-- Hero End -->
+{% endblock %}
+{% block javascripts %}{% endblock %}

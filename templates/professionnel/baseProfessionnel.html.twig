@@ -1,200 +1,218 @@
 {% set route_name = app.request.attributes.get('_route') %}
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}PeacePro.{% endblock %}</title>
-        <link rel="shortcut icon" href="{{asset("client/assets/images/favicon.ico")}}">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-        {% endblock %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{asset("professionnel/assets/css/bootstrap.css")}}">
-    
-    <link rel="stylesheet" href="{{asset("professionnel/assets/vendors/iconly/bold.css")}}">
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}PeacePro.
+			{% endblock %}
+		</title>
+		<link
+		rel="shortcut icon" href="{{asset("client/assets/images/favicon.ico")}}">
+		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+		{% block stylesheets %}{% endblock %}
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="{{asset("professionnel/assets/vendors/perfect-scrollbar/perfect-scrollbar.css")}}">
-    <link rel="stylesheet" href="{{asset("professionnel/assets/vendors/bootstrap-icons/bootstrap-icons.css")}}">
-    <link rel="stylesheet" href="{{asset("professionnel/assets/css/app.css")}}">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">  
-    <link rel="stylesheet" href="assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="{{asset("professionnel/assets/css/bootstrap.css")}}">
 
-</head>
+		<link rel="stylesheet" href="{{asset("professionnel/assets/vendors/iconly/bold.css")}}">
 
-<body>
-    <div id="app">
-        <div id="sidebar" class="active">
-            <div class="sidebar-wrapper active">
-    <div class="sidebar-header">
-        <div class="d-flex justify-content-between">
-            <div class="logo">
-                <a href="index.html"><img class="avatar avatar-md-md rounded-circle" style="width:100px;height: 100px;" src="{{ asset('uploadsAds/'~app.user.illustration) }}" alt="Logo" srcset=""></a>
-            </div>
-            <div class="toggler">
-                <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="sidebar-menu">
-        <ul class="menu">
-            <li class="sidebar-title">{{app.user.domination}}</li>
-            
-            
-            <li {% if route_name == "indexProfessionnel" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
-                <a href="/professionnel/indexProfessionnel" class='sidebar-link'>
-                    <i class="bi bi-house "></i>
-                    <span>Accueil</span>
-                </a>
-            </li>
-            <li {% if route_name == "profil" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+		<link rel="stylesheet" href="{{asset("professionnel/assets/vendors/perfect-scrollbar/perfect-scrollbar.css")}}">
+		<link rel="stylesheet" href="{{asset("professionnel/assets/vendors/bootstrap-icons/bootstrap-icons.css")}}">
+		<link rel="stylesheet" href="{{asset("professionnel/assets/css/app.css")}}">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.18/css/dataTables.bootstrap4.min.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap.min.css">
+		<link rel="stylesheet" href="assets/vendors/jquery-datatables/jquery.dataTables.bootstrap5.min.css">
+		<link rel="stylesheet" href="assets/vendors/fontawesome/all.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css" integrity="sha256-uq9PNlMzB+1h01Ij9cx7zeE2OR2pLAfRw3uUUOOPKdA=" crossorigin="anonymous">
 
-                <a href="/professionnel/profil" class='sidebar-link'>
-                    <i class="bi bi-pencil"></i>
-                    <span>Profil</span>
-                </a>
-            </li>
-            <li {% if route_name == "gestionCategory" or route_name == "gestionCategory"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+	</head>
 
-                <a href="/professionnel/gestionCategory" class='sidebar-link'>
-                    <i class="bi bi-bar-chart-steps"></i>
-                    <span>Gestion des catégories</span>
-                </a>
-            </li>
-            {% if app.user.domaine == "Consultant/Freelance" %}
-            <li {% if route_name == "competences"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+	<body>
+		<div id="app">
+			<div id="sidebar" class="active">
+				<div class="sidebar-wrapper active border-right">
+					<div class="sidebar-header mb-0 pb-0 mt-2">
+						<div class="row d-flex justify-content-center">
+							<div class="col-12">
+								<div class="logo d-flex justify-content-center">
+									<a href="javascript:void(0)"><img class="avatar avatar-md-md rounded-circle mb-3 me-4" style="width:100px;height: 100px;" src="{{ asset('uploadsAds/'~app.user.illustration) }}" alt="Logo" srcset=""></a>
+								</div>
+								<div class="d-flex justify-content-center me-4 mb-2 pb-0">
+									<p class="mb-0 pb-0" style="font-size: large">{{app.user.domination}}</p>
+								</div>
+								<!-- <div class="toggler">
+									<a href="#" class="sidebar-hide d-xl-none d-block">
+										<i class="bi bi-x bi-middle"></i>
+									</a>
+								</div> -->
+							</div>
+						</div>
+					</div>
+					<div class="sidebar-menu">
+						<ul class="menu">
+							<li {% if route_name == "indexProfessionnel" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+								<a href="/professionnel/indexProfessionnel" class='sidebar-link'>
+									<i class="bi bi-house "></i>
+									<span>Accueil</span>
+								</a>
+							</li>
+							<li {% if route_name == "profil" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
-                <a href="/professionnel/competences" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
-                    <span>Mes Competences</span>
-                </a>
-            </li>
-            <li {% if route_name == "experiences"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+								<a href="/professionnel/profil" class='sidebar-link'>
+									<i class="bi bi-pencil"></i>
+									<span>Profil</span>
+								</a>
+							</li>
+							<li {% if route_name == "gestionCategory" or route_name == "gestionCategory" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
-                <a href="/professionnel/experiences" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
-                    <span>Mes éxperiences</span>
-                </a>
-            </li>
-            <li {% if route_name == "formations"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+								<a href="/professionnel/gestionCategory" class='sidebar-link'>
+									<i class="bi bi-bar-chart-steps"></i>
+									<span>Gestion des catégories</span>
+								</a>
+							</li>
+							{% if app.user.domaine == "Consultant/Freelance" %}
+								<li {% if route_name == "competences" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
-                <a href="/professionnel/formations" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
-                    <span>Mes formations</span>
-                </a>
-            </li>
-        {% endif %}
-            <li {% if route_name == "gestionProduit" or route_name == "ajoutproduitCommercant" or route_name == "detailProduit" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+									<a href="/professionnel/competences" class='sidebar-link'>
+										<i class="bi bi-grid-fill"></i>
+										<span>Mes Competences</span>
+									</a>
+								</li>
+								<li {% if route_name == "experiences" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
-                <a href="/professionnel/gestionProduit" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
-                    <span>Gestion des produits</span>
-                </a>
-            </li>
-            <li {% if route_name == "gestionMagasin" or route_name == "gestionBenevolat"  %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+									<a href="/professionnel/experiences" class='sidebar-link'>
+										<i class="bi bi-grid-fill"></i>
+										<span>Mes éxperiences</span>
+									</a>
+								</li>
+								<li {% if route_name == "formations" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
-                <a href="/professionnel/gestionMagasin" class='sidebar-link'>
-                    <i class="bi bi-grid-fill"></i>
-                    <span>Gestion des disponibilités</span>
-                </a>
-            </li>
-            
-            
-            <li {% if route_name == "commandes" or route_name == "detailCommande" or route_name == "motifRefusCommande" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
-                <a href="/professionnel/commandes " class='sidebar-link'>
-                    <i class="bi bi-basket3"></i>
-                    <span>Commandes</span><h5><span style="color:red" class="badge badge-danger">{{ getReservation() }}</span></h5>
-                </a>
-            </li>
-            <li {% if route_name == "BenevolatPro" or route_name == "BenevolatPro" or route_name == "motifRefusCommande" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
-                <a href="/professionnel/BenevolatPro " class='sidebar-link'>
-                    <i class="bi bi-basket3"></i>
-                    <span>Bénévolats</span><h5><span style="color:red" class="badge badge-danger">{{ getBenevolat() }}</span></h5>
-                </a>
-            </li>
-            <li >
-                <a href="{{ path('app_logout') }} " class='sidebar-link'>
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Déconnexion</span>
-                </a>
-            </li>
-            {# <li
-                class="sidebar-item  ">
-                <a href="stripeOrganisme.html" class='sidebar-link'>
-                    <i class="bi bi-credit-card-2-front-fill"></i>
-                    <span>Compte Stripe</span>
-                </a>
-            </li>
-            
-            <li
-                class="sidebar-item  has-sub">
-                <a href="#" class='sidebar-link'>
-                    <i class="bi bi-stack"></i>
-                    <span>Components</span>
-                </a>
-                <ul class="submenu ">
-                    <li class="submenu-item ">
-                        <a href="component-alert.html">Alert</a>
-                    </li>
-                    <li class="submenu-item ">
-                        <a href="component-badge.html">Badge</a>
-                    </li>
-                    
-                </ul>
-            </li> #}
-            
-        </ul>
-    </div>
-    <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
-</div>
-        </div>
-        <div id="main">
-            <header class="mb-3">
-                <a href="#" class="burger-btn d-block d-xl-none">
-                    <i class="bi bi-justify fs-3"></i>
-                </a>
-            </header>
+									<a href="/professionnel/formations" class='sidebar-link'>
+										<i class="bi bi-grid-fill"></i>
+										<span>Mes formations</span>
+									</a>
+								</li>
+							{% endif %}
+							<li {% if route_name == "gestionProduit" or route_name == "ajoutproduitCommercant" or route_name == "detailProduit" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
-    <body>
-        
+								<a href="/professionnel/gestionProduit" class='sidebar-link'>
+									<i class="bi bi-grid-fill"></i>
+									<span>Gestion des produits</span>
+								</a>
+							</li>
+							<li {% if route_name == "gestionMagasin" or route_name == "gestionBenevolat" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
-        {% block body %}
-        
-        
-        <footer>
-                <div class="footer clearfix mb-0 text-muted">
-                    <div class="float-start">
-                        <p>© Copyright <span id="copyright"></span></p>
-                    </div>
-                    <div class="float-end">
-                        <p>Tous droits réservés par <span class="text-danger"></span> <a
-                                href="http://peace.sc">Peace.</a></p>
-                    </div>
-                </div>
-            </footer>
-        
-        {% endblock %}
-        
-        {% block javascripts %}
-        {% endblock %}
-             <script src="{{asset("professionnel/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js")}}"></script>
-             <script src="{{asset("professionnel/assets/js/bootstrap.bundle.min.js")}}"></script>
-        
-             <script src="{{asset("professionnel/assets/vendors/apexcharts/apexcharts.js")}}"></script>
-             <script src="{{asset("professionnel/assets/js/pages/dashboard.js")}}"></script>
+								<a href="/professionnel/gestionMagasin" class='sidebar-link'>
+									<i class="bi bi-grid-fill"></i>
+									<span>Gestion des disponibilités</span>
+								</a>
+							</li>
 
-             <script src="{{asset("professionnel/assets/js/mazer.js")}}"></script>
-             <script>
-        var date = new Date();
-        document.getElementById("copyright").innerHTML= date.getFullYear();
-    </script>
-    </body>
-    {% block script %}{% endblock %}
-</html>
+
+							<li {% if route_name == "commandes" or route_name == "detailCommande" or route_name == "motifRefusCommande" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+								<a href="/professionnel/commandes " class='sidebar-link'>
+									<i class="bi bi-basket3"></i>
+									<span>Commandes</span>
+									<h5>
+										<span style="color:red" class="badge badge-danger">{{ getReservation() }}</span>
+									</h5>
+								</a>
+							</li>
+							<li {% if route_name == "BenevolatPro" or route_name == "BenevolatPro" or route_name == "motifRefusCommande" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
+								<a href="/professionnel/BenevolatPro " class='sidebar-link'>
+									<i class="bi bi-basket3"></i>
+									<span>Bénévolats</span>
+									<h5>
+										<span style="color:red" class="badge badge-danger">{{ getBenevolat() }}</span>
+									</h5>
+								</a>
+							</li>
+							<li>
+								<a href="{{ path('app_logout') }} " class='sidebar-link'>
+									<i class="bi bi-box-arrow-right"></i>
+									<span>Déconnexion</span>
+								</a>
+							</li>
+							{# <li
+							                class="sidebar-item  ">
+							                <a href="stripeOrganisme.html" class='sidebar-link'>
+							                    <i class="bi bi-credit-card-2-front-fill"></i>
+							                    <span>Compte Stripe</span>
+							                </a>
+							            </li>
+							            
+							            <li
+							                class="sidebar-item  has-sub">
+							                <a href="#" class='sidebar-link'>
+							                    <i class="bi bi-stack"></i>
+							                    <span>Components</span>
+							                </a>
+							                <ul class="submenu ">
+							                    <li class="submenu-item ">
+							                        <a href="component-alert.html">Alert</a>
+							                    </li>
+							                    <li class="submenu-item ">
+							                        <a href="component-badge.html">Badge</a>
+							                    </li>
+							                    
+							                </ul>
+							            </li> #}
+
+						</ul>
+					</div>
+					<button class="sidebar-toggler btn x">
+						<i data-feather="x"></i>
+					</button>
+				</div>
+			</div>
+			<div id="main">
+				<header class="mb-3">
+					<a href="#" class="burger-btn d-block d-xl-none">
+						<i class="bi bi-justify fs-3"></i>
+					</a>
+				</header>
+
+				<body>
+
+
+					{% block body %}
+
+
+						<footer>
+							<div class="footer clearfix mb-0 text-muted">
+								<div class="float-start">
+									<p>© Copyright
+										<span id="copyright"></span>
+									</p>
+								</div>
+								<div class="float-end">
+									<p>Tous droits réservés par
+										<span class="text-danger"></span>
+										<a href="http://peace.sc">Peace.</a>
+									</p>
+								</div>
+							</div>
+						</footer>
+
+					{% endblock %}
+
+					{% block javascripts %}{% endblock %}
+					<script src="{{asset("professionnel/assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js")}}"></script>
+					<script src="{{asset("professionnel/assets/js/bootstrap.bundle.min.js")}}"></script>
+
+					<script src="{{asset("professionnel/assets/vendors/apexcharts/apexcharts.js")}}"></script>
+					<script src="{{asset("professionnel/assets/js/pages/dashboard.js")}}"></script>
+
+					<script src="{{asset("professionnel/assets/js/mazer.js")}}"></script>
+					<script>
+						var date = new Date();
+document.getElementById("copyright").innerHTML = date.getFullYear();
+					</script>
+				</body>
+				{% block script %}{% endblock %}
+			</html>

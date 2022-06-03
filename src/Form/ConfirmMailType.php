@@ -24,9 +24,9 @@ class ConfirmMailType extends AbstractType
         $builder
 
             ->add('email', EmailType::class, [
-                'label' => 'Votre Courriel',
+                'label' => 'Votre email',
                 'attr' => [
-                    'placeholder' => 'Entrer votre courriel'
+                    'placeholder' => 'Entrer votre email'
                 ]
             ]);
     }

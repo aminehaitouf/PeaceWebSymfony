@@ -70,9 +70,9 @@ class RegistreAssociationType extends AbstractType
 
             ->add('email', EmailType::class, [
                 'required' => true,
-                'label' => 'Votre courriel',
+                'label' => 'Votre email',
                 'attr' => [
-                    'placeholder' => 'Entrer votre courriel'
+                    'placeholder' => 'Entrer votre email'
                 ]
             ])
             ->add('password', RepeatedType::class, [
