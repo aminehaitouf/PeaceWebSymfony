@@ -1,911 +1,1105 @@
 {% extends 'base.html.twig' %}
 {% block stylesheets %}
-<style>
-    @media only screen and (max-width: 1024px) {
-	
-	.mp {
-		width: 50% !important;
+	<style>
+		@media only screen and(max-width: 1024px) {
 
+			.mp {
+				width: 50% !important;
+
+			}
+
+
+		}
+		@media only screen and(max-width: 800px) {
+
+			.mp {
+				width: 100% !important;
+
+			}
+			.op {
+				width: 90% !important;
+			}
+
+
+		}
+		@media only screen and(min-width: 400px) {
+
+
+			.op {
+				width: 90% !important;
+			}
+
+
+		}
+		.animation {
+			float: right;
+			background: #c0a905f2;
+			border-radius: 50%;
+			width: 50px;
+			height: 50px;
+			font-size: 15px;
+			color: red;
+			text-align: center;
+			line-height: 50px;
+			margin-top: -90px;
+			font-weight: bold;
+		}
 	}
-   
-	
 
-}
-@media only screen and (max-width: 800px) {
-	
-	.mp {
-		width: 100% !important;
-	
+	@media(prefers-reduced-motion: reduce) {
+		.animation {
+			animation: none;
+		}
 	}
-    .op{
-        width: 90% !important;
-    }
-	
 
-}
-@media only screen and (min-width: 400px) {
-	
-	
-    .op{
-        width: 90% !important;
-    }
-	
+	.marker {
+		transform: translate(-50%, calc(-100% - 10px));
+		white-space: nowrap;
+		font-size: 16px;
+		padding: 5px 10px;
+		font-weight: bold;
+		text-align: center;
+		background-color: #fff;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	}
 
-}
-    .animation {
-  float:right;
-  background:#c0a905f2;
-  border-radius:50%;
-  width:50px;
-  height:50px;
-  font-size: 15px;
-    color: red;
-    text-align: center;
-    line-height: 50px;
-    margin-top: -90px;
-    font-weight: bold;
-}
-}
+	.marker::after {
+		content: '';
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		width: 0;
+		height: 0;
+		margin-left: -8px;
+		border-left: 8px solid transparent;
+		border-right: 8px solid transparent;
+		border-top: 8px solid #FFF;
+	}
 
-@media (prefers-reduced-motion: reduce) {
-  .animation {
-  animation: none;
-  }
-}
+	.marker.is-active {
+		background-color: #5069ff;
+		z-index: 300;
+		color: #FFF;
+	}
 
-.marker {
-    transform: translate(-50%, calc(-100% - 10px));
-    white-space: nowrap;
-    font-size: 16px;
-    padding: 5px 10px;
-    font-weight: bold;
-    text-align: center;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.marker::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    margin-left: -8px;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-top: 8px solid #FFF;
-}
-
-.marker.is-active {
-    background-color: #5069ff;
-    z-index: 300;
-    color: #FFF;
-}
-
-.marker.is-active::after {
-    border-top-color: #5069ff;
-}
-</style>
-        {% endblock %}
-{% block body %}
-                <link href="{{ asset('client/assets/css/jquery-ui.css') }}" rel="stylesheet">
-
-        <!-- Hero Start -->
-        <section class="home-slider position-relative">
-            <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div  class="carousel-item active" data-bs-interval="3000">
-                        <div class="bg-home bg-animation-left d-flex align-items-center" style="background-image:url({{asset('client/assets/images/hotel/bg05.jpg')}})">
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-7 col-md-7">
-                                        <div class="title-heading position-relative mt-4" style="z-index: 1;">
-                                            <h1 class="heading mb-3">Peace., our solidarity platform for non-profits</h1>
-                                            <p class="para-desc">The easiest way to help NGOs & non-profits around the world.</p>
-                                            <div class="mt-4 pt-2">
-                                                <a href="#!" data-type="youtube" data-id="yba7hPeTSjk" class="btn btn-icon btn-pills btn-primary lightbox"><i data-feather="video" class="icons"></i></a><span class="fw-bold text-uppercase small align-middle ms-2">Regarder le tutoriel</span>
-                                            </div>
-                                            <div class="row justify-content-center mt-4 pt-2">
-                                                <div class="col-lg-7 col-md-10">
-                                                    <div class="subcribe-form">
-                                                
-                                                    {# <input type="text" class="recherche autocomplete rounded-pill border" placeholder="Intitulé du produit"> #}
-
-                                                    {{ form_start(form,{attr:{class:""},action:"/recherche"}) }}
-                                                            {{form_widget(form.domination,{attr:{class:"recherche autocomplete rounded-pill border"}})}}
-                                                            <button type="submit" class="btn btn-pills btn-primary ">Rechercher <i class="uil uil-arrow-right"></i></button>
-                                                    {{ form_end(form)}}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </a>
-            </div>
-        </section>
-        <!--end section-->
-        <!-- Hero End -->
-
-        <!-- Partners start -->
-        <!-- <section style="margin-top:-50px " class="section-two bg-light" id="bookroom">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-12">
-                        <form class="p-4 shadow bg-white rounded">
-                            <h4 class="mb-3">Book Now !</h4>
-                            <div class="row text-start">
-                                <div class="col-lg-3 col-md-6">
-                                    <div class="mb-3 mb-lg-0">
-                                        <label class="form-label"> Check in : </label>
-                                        <input name="date" type="text" class="form-control start" placeholder="Select date :">
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-3 col-md-6">
-                                    <div class="mb-3 mb-lg-0">
-                                        <label class="form-label"> Check out : </label>
-                                        <input name="date" type="text" class="form-control end" placeholder="Select date :">
-                                    </div>
-                                </div>
-                                
-                                <div class="col-lg-6">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-4">
-                                            <div class="mb-3 mb-lg-0">
-                                                <label class="form-label">Adults : </label>
-                                                <input type="number" min="0" autocomplete="off" id="adult" required="" class="form-control" placeholder="Adults :">
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-4">
-                                            <div class="mb-3 mb-lg-0">
-                                                <label class="form-label">Children : </label>
-                                                <input type="number" min="0" autocomplete="off" id="children" class="form-control" placeholder="Children :">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4 mt-lg-4 pt-2 pt-lg-1">
-                                            <div class="d-grid">
-                                                <input type="submit" id="search" name="search" class="searchbtn btn btn-primary" value="Search">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> 
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </section> -->
-        
-
-        <!-- Rooms Start -->
-        <section style="margin-top:-100px " class="section">
-            <div class="container">
-                <div style="margin-top: 60px;" class="row justify-content-center ">
-                    <div class="col-12 text-center">
-                        <div class="section-title  mb-4 pb-2">
-                            <h4 class="title mb-4">Récemment consultés et plus</h4>
-                            <p class="text-muted para-desc mb-0 mx-auto">Start working with <span class="text-primary fw-bold">Landrick</span> that can provide everything you need to generate awareness, drive traffic, connect.</p>
-                        </div>
-                    </div><!--end col-->
-                
-                </div><!--end row-->
-                <div style="margin-top: 40px;">
-                    <div style="margin-top: -40px;" class="row justify-content-center">
-                        <div class="col-lg-12 mt-4">
-                            <div class="tiny-three-item">
-                            {% for salon in salons %}
-                            {% if salon.roles[0] == "ROLE_ASSO"%}
-                                {% if salon.isvisiblepourassociation == 1 %}
-                                    <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
-                                                            data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
-                                            <div class="card work-container work-modern  border-0 overflow-hidden ">
-                                                <div class="card-body p-0 ">
-                                                    <a href="detailProduitClient/{{salon.id}}">
-                                                        <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
-                                                        
-                                                        <div class="overlay-work "></div>
-                                                        <div style="opacity: 1;width: 90%;" class="op content ">
-                                                        {% if salon.reduction != null %}
-                                                            <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
-                                                        {% endif %}
-                                                        
-                                                            
-                                                            <a href="detailProduitClient/{{salon.id}}"  class="title pb-2 border-bottom ">{{salon.domination}}
-                                                            <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
-                                                                <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
-                                                                {% if salon.adresse %}
-                                                                    <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
-                                                                    
-                                                                {% endif %}
-                                                                
-                                                            </ul></a>
-                                                            <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
-                                                            {% if salon.prixMoyen %}
-                                                                {{salon.prixMoyen ~'€'~}}
-                                                            {% endif %}
-                                                            </p></p>
-                                                            {% if salon.association %}
-                                                                <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
-                                                                    {{salon.association }}
-                                                                </button>
-                                                            {% endif %}
-
-                                                            {% if salon.done %}
-                                                                <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
-                                                                        Done {{salon.done }}€
-                                                                </button>
-                                                            {% endif %}
-                                                        </div>
-                                                        
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div><!--end col-->
-                                {% endif %}
-                            {% else %}
-                            {% if salon.isvisiblepourclient == 1 %}
-                            <div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]'  data-lat="{{ salon.adresse.lat }}"
-                            data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
-                                <div class="card work-container work-modern  border-0 overflow-hidden ">
-                                    <div class="card-body p-0 ">
-                                        <a href="detailProduitClient/{{salon.id}}">
-                                            <img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
-                                            
-                                            <div class="overlay-work "></div>
-                                            <div style="opacity: 1;width: 90%;" class="op content ">
-                                            {% if salon.reduction != null %}
-                                                <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
-                                            {% endif %}
-                                            
-                                                
-                                                <a href="detailProduitClient/{{salon.id}}"  class="title pb-2 border-bottom ">{{salon.domination}}
-                                                <ul class="post-meta mb-0 mt-2 text-white list-unstyled">
-                                                    <li class="list-inline-item me-3"><i class="uil uil-archive me-2"></i>{{salon.domaine|upper}}</li>
-                                                    {% if salon.adresse %}
-                                                        <li class="list-inline-item"><i class="uil uil-map me-2"></i>{{salon.adresse.nom}}</li>
-                                                        
-                                                    {% endif %}
-                                                    
-                                                </ul></a>
-                                                <p class="text-white d-block mb-0 font-weight-bold"><p class="text-success font-weight-bold">
-                                                {% if salon.prixMoyen %}
-                                                    {{salon.prixMoyen ~'€'~}}
-                                                {% endif %}
-                                                </p></p>
-                                                {% if salon.association %}
-                                                    <button style="font-size: x-small;float:right" type="button" class="btn btn-info">
-                                                        {{salon.association }}
-                                                    </button>
-                                                {% endif %}
-
-                                                {% if salon.done %}
-                                                    <button style="font-size: x-small;float:left" type="button" class="btn btn-info">
-                                                            Done {{salon.done }}€
-                                                    </button>
-                                                {% endif %}
-                                            </div>
-                                            
-                                        </a>
-                                    </div>
-                                </div>
-                            </div><!--end col-->
-                            {% endif %}
-                            {% endif %}
-                            
-                                
-                            {% endfor %}
-                                
-            
-                                
-                            </div>
-                            
-                        </div><!--end col-->
-                    </div>
-                </div>
-                    
-            </div><!--end container-->
-        </section><!--end section-->
-        <!-- Rooms End -->
-
-        <!-- CTA Start -->
-        
-                            <div id="maps" class="maps" style="width: 100%; height: 550px; position: relative; overflow: hidden;"></div>
-      
-        <!-- CTA End -->
-
-        <!-- Services Start -->
-        <section class="section">
-            <div class="container pb-lg-4 mb-md-5 mb-4">
-                <div class="row justify-content-center">
-                    <div class="col-12 text-center">
-                        <div class="section-title mb-4 pb-2">
-                            <h4 class="title mb-4">Best Services for you</h4>
-                            <p class="text-muted para-desc mb-0 mx-auto">Start working with <span class="text-primary fw-bold">Landrick</span> that can provide everything you need to generate awareness, drive traffic, connect.</p>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-
-                <div class="row">
-                    <div class="col-md-4 col-12 mt-5">
-                        <div class="features text-center">
-                            <div class="image position-relative d-inline-block">
-                                <i class="uil uil-wifi h1 text-primary"></i>
-                            </div>
-
-                            <div class="content mt-4">
-                                <h5>Free WIFI</h5>
-                                <p class="text-muted mb-0">Nisi aenean vulputate eleifend tellus vitae eleifend enim a Aliquam aenean elementum semper.</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                    
-                    <div class="col-md-4 col-12 mt-5">
-                        <div class="features text-center">
-                            <div class="image position-relative d-inline-block">
-                                <i class="uil uil-process h1 text-primary"></i>
-                            </div>
-
-                            <div class="content mt-4">
-                                <h5>Relaxation</h5>
-                                <p class="text-muted mb-0">Allegedly, a Latin scholar established the origin of the text by established compiling unusual word.</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                    
-                    <div class="col-md-4 col-12 mt-5">
-                        <div class="features text-center">
-                            <div class="image position-relative d-inline-block">
-                                <i class="uil uil-dumbbell h1 text-primary"></i>
-                            </div>
-
-                            <div class="content mt-4">
-                                <h5>Spa & Fitness</h5>
-                                <p class="text-muted mb-0">It seems that only fragments of the original text remain in the Lorem Ipsum fragments texts used today.</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                    
-                    <div class="col-md-4 col-12 mt-5">
-                        <div class="features text-center">
-                            <div class="image position-relative d-inline-block">
-                                <i class="uil uil-restaurant h1 text-primary"></i>
-                            </div>
-
-                            <div class="content mt-4">
-                                <h5>Restaurant</h5>
-                                <p class="text-muted mb-0">It seems that only fragments of the original text remain in the Lorem Ipsum fragments texts used today.</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-md-4 col-12 mt-5">
-                        <div class="features text-center">
-                            <div class="image position-relative d-inline-block">
-                                <i class="uil uil-band-aid h1 text-primary"></i>
-                            </div>
-
-                            <div class="content mt-4">
-                                <h5>Smooth Parallax</h5>
-                                <p class="text-muted mb-0">Nisi aenean vulputate eleifend tellus vitae eleifend enim a Aliquam aenean elementum semper.</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                    
-                    <div class="col-md-4 col-12 mt-5">
-                        <div class="features text-center">
-                            <div class="image position-relative d-inline-block">
-                                <i class="uil uil-bed-double h1 text-primary"></i>
-                            </div>
-
-                            <div class="content mt-4">
-                                <h5>Bedrooms</h5>
-                                <p class="text-muted mb-0">Allegedly, a Latin scholar established the origin of the text by established compiling unusual word.</p>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                </div>
-            </div><!--end container-->
-        </section><!--end section-->
-        <div class="position-relative">
-            <div class="shape overflow-hidden text-light">
-                <svg viewBox="0 0 2880 250" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M720 125L2160 0H2880V250H0V125H720Z" fill="currentColor"></path>
-                </svg>
-            </div>
-        </div>
-        <!-- End services -->
-
-        <!-- News Start -->
-        <section class="section pt-5 pt-sm-0 pt-md-4 bg-light">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-12 text-center">
-                        <div class="section-title mb-4 pb-2">
-                            <h4 class="title mb-4">Latest News</h4>
-                            <p class="text-muted para-desc mx-auto mb-0">Start working with <span class="text-primary fw-bold">Landrick</span> that can provide everything you need to generate awareness, drive traffic, connect.</p>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 mt-4 pt-2">
-                        <div class="card blog rounded border-0 shadow">
-                            <div class="position-relative">
-                                <img src="{{asset("client/assets/images/hotel/bg01.jpg")}}" class="card-img-top rounded-top" alt="...">
-                            <div class="overlay rounded-top bg-dark"></div>
-                            </div>
-                            <div class="card-body content">
-                                <h5><a href="javascript:void(0)" class="card-title title text-dark">Design your apps in your own way</a></h5>
-                                <div class="post-meta d-flex justify-content-between mt-3">
-                                    <ul class="list-unstyled mb-0">
-                                        <li class="list-inline-item me-2 mb-0"><a href="javascript:void(0)" class="text-muted like"><i class="uil uil-heart me-1"></i>33</a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="text-muted comments"><i class="uil uil-comment me-1"></i>08</a></li>
-                                    </ul>
-                                    <a href="detailProduit" class="text-muted readmore">Read More <i class="uil uil-angle-right-b align-middle"></i></a>
-                                </div>
-                            </div>
-                            <div class="author">
-                                <small class="text-light user d-block"><i class="uil uil-user"></i> Calvin Carlo</small>
-                                <small class="text-light date"><i class="uil uil-calendar-alt"></i> 25th June 2021</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                    
-                    <div class="col-lg-4 col-md-6 mt-4 pt-2">
-                        <div class="card blog rounded border-0 shadow">
-                            <div class="position-relative">
-                                <img src="{{asset("client/assets/images/hotel/bg02.jpg")}}" class="card-img-top rounded-top" alt="...">
-                            <div class="overlay rounded-top bg-dark"></div>
-                            </div>
-                            <div class="card-body content">
-                                <h5><a href="javascript:void(0)" class="card-title title text-dark">How apps is changing the IT world</a></h5>
-                                <div class="post-meta d-flex justify-content-between mt-3">
-                                    <ul class="list-unstyled mb-0">
-                                        <li class="list-inline-item me-2 mb-0"><a href="javascript:void(0)" class="text-muted like"><i class="uil uil-heart me-1"></i>33</a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="text-muted comments"><i class="uil uil-comment me-1"></i>08</a></li>
-                                    </ul>
-                                    <a href="detailProduit" class="text-muted readmore">Read More <i class="uil uil-angle-right-b align-middle"></i></a>
-                                </div>
-                            </div>
-                            <div class="author">
-                                <small class="text-light user d-block"><i class="uil uil-user"></i> Calvin Carlo</small>
-                                <small class="text-light date"><i class="uil uil-calendar-alt"></i> 25th June 2021</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                    
-                    <div class="col-lg-4 col-md-6 mt-4 pt-2">
-                        <div class="card blog rounded border-0 shadow">
-                            <div class="position-relative">
-                                <img src="{{asset("client/assets/images/hotel/bg03.jpg")}}" class="card-img-top rounded-top" alt="...">
-                            <div class="overlay rounded-top bg-dark"></div>
-                            </div>
-                            <div class="card-body content">
-                                <h5><a href="javascript:void(0)" class="card-title title text-dark">Smartest Applications for Business</a></h5>
-                                <div class="post-meta d-flex justify-content-between mt-3">
-                                    <ul class="list-unstyled mb-0">
-                                        <li class="list-inline-item me-2 mb-0"><a href="javascript:void(0)" class="text-muted like"><i class="uil uil-heart me-1"></i>33</a></li>
-                                        <li class="list-inline-item"><a href="javascript:void(0)" class="text-muted comments"><i class="uil uil-comment me-1"></i>08</a></li>
-                                    </ul>
-                                    <a href="detailProduit" class="text-muted readmore">Read More <i class="uil uil-angle-right-b align-middle"></i></a>
-                                </div>
-                            </div>
-                            <div class="author">
-                                <small class="text-light user d-block"><i class="uil uil-user"></i> Calvin Carlo</small>
-                                <small class="text-light date"><i class="uil uil-calendar-alt"></i> 25th June 2021</small>
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-        </section><!--end section-->
-        <!-- Blog End -->
-
-        <!-- Client Start -->
-        <section class="section" style="background: url({{asset("client/assets/images/hotel/bg05.jpg")}}); center center;">
-            <div class="bg-overlay"></div>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-7 text-center">
-                        <div class="tiny-single-item">
-                            <div class="tiny-slider text-center client-testi">
-                                <p class="text-light para-dark h6 fst-italic">" It seems that only fragments of the original text remain in the Lorem Ipsum texts used today. The most well-known dummy text is the 'Lorem Ipsum', which is said to have originated in the 16th century. "</p>
-                                <ul class="list-unstyled mb-0 mt-3">
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                </ul>
-                                <h6 class="text-light title-dark"> Thomas Israel </h6>
-                                <img src="{{asset("client/assets/images/client/01.jpg")}}" class="img-fluid avatar avatar-small rounded-circle mx-auto shadow" alt="">
-                            </div>
-                            
-                            <div class="tiny-slider text-center client-testi">
-                                <p class="text-light para-dark h6 fst-italic">" The advantage of its Latin origin and the relative meaninglessness of Lorum Ipsum is that the text does not attract attention to itself or distract the viewer's attention from the layout. "</p>
-                                <ul class="list-unstyled mb-0 mt-3">
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                </ul>
-                                <h6 class="text-light title-dark"> Carl Oliver </h6>
-                                <img src="{{asset("client/assets/images/client/02.jpg")}}" class="img-fluid avatar avatar-small rounded-circle mx-auto shadow" alt="">
-                            </div>
-                            
-                            <div class="tiny-slider text-center client-testi">
-                                <p class="text-light para-dark h6 fst-italic">" There is now an abundance of readable dummy texts. These are usually used when a text is required purely to fill a space. These alternatives to the classic Lorem Ipsum texts are often amusing and tell short, funny or nonsensical stories. "</p>
-                                <ul class="list-unstyled mb-0 mt-3">
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                </ul>
-                                <h6 class="text-light title-dark"> Barbara McIntosh </h6>
-                                <img src="{{asset("client/assets/images/client/03.jpg")}}" class="img-fluid avatar avatar-small rounded-circle mx-auto shadow" alt="">
-                            </div>
-                            
-                            <div class="tiny-slider text-center client-testi">
-                                <p class="text-light para-dark h6 fst-italic">" According to most sources, Lorum Ipsum can be traced back to a text composed by Cicero in 45 BC. Allegedly, a Latin scholar established the origin of the text by compiling all the instances of the unusual word 'consectetur' he could find "</p>
-                                <ul class="list-unstyled mb-0 mt-3">
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                </ul>
-                                <h6 class="text-light title-dark"> Christa Smith </h6>
-                                <img src="{{asset("client/assets/images/client/04.jpg")}}" class="img-fluid avatar avatar-small rounded-circle mx-auto shadow" alt="">
-                            </div>
-                            
-                            <div class="tiny-slider text-center client-testi">
-                                <p class="text-light para-dark h6 fst-italic">" It seems that only fragments of the original text remain in the Lorem Ipsum texts used today. The most well-known dummy text is the 'Lorem Ipsum', which is said to have originated in the 16th century. "</p>
-                                <ul class="list-unstyled mb-0 mt-3">
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                </ul>
-                                <h6 class="text-light title-dark"> Dean Tolle </h6>
-                                <img src="{{asset("client/assets/images/client/05.jpg")}}" class="img-fluid avatar avatar-small rounded-circle mx-auto shadow" alt="">
-                            </div>
-                            
-                            <div class="tiny-slider text-center client-testi">
-                                <p class="text-light para-dark h6 fst-italic">" It seems that only fragments of the original text remain in the Lorem Ipsum texts used today. One may speculate that over the course of time certain letters were added or deleted at various positions within the text. "</p>
-                                <ul class="list-unstyled mb-0 mt-3">
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                    <li class="list-inline-item"><i class="mdi mdi-star text-warning"></i></li>
-                                </ul>
-                                <h6 class="text-light title-dark"> Jill Webb </h6>
-                                <img src="{{asset("client/assets/images/client/06.jpg")}}" class="img-fluid avatar avatar-small rounded-circle mx-auto shadow" alt="">
-                            </div>
-                        </div><!--end owl carousel-->
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-            <!-- Client End -->
-        </section>
-        <!-- Client End -->
-
-        <!-- Contact Start -->
-        <section class="section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-8 col-md-6 p-0 ps-md-3 pe-md-3">
-                        <div class="card map map-height-two rounded map-gray border-0">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d39206.002432144705!2d-95.4973981212445!3d29.709510002925988!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8640c16de81f3ca5%3A0xf43e0b60ae539ac9!2sGerald+D.+Hines+Waterwall+Park!5e0!3m2!1sen!2sin!4v1566305861440!5m2!1sen!2sin" style="border:0" class="rounded" allowfullscreen></iframe>
-                        </div>
-                    </div><!--end col-->
-
-                    <div class="col-lg-4 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
-                        <div class="card rounded shadow border-0">
-                            <div class="card-body py-5">
-                                <h5 class="card-title">Get In Touch !</h5>
-
-                                <div class="custom-form mt-4">
-                                    <div id="message"></div>
-                                    <form method="post" action="php/contact.php" name="contact-form" id="contact-form">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Your Name <span class="text-danger">*</span></label>
-                                                    <div class="form-icon position-relative">
-                                                        <i data-feather="user" class="fea icon-sm icons"></i>
-                                                        <input name="name" id="name" type="text" class="form-control ps-5" placeholder="First Name :">
-                                                    </div>
-                                                </div>
-                                            </div><!--end col-->
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Your Email <span class="text-danger">*</span></label>
-                                                    <div class="form-icon position-relative">
-                                                        <i data-feather="mail" class="fea icon-sm icons"></i>
-                                                        <input name="email" id="email" type="email" class="form-control ps-5" placeholder="Your email :">
-                                                    </div>
-                                                </div> 
-                                            </div><!--end col-->
-                                            <div class="col-md-12">
-                                                <div class="mb-3">
-                                                    <label class="form-label">Comments</label>
-                                                    <div class="form-icon position-relative">
-                                                        <i data-feather="message-circle" class="fea icon-sm icons"></i>
-                                                        <textarea name="comments" id="comments" rows="4" class="form-control ps-5" placeholder="Your Message :"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div><!--end row-->
-                                        <div class="row">
-                                            <div class="col-sm-12 text-center">
-                                                <div class="d-grid">
-                                                    <input type="submit" id="submit" name="send" class="submitBnt btn btn-primary" value="Send Message">
-                                                    <div id="simple-msg"></div>
-                                                </div>
-                                            </div><!--end col-->
-                                        </div><!--end row-->
-                                    </form><!--end form-->
-                                </div><!--end custom-form-->
-                            </div>
-                        </div>
-                    </div><!--end col-->
-                </div><!--end row-->
-            </div><!--end container-->
-            <!-- Contact End -->
-        </section><!--end section-->
-        <!-- News End -->
-
-        <!-- Footer Start -->
-        
-        <!-- Footer End -->
-
-        <!-- Offcanvas Start -->
-        
-        <!-- Offcanvas End -->
-
-        <!-- Back to top -->
-        <a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"><i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a>
-        <!-- Back to top -->
+	.marker.is-active::after {
+		border-top-color: #5069ff;
+	}
+	</style>
 {% endblock %}
-{% block javascripts %}
-<script src="{{ asset('client/assets/js/jquery-3.3.1.min.js') }}"></script>
-<script src="{{ asset('client/assets/js/jquery-migrate-3.0.1.min.js') }}"></script>
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"
-    integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
-{# <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> #}
-<script>
-/*!
+{% block body %}
+	<link
+	href="{{ asset('client/assets/css/jquery-ui.css') }}" rel="stylesheet">
+
+	<!-- Hero Start -->
+	<section class="home-slider position-relative">
+		<div id="carouselExampleInterval" class="carousel slide carousel-fade" data-bs-ride="carousel">
+			<div class="carousel-inner">
+				<div class="carousel-item active" data-bs-interval="3000">
+					<div class="bg-home bg-animation-left d-flex align-items-center" style="background-image:url({{asset('client/assets/img/bg/allyson-carter-lmZ_JVfbmY4-unsplash.jpg')}})">
+						<div class="container">
+							<div class="row align-items-center">
+								<div class="col-lg-7 col-md-7">
+									<div class="title-heading position-relative mt-4" style="z-index: 1;">
+										<h1 class="heading mb-3">Réserver un
+										</br>
+										<span class="text-primary typewrite" data-period="2000" data-type='[ "salon de coiffure", "salon de beauté", "restaurant" ]'>
+											<span class="wrap"></span>
+										</span>
+										solidaire</h1>
+									<p class="para-desc">Soutenez nos professionnels qui réalisent des actions bénévoles</p>
+									<!-- Comment start
+																																				                                        <div class="mt-4 pt-2">
+																																				                                            <a href="#!" data-type="youtube" data-id="yba7hPeTSjk" class="btn btn-icon btn-pills btn-primary lightbox"><i data-feather="video" class="icons"></i></a><span class="fw-bold text-uppercase small align-middle ms-2">Regarder le tutoriel</span>
+																																				                                        </div>
+																																				                                        Comment end -->
+									<div class="row mt-4 pt-2">
+										<div class="col-lg-9 col-md-10">
+											<div
+												class="subcribe-form">
+
+												{# <input type="text" class="recherche autocomplete rounded-pill border" placeholder="Intitulé du produit"> #}
+
+												{{ form_start(form,{attr:{class:""},action:"/recherche"}) }}
+												{{form_widget(form.domination,{attr:{class:"recherche autocomplete rounded-pill border"}})}}
+												<button type="submit" class="btn btn-pills btn-primary ">Rechercher
+													<i class="uil uil-arrow-right"></i>
+												</button>
+												{{ form_end(form)}}
+											</div>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</a>
+			<a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</a>
+		</div>
+	</section>
+	<!--end section-->
+	<!-- Hero End -->
+
+	<!-- Recommended Start -->
+		<section style="margin-top:-100px " class="section"> <div class="container">
+			<div style="margin-top: 60px;" class="row justify-content-center ">
+				<div class="col-12 text-center">
+					<div class="section-title  mb-4 pb-2">
+						<h4 class="title mb-4">Nos professionnels
+							<span class="text-primary">solidaires</span>
+						</h4>
+						<p class="text-muted para-desc mb-0 mx-auto">Des professionnels solidaires qui
+							<span class="text-primary fw-bold">aident</span>
+							et apportent leur soutien aux ONG, associations</p>
+					</div>
+				</div>
+				<!--end col-->
+
+			</div>
+			<!--end row-->
+			<div style="margin-top: 40px;">
+				<div style="margin-top: -40px;" class="row justify-content-center">
+					<div class="col-lg-12 mt-4">
+						<div class="tiny-three-item">
+							{% for salon in salons %}
+								{% if salon.roles[0] == "ROLE_ASSO"%}
+									{% if salon.isvisiblepourassociation == 1 %}
+										<div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]' data-lat="{{ salon.adresse.lat }}" data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
+											<div class="card work-container work-modern  border-0 overflow-hidden ">
+												<div class="card-body p-0 ">
+													<a href="detailProduitClient/{{salon.id}}">
+														<img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
+
+														<div class="overlay-work "></div>
+														<div
+															style="opacity: 1;width: 90%;" class="op content ">
+															<!-- Comment start
+																																																												                                                    {% if salon.reduction != null %}
+																																																												                                                        <span class="animation">{{~'-'~ salon.reduction ~'%'~}}</span>
+																																																												                                                    {% endif %}
+																																																												                                                    Comment end -->
+
+
+															<a href="detailProduitClient/{{salon.id}}" class="title pb-2 border-bottom ">{{salon.domination}}
+																<ul class="post-meta mb-0 mt-2 text-white list-unstyled">
+																	<li class="list-inline-item me-3">
+																		<i class="uil uil-archive me-2"></i>
+																		{{salon.domaine}}</li>
+																	{% if salon.adresse %}
+																		<li class="list-inline-item">
+																			<i class="uil uil-map me-2"></i>
+																			{{salon.adresse.nom}}</li>
+
+																	{% endif %}
+
+																</ul>
+															</a>
+															<p class="text-white d-block mb-0 font-weight-bold"></p>
+															<p class="text-success font-weight-bold">
+																{% if salon.prixMoyen %}
+																	{{salon.prixMoyen ~'€'~}}
+																{% endif %}
+															</p>
+														</p>
+
+														{% if salon.association %}
+															<button style="font-size: small; float:right; padding-right:12px; padding-left:12px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" type="button" class="btn btn-pills btn-primary">
+																{{salon.association }}
+															</button>
+														{% endif %}
+
+														<div style="float:left">
+															{% if salon.done %}
+																<button style="font-size: small; padding-right:12px; padding-left:12px" type="button" class="btn btn-pills btn-light">
+																	Don
+																	{{salon.done }}
+																	€
+																</button>
+															{% endif %}
+
+															{% if salon.reduction != null %}
+																<button style="font-size: small; padding-right:12px; padding-left:11px; margin-left: 4px" type="button" class="btn btn-pills btn-light">
+																	{{~'-'~ salon.reduction ~'%'~}}
+																</button>
+															{% endif %}
+														</div>
+
+
+													</div>
+
+												</a>
+											</div>
+										</div>
+									</div>
+									<!--end col-->
+								{% endif %}
+							{% else %}
+								{% if salon.isvisiblepourclient == 1 %}
+									<div class="col-lg-6 col-12 mt-4 pt-2 picture-item item js-marker" data-groups='["{{salon.domaine}}"]' data-lat="{{ salon.adresse.lat }}" data-lng="{{ salon.adresse.longi }}" data-name="{{ salon.domination }}">
+										<div class="card work-container work-modern  border-0 overflow-hidden ">
+											<div class="card-body p-0 ">
+												<a href="detailProduitClient/{{salon.id}}">
+													<img style="width: 400px; height: 300px; object-fit: cover;" src="{{ asset('uploadsAds/'~salon.illustration) }}" class="img-fluid rounded" alt="work-image">
+
+													<div class="overlay-work "></div>
+													<div style="opacity: 1;width: 90%;" class="op content ">
+
+														<a href="detailProduitClient/{{salon.id}}" class="title pb-2 border-bottom ">{{salon.domination}}
+															<ul class="post-meta mb-0 mt-2 text-white list-unstyled">
+																<li class="list-inline-item me-3">
+																	<i class="uil uil-archive me-2"></i>
+																	{{salon.domaine}}</li>
+																{% if salon.adresse %}
+																	<li class="list-inline-item">
+																		<i class="uil uil-map me-2"></i>
+																		{{salon.adresse.nom}}</li>
+
+																{% endif %}
+
+															</ul>
+														</a>
+														<p class="text-white d-block mb-0 font-weight-bold"></p>
+														<p class="text-success font-weight-bold">
+															{% if salon.prixMoyen %}
+																{{salon.prixMoyen ~'€'~}}
+															{% endif %}
+														</p>
+													</p>
+
+													{% if salon.association %}
+														<button style="font-size: small; float:right; padding-right:12px; padding-left:12px; max-width: 150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis" type="button" class="btn btn-pills btn-primary">
+															{{salon.association }}
+														</button>
+													{% endif %}
+
+													<div style="float:left">
+														{% if salon.done %}
+															<button style="font-size: small; padding-right:12px; padding-left:12px" type="button" class="btn btn-pills btn-light">
+																Don
+																{{salon.done }}
+																€
+															</button>
+														{% endif %}
+
+														{% if salon.reduction != null %}
+															<button style="font-size: small; padding-right:12px; padding-left:11px; margin-left: 4px" type="button" class="btn btn-pills btn-light">
+																{{~'-'~ salon.reduction ~'%'~}}
+															</button>
+														{% endif %}
+													</div>
+
+
+												</div>
+
+											</a>
+										</div>
+									</div>
+								</div>
+								<!--end col-->
+							{% endif %}
+						{% endif %}
+
+
+					{% endfor %}
+
+
+				</div>
+
+			</div>
+			<!--end col-->
+		</div>
+	</div>
+
+</div>
+<!--end container--></section><!--end section--><!-- Recommended End --><!-- Maps Start --><div id="maps" class="maps" style="width: 100%; height: 550px; position: relative; overflow: hidden;"> </div><!-- Maps End --><!-- Partners start --><section class="py-3 border-bottom border-top">
+<div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
+	<div class="carousel-inner">
+		<div class="carousel-item active" data-bs-interval="3000">
+			<div class="row justify-content-center">
+
+				<div class="col-lg-2 col-md-2 col-6 text-center py-4">
+					<img src="{{asset("client/assets/img/logo/logo_anggels_grey.webp")}}" height="45" alt="">
+				</div>
+				<!--end col-->
+
+				<div class="col-lg-2 col-md-2 col-6 text-center py-4">
+					<img src="{{asset("client/assets/img/logo/logo_SLP_grey.png")}}" height="45" alt="">
+				</div>
+				<!--end col-->
+
+				<div class="col-lg-2 col-md-2 col-6 text-center py-4">
+					<img src="{{asset("client/assets/img/logo/logo_laruche_grey.webp")}}" height="45" alt="">
+				</div>
+				<!--end col-->
+
+				<div class="col-lg-2 col-md-2 col-6 text-center py-4">
+					<img src="{{asset("client/assets/img/logo/logo_parcourscréateurs_grey.png")}}" height="45" alt="">
+				</div>
+				<!--end col-->
+
+				<div class="col-lg-2 col-md-2 col-6 text-center py-4">
+					<img src="{{asset("client/assets/img/logo/logo_emmaus_solidarite_grey.png")}}" height="45" alt="">
+				</div>
+				<!--end col-->
+
+
+			</div>
+			<!--end row-->
+		</div>
+		<div class="carousel-item" data-bs-interval="3000">
+			<div class="row justify-content-center">
+				<div class="col-lg-2 col-md-2 col-6 text-center py-4">
+					<img src="{{asset("client/assets/img/logo/logo_moovjee_grey.png")}}" height="45" alt="">
+				</div>
+				<!--end col-->
+
+				<div class="col-lg-2 col-md-2 col-6 text-center py-4">
+					<img src="{{asset("client/assets/img/logo/logo_1jeune1mentorpourentreprendre_grey.png")}}" height="45" alt="">
+				</div>
+				<!--end col-->
+
+				<div class="col-lg-2 col-md-2 col-6 text-center py-4">
+					<img src="{{asset("client/assets/img/logo/logo_ESSEC_mentorat_alumni_grey.png")}}" height="45" alt="">
+				</div>
+				<!--end col-->
+
+				<div class="col-lg-2 col-md-2 col-6 text-center py-4">
+					<img src="{{asset("client/assets/img/logo/logo_les_canaux_grey.png")}}" height="45" alt="">
+				</div>
+				<!--end col-->
+
+				<div class="col-lg-2 col-md-2 col-6 text-center py-4">
+					<img src="{{asset("client/assets/img/logo/logo_social_starter_grey.png")}}" height="45" alt="">
+				</div>
+				<!--end col-->
+
+
+			</div>
+			<!--end row-->
+		</div>
+	</div>
+</div></section><!--end section--><!-- Partners End --><!-- How Does It Work Part 1 Start -->
+<section class="bg-half-170 border-bottom d-table w-100"> <div class="container">
+	<div class="row align-items-center">
+
+		<div class="col-lg-6 col-md-7">
+			<div class="title-heading mt-4">
+				<div class="alert alert-white alert-pills shadow" role="alert">
+					<span class="badge rounded-pill bg-danger pe-1 ps-1 pt-1 pb-1 me-1">&#129293;</span>
+					<span class="content">
+						Contribution à la
+						<span class="text-primary">société</span>
+					</span>
+				</div>
+				<h1 class="heading mb-3">Nos professionnels engagés
+					<span class="text-primary typewrite">aident
+					</span>les
+					<span class="text-primary typewrite">associations</span>
+				</h1>
+				<p class="para-desc text-muted">Chacun de nos professionnels participe à des actions avec les associations (bénévolement) durant l'année.</p>
+				<div class="mt-4">
+					<a href="/listOrganisme" class="btn btn-outline-primary rounded">
+						<i class="uil uil-store"></i>
+						Nos Professionnels</a>
+				</div>
+			</div>
+		</div>
+		<!--end col-->
+
+		<div class="col-lg-6 col-md-5 mt-4 pt-2 mt-sm-0 pt-sm-0">
+			<div class="position-relative">
+				<img
+				src="{{asset("client/assets/img/jonathan-weiss-arxAZJT5k2A-unsplash-700px-600px.jpg")}}" class="rounded img-fluid mx-auto d-block" alt="">
+			<!-- Comment Start
+										                        <div class="play-icon">
+										                            <a href="#!" data-type="youtube" data-id="yba7hPeTSjk" class="play-btn lightbox">
+										                                <i class="mdi mdi-play text-primary rounded-circle bg-white shadow"></i>
+										                            </a>
+										                        </div>
+										                        Comment end -->
+			</div>
+		</div>
+		<!--end col-->
+
+	</div>
+	<!--end row-->
+</div><!--end container--></section><!--end section--><!-- How Does It Work Part 1 End --><!-- How Does It Work Part 2 Start -->
+<section class="section border-bottom"> <div class="container">
+	<div class="row align-items-center">
+
+		<div class="col-lg-6 col-md-7">
+			<div class="position-relative">
+				<img
+				src="{{asset("client/assets/img/sebastian-coman-photography-eBmyH7oO5wY-unsplash-700px-600px.jpg")}}" class="rounded img-fluid mx-auto d-block shadow rounded" alt="">
+			<!-- Comment Start
+										                        <div class="play-icon">
+										                            <a href="#!" data-type="youtube" data-id="yba7hPeTSjk" class="play-btn lightbox">
+										                                <i class="mdi mdi-play text-primary rounded-circle bg-white shadow"></i>
+										                            </a>
+										                        </div>
+										                        COomment End -->
+			</div>
+		</div>
+		<!--end col-->
+
+
+		<div class="col-lg-6 col-md-5 mt-4 pt-2 mt-sm-0 pt-sm-0">
+			<div class="title-heading ms-lg-5">
+				<div class="alert alert-white alert-pills shadow" role="alert">
+					<span class="badge rounded-pill bg-danger pe-1 ps-1 pt-1 pb-1 me-1">&#129293;</span>
+					<span class="content">
+						Soutien aux
+						<span class="text-primary">causes</span>
+					</span>
+				</div>
+				<h1 class="heading mb-3">Et soutiennent leurs
+					<span class="text-primary typewrite">causes</span>
+				</h1>
+				<p class="text-muted para-desc">Nos professionnels acceptent de réaliser un don à une association pour chaque réservation sur notre plateforme.</p>
+				<div class="mt-4">
+					<a href="/listOrganisme" class="btn btn-primary">Réserver une prestation</a>
+				</div>
+			</div>
+		</div>
+		<!--end col-->
+	</div>
+	<!--end row-->
+</div><!--end container--></section><!--end section--><!-- How Does It Work Part 2 End --><!-- How Do We Help Start -->
+<section class="section border-bottom"> <div class="container">
+	<div class="row justify-content-center">
+		<div class="col-12 text-center">
+			<div class="section-title mb-4 pb-2">
+				<h4 class="title mb-4">Les actions de
+					<span class="text-primary">bénévolat</span>
+				</h4>
+				<p class="text-muted para-desc mx-auto mb-0">Nos professionnels solidaires
+					<span class="text-primary fw-bold">aident</span>
+					les associations importantes pour vous, dans le monde & proche de chez vous.
+				</p>
+			</div>
+		</div>
+		<!--end col-->
+	</div>
+	<!--end row-->
+	<div class="row">
+		<div class="col-12 mt-4 pt-2">
+			<div class="tiny-four-item">
+
+				<div class="tiny-slide">
+					<div class="card categories overflow-hidden rounded shadow border-0">
+						<img src="{{asset("client/assets/img/barber-2165745_1920.jpg")}}" class="img-fluid" alt="">
+						<div class="card-body">
+							<ul class="list-unstyled d-flex justify-content-between mb-1">
+								<li>
+									<a href="javascript:void(0)" class="title h6 text-dark">Bien-être & Soins pour les Personnes défavorisées</a>
+								</li>
+								<!--
+																														                                        <li class="h6 mb-0 jobs">125 Jobs</li>
+																														                                        -->
+							</ul>
+							<ul class="list-unstyled mb-0">
+								<li class="list-inline-item me-2 mb-0">
+									<a href="javascript:void(0)" class="text-muted like">Sabine a un salon de coiffure solidaire, et aide les personnes en difficulté
+																																						                                                à développer leur estime de soi et bien-être en partenariat avec une association
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="tiny-slide">
+					<div class="card categories overflow-hidden rounded shadow border-0">
+						<img src="{{asset("client/assets/img/volkan-vardar-1H30uRC1plc-unsplash-landscape.jpg")}}" class="img-fluid" alt="">
+						<div class="card-body">
+							<ul class="list-unstyled d-flex justify-content-between mb-1">
+								<li>
+									<a href="javascript:void(0)" class="title h6 text-dark">Aide alimentaire</a>
+								</li>
+								<!--
+																														                                        <li class="h6 mb-0 jobs">125 Jobs</li>
+																														                                        -->
+							</ul>
+							<ul class="list-unstyled mb-0">
+								<li class="list-inline-item me-2 mb-0">
+									<a href="javascript:void(0)" class="text-muted like">Marc accepte des personnes en difficulté dans son restaurant
+																																						                                                chaque mois, pour qu'ils puissent bénéficier d'un vrai repas dans un restaurant
+																																						                                                (solidarité pour les personnes défvorisées)
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="tiny-slide">
+					<div class="card categories overflow-hidden rounded shadow border-0">
+						<img src="{{asset("client/assets/img/gabin-vallet-32mEE18oGTs-unsplash-landscape.jpg")}}" class="img-fluid" alt="">
+						<div class="card-body">
+							<ul class="list-unstyled d-flex justify-content-between mb-1">
+								<li>
+									<a href="javascript:void(0)" class="title h6 text-dark">Bien-être & Soins pour les Personnes dans le besoin</a>
+								</li>
+								<!--
+																														                                        <li class="h6 mb-0 jobs">125 Jobs</li>
+																														                                        -->
+							</ul>
+							<ul class="list-unstyled mb-0">
+								<li class="list-inline-item me-2 mb-0">
+									<a href="javascript:void(0)" class="text-muted like">Antoine est un coach sportif, et donne un peu de temps
+																																						                                                à organiser des activités avec des jeunes défavorisés dans son quartier & en ligne (avec une association)
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="tiny-slide">
+					<div class="card categories overflow-hidden rounded shadow border-0">
+						<img src="{{asset("client/assets/img/right-4703944_1920.jpg")}}" class="img-fluid" alt="">
+						<div class="card-body">
+							<ul class="list-unstyled d-flex justify-content-between mb-1">
+								<li>
+									<a href="javascript:void(0)" class="title h6 text-dark">Aide juridique pour les Personnnes dans le besoin</a>
+								</li>
+								<!--
+																														                                        <li class="h6 mb-0 jobs">125 Jobs</li>
+																														                                        -->
+							</ul>
+							<ul class="list-unstyled mb-0">
+								<li class="list-inline-item me-2 mb-0">
+									<a href="javascript:void(0)" class="text-muted like">Elizabeth (avocate), aide des personnes dans le besoin par
+																																						                                                des conseils juridiques bénévoles (pro bono) dans le centre de Paris
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="tiny-slide">
+					<div class="card categories overflow-hidden rounded shadow border-0">
+						<img src="{{asset("client/assets/img/meeting-1245776_1920.jpg")}}" class="img-fluid" alt="">
+						<div class="card-body">
+							<ul class="list-unstyled d-flex justify-content-between mb-1">
+								<li>
+									<a href="javascript:void(0)" class="title h6 text-dark">Entrepreneuriat Social dans les Pays en développement</a>
+								</li>
+								<!--
+																														                                        <li class="h6 mb-0 jobs">125 Jobs</li>
+																														                                        -->
+							</ul>
+							<ul class="list-unstyled mb-0">
+								<li class="list-inline-item me-2 mb-0">
+									<a href="javascript:void(0)" class="text-muted like">Alexia, freelance en communication/design,
+																																						                                                aide une association qui accompagne des entrepreneurs sociaux au sein
+																																						                                                de pays en voie de développement (supports de communication, branding…)
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="tiny-slide">
+					<div class="card categories overflow-hidden rounded shadow border-0">
+						<img src="{{asset("client/assets/img/thisisengineering-raeng-5W43yn8z2-A-unsplash-landscape.jpg")}}" class="img-fluid" alt="">
+						<div class="card-body">
+							<ul class="list-unstyled d-flex justify-content-between mb-1">
+								<li>
+									<a href="javascript:void(0)" class="title h6 text-dark">Paix et Réduction des conflits</a>
+								</li>
+								<!--
+																														                                        <li class="h6 mb-0 jobs">125 Jobs</li>
+																														                                        -->
+							</ul>
+							<ul class="list-unstyled mb-0">
+								<li class="list-inline-item me-2 mb-0">
+									<a href="javascript:void(0)" class="text-muted like">Audrey (consultante en gestion des conflits)
+																																						                                                participe à des conférences en ligne pour les associations qui ont besoin de son expertise
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<div class="tiny-slide">
+					<div class="card categories overflow-hidden rounded shadow border-0">
+						<img src="{{asset("client/assets/img/beautician-5529805_1920.jpg")}}" class="img-fluid" alt="">
+						<div class="card-body">
+							<ul class="list-unstyled d-flex justify-content-between mb-1">
+								<li>
+									<a href="javascript:void(0)" class="title h6 text-dark">Bien-être & Soins pour les Victimes de violence</a>
+								</li>
+								<!--
+																														                                        <li class="h6 mb-0 jobs">125 Jobs</li>
+																														                                        -->
+							</ul>
+							<ul class="list-unstyled mb-0">
+								<li class="list-inline-item me-2 mb-0">
+									<a href="javascript:void(0)" class="text-muted like">Morgane a un salon de beauté, et donne un peu de temps
+																																						                                                à la fin de la journée pour les victimes de violences cojugales, pour être à l'écoute & présente
+																																						                                                (cause qui est importante pour elle)
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!--end col-->
+		</div>
+		<!--end row-->
+	</div>
+	<!--end container-->
+</section><!--end sectipn--><!-- How Do We Help End -->
+<!-- FAQ Start -->
+	<section class="section"> <div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 text-center">
+				<div class="section-title mb-4 pb-2">
+					<h4 class="title mb-4">
+						<span class="text-primary">Questions</span>
+						fréquentes
+					</h4>
+					<p class="text-muted para-desc mx-auto mb-0">Des précisions sur l'<span class="text-primary fw-bold">aide</span>
+						aux associations proche de chez vous, et dans le monde.</p>
+				</div>
+			</div>
+			<!--end col-->
+		</div>
+		<!--end row-->
+
+	</div>
+	<!--end container-->
+
+	<div class="container mt-4 pt-2">
+		<div class="row align-items-center">
+			<div class="col-lg-5 col-md-6 mt-4 mt-sm-0 pt-2 pt-sm-0">
+				<img src="{{asset("client/assets/images/illustrator/faq.svg")}}" alt="">
+			</div>
+			<!--end col-->
+
+			<div class="col-lg-7 col-md-6">
+				<div class="accordion" id="accordionExample">
+					<div class="accordion-item rounded shadow">
+						<h2 class="accordion-header" id="headingOne">
+							<button class="accordion-button border-0 bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+								Puis-je directement venir en aide aux associations (sans présenter mes prestations sur la plateforme) ?
+							</button>
+						</h2>
+						<div id="collapseOne" class="accordion-collapse border-0 collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+							<div class="accordion-body text-muted bg-white">
+								Oui, vous pouvez créer un compte, et commencer à donner des heures (bénévolement) pour aider les associations proche de vous.
+							</div>
+						</div>
+					</div>
+
+					<div class="accordion-item rounded shadow mt-2">
+						<h2 class="accordion-header" id="headingTwo">
+							<button class="accordion-button border-0 bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+								Qui peut bénéficier de la réduction d'impôt pour don (don réalisé sur la plateforme) ?
+							</button>
+						</h2>
+						<div id="collapseTwo" class="accordion-collapse border-0 collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+							<div class="accordion-body text-muted bg-white">
+								Lorsque vous choisissez & réservez l'un de nos professionnels solidaires, ils reçoivent un paiement et réalisent un don à une association.
+							</br>
+						</br>
+						Le professionnel engagé, réalise ce don, et peut bénéficier d'une réduction d'impôt dans son pays correspondant au montant de ce don (dans le cas où ils répondent aux conditions nécessaires pour être éligible à cette réduction fiscale).
+					</div>
+				</div>
+			</div>
+
+			<div class="accordion-item rounded shadow mt-2">
+				<h2 class="accordion-header" id="headingThree">
+					<button class="accordion-button border-0 bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+						Comment puis-je créer un compte, en tant qu'association (et être présente sur la plateforme) ?
+					</button>
+				</h2>
+				<div id="collapseThree" class="accordion-collapse border-0 collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+					<div class="accordion-body text-muted bg-white">
+						Vous pouvez, pour créer un compte,
+						<a href="javascript:void(0)" onclick="bottomFunction()" class="mt-3 h6 text-primary">nous contacter</a>, on vous aidera à ajouter votre compte et faire partie de la communauté :).
+					</div>
+				</div>
+			</div>
+
+			<div class="accordion-item rounded shadow mt-2">
+				<h2 class="accordion-header" id="headingFour">
+					<button class="accordion-button border-0 bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+						Je suis un professionnel. Comment puis-je commencer à aider sur la plateforme et présenter mes services (et soutenir les actions de solidarité) ?
+					</button>
+				</h2>
+				<div id="collapseFour" class="accordion-collapse border-0 collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+					<div class="accordion-body text-muted bg-white">
+						Vous pouvez directement créer un compte sur la plateforme.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--end col-->
+</div><!--end row--></div><!--end container--><!-- FAQ End --><!-- CTA Start -->
+<div class="container"> <div class="row my-md-5 pt-md-3 my-4 pt-2 pb-lg-4 justify-content-center">
+	<div class="col-12 text-center">
+		<div class="section-title">
+			<h4 class="title mb-4">Recevez de l'<span class="text-primary">aide</span>
+				pour votre
+				<span class="text-primary">association</span>
+			</h4>
+			<p class="text-muted para-desc mx-auto mb-0">Contactez-nous et commencez à recevoir de l'<span class="text-primary fw-bold">aide</span>.</p>
+
+			<div
+				class="mt-4">
+
+				<!-- Début de widget de lien Calendly -->
+
+				<a href="" onclick="Calendly.initPopupWidget({url: 'https://calendly.com/benoit-barone/reunion-de-45-minutes-choix-lieu'});return false;" class="btn btn-primary mt-2 me-2">Nous contacter</a>
+				<!-- Fin de widget de lien Calendly -->
+
+				<!-- Comment start
+														                            <a href="javascript:void(0)" class="btn btn-outline-primary mt-2">Free Trial</a>
+														                            Comment end -->
+			</div>
+		</div>
+	</div>
+</div><!--end row--></div><!--end container--></section><!--end sectipn--><!-- CTA End --><!-- Footer Start --><!-- Footer End --><!-- Offcanvas Start --><!-- Offcanvas End --><!-- Back to top --><a href="#" onclick="topFunction()" id="back-to-top" class="back-to-top fs-5"> <i data-feather="arrow-up" class="fea icon-sm icons align-middle"></i></a><!-- Back to top -->{% endblock %}{% block javascripts %}<script src="{{ asset('client/assets/js/jquery-3.3.1.min.js') }}"></script><script src="{{ asset('client/assets/js/jquery-migrate-3.0.1.min.js') }}"></script><script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>{# <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> #}<script>/*!
   * $script.js JS loader & dependency manager
   * https://github.com/ded/script.js
   * (c) Dustin Diaz 2014 | License MIT
   */
-(function(e,t){typeof module!="undefined"&&module.exports?module.exports=t():typeof define=="function"&&define.amd?define(t):this[e]=t()})("$script",function(){function p(e,t){for(var n=0,i=e.length;n<i;++n)if(!t(e[n]))return r;return 1}function d(e,t){p(e,function(e){return t(e),1})}function v(e,t,n){function g(e){return e.call?e():u[e]}function y(){if(!--h){u[o]=1,s&&s();for(var e in f)p(e.split("|"),g)&&!d(f[e],g)&&(f[e]=[])}}e=e[i]?e:[e];var r=t&&t.call,s=r?t:n,o=r?e.join(""):t,h=e.length;return setTimeout(function(){d(e,function t(e,n){if(e===null)return y();!n&&!/^https?:\/\//.test(e)&&c&&(e=e.indexOf(".js")===-1?c+e+".js":c+e);if(l[e])return o&&(a[o]=1),l[e]==2?y():setTimeout(function(){t(e,!0)},0);l[e]=1,o&&(a[o]=1),m(e,y)})},0),v}function m(n,r){var i=e.createElement("script"),u;i.onload=i.onerror=i[o]=function(){if(i[s]&&!/^c|loade/.test(i[s])||u)return;i.onload=i[o]=null,u=1,l[n]=2,r()},i.async=1,i.src=h?n+(n.indexOf("?")===-1?"?":"&")+h:n,t.insertBefore(i,t.lastChild)}var e=document,t=e.getElementsByTagName("head")[0],n="string",r=!1,i="push",s="readyState",o="onreadystatechange",u={},a={},f={},l={},c,h;return v.get=m,v.order=function(e,t,n){(function r(i){i=e.shift(),e.length?v(i,r):v(i,t,n)})()},v.path=function(e){c=e},v.urlArgs=function(e){h=e},v.ready=function(e,t,n){e=e[i]?e:[e];var r=[];return!d(e,function(e){u[e]||r[i](e)})&&p(e,function(e){return u[e]})?t():!function(e){f[e]=f[e]||[],f[e][i](t),n&&n(r)}(e.join("|")),v},v.done=function(e){v([null],e)},v})
+(function (e, t) {
+typeof module != "undefined" && module.exports ? module.exports = t() : typeof define == "function" && define.amd ? define(t) : this[e] = t()
+})("$script", function () {
+function p(e, t) {
+for (var n = 0, i = e.length; n < i; ++ n) 
+if (! t(e[n])) 
+return r;
 
-</script>
+
+
+
+return 1
+}
+function d(e, t) {
+p(e, function (e) {
+return t(e),
+1
+})
+}
+function v(e, t, n) {
+function g(e) {
+return e.call ? e() : u[e]
+}
+function y() {
+if (!-- h) {
+u[o] = 1,
+s && s();
+for (var e in f) 
+p(e.split("|"), g) && ! d(f[e], g) && (f[e] =[])
 
 
 
 
 
+}
+}
+e = e[i] ? e : [e];
+var r = t && t.call,
+s = r ? t : n,
+o = r ? e.join("") : t,
+h = e.length;
+return setTimeout(function () {
+d(e, function t(e, n) {
+if (e === null) 
+return y();
 
-<script>
-let $map = document.querySelector('#maps')
+
+
+! n && !/^https?:\/\//.test(e) && c && (e = e.indexOf(".js") === -1 ? c + e + ".js" : c + e);
+if (l[e]) 
+return o && (a[o] = 1),
+l[e] == 2 ? y() : setTimeout(function () {
+t(e, !0)
+}, 0);
+
+
+
+l[e] = 1,
+o && (a[o] = 1),
+m(e, y)
+})
+}, 0),
+v
+}
+function m(n, r) {
+var i = e.createElement("script"),
+u;
+i.onload = i.onerror = i[o] = function () {
+if (i[s] && !/^c|loade/.test(i[s]) || u) 
+return;
+
+
+
+i.onload = i[o] = null,
+u = 1,
+l[n] = 2,
+r()
+},
+i.async = 1,
+i.src = h ? n + (n.indexOf("?") === -1 ? "?" : "&") + h : n,
+t.insertBefore(i, t.lastChild)
+}
+var e = document,
+t = e.getElementsByTagName("head")[0],
+n = "string",
+r = !1,
+i = "push",
+s = "readyState",
+o = "onreadystatechange",
+u = {},
+a = {},
+f = {},
+l = {},
+c,
+h;
+return v.get = m,
+v.order = function (e, t, n) {
+(function r(i) {
+i = e.shift(),
+e.length ? v(i, r) : v(i, t, n)
+})()
+},
+v.path = function (e) {
+c = e
+},
+v.urlArgs = function (e) {
+h = e
+},
+v.ready = function (e, t, n) {
+e = e[i] ? e : [e];
+var r = [];
+return ! d(e, function (e) {
+u[e] || r[i](e)
+}) && p(e, function (e) {
+return u[e]
+}) ? t() : !function (e) {
+f[e] = f[e] || [],
+f[e][i](t),
+n && n(r)
+}(e.join("|")),
+v
+},
+v.done = function (e) {
+v([null], e)
+},
+v
+})</script><script>let $map = document.querySelector('#maps')
 
 
 class GoogleMap {
 
-                constructor() {
-                    this.map = null
-                    this.bounds = null
-                    this.textMarker = null
-                }
+constructor() {
+this.map = null
+this.bounds = null
+this.textMarker = null
+}
 
-                /**
+/**
                  * Charge la carte sur un élément
                  * @param {HTMLElement} element
                  */
-                async load(element) {
-                    return new Promise((resolve, reject) => {
-                        $script('https://maps.googleapis.com/maps/api/js?key=AIzaSyDJWz7ZHJJDK8fs09giiatXHVBA_c0jAUA', () => {
-                            this.textMarker = class TextMarker extends google.maps.OverlayView {
+async load(element) {
+return new Promise((resolve, reject) => {
+$script('https://maps.googleapis.com/maps/api/js?key=AIzaSyA9B0lj-IoN-sAYLFztQa2hcaPXZoTiZTA', () => {
+this.textMarker = class TextMarker extends google.maps.OverlayView {
 
-                                constructor(pos, map, text) {
-                                    super()
-                                    this.div = null
-                                    this.html = null
-                                    this.pos = pos
-                                    this.text = text
-                                    this.setMap(map)
-                                    this.onActivation = []
-                                }
+constructor(pos, map, text) {
+super()
+this.div = null
+this.html = null
+this.pos = pos
+this.text = text
+this.setMap(map)
+this.onActivation = []
+}
 
-                                onAdd() {
-                                    this.div = document.createElement('div')
-                                    this.div.classList.add('marker')
-                                    this.div.style.position = 'absolute'
-                                    this.div.innerHTML = this.text
-                                    this.getPanes().overlayImage.appendChild(this.div)
-                                    this.div.addEventListener('click', (e) => {
-                                        e.preventDefault()
-                                        e.stopPropagation()
-                                        this.activate()
-                                    })
-                                }
+onAdd() {
+this.div = document.createElement('div')
+this.div.classList.add('marker')
+this.div.style.position = 'absolute'
+this.div.innerHTML = this.text
+this.getPanes().overlayImage.appendChild(this.div)
+this.div.addEventListener('click', (e) => {
+e.preventDefault()
+e.stopPropagation()
+this.activate()
+})
+}
 
-                                draw() {
-                                    let position = this.getProjection().fromLatLngToDivPixel(this.pos)
-                                    this.div.style.left = position.x + "px"
-                                    this.div.style.top = position.y + "px"
-                                }
+draw() {
+let position = this.getProjection().fromLatLngToDivPixel(this.pos)
+this.div.style.left = position.x + "px"
+this.div.style.top = position.y + "px"
+}
 
-                                onRemove() {
-                                    this.div.parentNode.removeChild(this.div)
-                                }
+onRemove() {
+this.div.parentNode.removeChild(this.div)
+}
 
-                                hover() {
-                                    if (this.div !== null) {
-                                        this.div.classList.add('is-active')
-                                    }
-                                }
+hover() {
+if (this.div !== null) {
+this.div.classList.add('is-active')
+}
+}
 
-                                out() {
-                                    if (this.div !== null) {
-                                        this.div.classList.remove('is-active')
-                                    }
-                                }
+out() {
+if (this.div !== null) {
+this.div.classList.remove('is-active')
+}
+}
 
-                                activate() {
-                                    if (this.div !== null) {
-                                        this.div.innerHTML = this.html
-                                    }
-                                    this.onActivation.forEach(function (cb) {
-                                        cb()
-                                    })
-                                }
+activate() {
+if (this.div !== null) {
+this.div.innerHTML = this.html
+}
+this.onActivation.forEach(function (cb) {
+cb()
+})
+}
 
-                                deactivate() {
-                                    if (this.div !== null) {
-                                        this.div.innerHTML = this.text
-                                    }
-                                }
+deactivate() {
+if (this.div !== null) {
+this.div.innerHTML = this.text
+}
+}
 
-                                setContent(html) {
-                                    this.html = html
-                                }
+setContent(html) {
+this.html = html
+}
 
-                            }
-                            this.map = new google.maps.Map(element)
-                            this.bounds = new google.maps.LatLngBounds()
-                            resolve()
-                        })
-                    })
-                }
+}
+this.map = new google.maps.Map(element)
+this.bounds = new google.maps.LatLngBounds()
+resolve()
+})
+})
+}
 
-                /**
+/**
                  * Ajoute un marker sur la carte
                  * @param {string} lat
                  * @param {string} lng
                  * @param {string} text
                  * @return {TextMarker}
                  */
-                addMarker(lat, lng, text) {
-                    let point = new google.maps.LatLng(lat, lng)
-                    let marker = new this.textMarker(point, this.map, text)
-                    marker.onActivation.push(() => {
-                        this.map.setCenter(marker.pos)
-                    })
-                    this.bounds.extend(point)
-                    return marker
-                }
+addMarker(lat, lng, text) {
+let point = new google.maps.LatLng(lat, lng)
+let marker = new this.textMarker(point, this.map, text)
+marker.onActivation.push(() => {
+this.map.setCenter(marker.pos)
+})
+this.bounds.extend(point)
+return marker
+}
 
-                /**
+/**
                  * Centre la carte pour englober les markers
                  */
-                centerMap() {
-                    this.map.panToBounds(this.bounds)
-                    this.map.fitBounds(this.bounds)
-                }
-            }
+centerMap() {
+this.map.panToBounds(this.bounds)
+this.map.fitBounds(this.bounds)
+}
+}
 
 const initMap = async function () {
-                let map = new GoogleMap()
-                let activeMarker = null
-                let enabledMarker = null
-                await map.load($map)
-                Array.from(document.querySelectorAll('.item')).forEach(function (item) {
-                    let marker = map.addMarker(item.dataset.lat, item.dataset.lng, item.dataset.name)
-                    marker.setContent(item.innerHTML)
-                    marker.onActivation.push(function () {
-                        if (enabledMarker !== null) {
-                            enabledMarker.deactivate()
-                        }
-                        enabledMarker = marker
-                    })
-                    item.addEventListener('mouseover', function () {
-                        marker.hover()
-                        if (activeMarker !== null) {
-                            activeMarker.out()
-                        }
-                        activeMarker = marker
-                    })
-                    item.addEventListener('mouseleave', function () {
-                        if (activeMarker === marker) {
-                            marker.out()
-                            activeMarker = null
-                        }
-                    })
-                })
-                map.centerMap()
-            }
+let map = new GoogleMap()
+let activeMarker = null
+let enabledMarker = null
+await map.load($map)
+Array.from(document.querySelectorAll('.item')).forEach(function (item) {
+let marker = map.addMarker(item.dataset.lat, item.dataset.lng, item.dataset.name)
+marker.setContent(item.innerHTML)
+marker.onActivation.push(function () {
+if (enabledMarker !== null) {
+enabledMarker.deactivate()
+}
+enabledMarker = marker
+})
+item.addEventListener('mouseover', function () {
+marker.hover()
+if (activeMarker !== null) {
+activeMarker.out()
+}
+activeMarker = marker
+})
+item.addEventListener('mouseleave', function () {
+if (activeMarker === marker) {
+marker.out()
+activeMarker = null
+}
+})
+})
+map.centerMap()
+}
 
-            if ($map !== null) {
-                initMap()
-            }
-
-
-
-</script>
-    
-<script src="{{ asset('js/vendor.js') }}"></script>
- <script src="{{asset("client/assets/js/shuffle.min.js")}}"></script>
-{% endblock %}
-
-{% block jquery %}
-<script type="text/javascript">
-$('.ui-autocomplete-input').css({fontSize: '10px', width: '500px'});
-
-	jQuery.noConflict();
-	jQuery('.recherche').last().autocomplete();
-	jQuery('.recherche').last().autocomplete({
-	    source: function (request, response) {
-	        jQuery.ajax({
-	                url: "/ajaxRecherche?recherche=" + jQuery('.recherche').last().val(),
-	                dataType: "json",
-	                data: {},
-	                success: function (data) {
-	                    var result = [];
-	                    var o=data["Magasin"];
-                         
-	                    if (Array.isArray(data.ads))
-		                    for (var i in data.ads) {result.push(/*data["ads"][i].titre);*/data.ads[i].titre)};
-	                            if (Array.isArray(data.Magasin))
-		                            for (var i in data.Magasin) {result.push(/*data["Magasin"][i].nomSociete;*/data.Magasin[i].domination)};
-	                                    console.log(result);
-	                                    response(result);
-                        if (Array.isArray(data.Domaine))
-		                            for (var i in data.Domaine) {result.push(/*data["Magasin"][i].nomSociete;*/data.Domaine[i].domaine)};
-	                                    console.log(result);
-	                                    response(result);        
-	                    },
-	                error: function () {
-	                    console.log("blabla")
-	                }
-	            });
-	    },
-
-	    minLength: 3 // on indique qu'il faut taper au moins 3 caractères pour afficher l'autocomplétion
-	}); // source : ajaxCompetence(), // on inscrit la liste de suggestions
-</script>
-{% endblock %}
-        
+if ($map !== null) {
+initMap()
+}</script><script src="{{ asset('js/vendor.js') }}"></script><script src="{{asset("client/assets/js/shuffle.min.js")}}"></script>{% endblock %}{% block jquery %}<script type="text/javascript">$('.ui-autocomplete-input').css({fontSize: '10px', width: '500px'});
+			
+			jQuery.noConflict();
+			jQuery('.recherche').last().autocomplete();
+			jQuery('.recherche').last().autocomplete({
+			source: function (request, response) {
+			jQuery.ajax({
+			url: "/ajaxRecherche?recherche=" + jQuery('.recherche').last().val(),
+			dataType: "json",
+			data: {},
+			success: function (data) {
+			var result = [];
+			var o = data["Magasin"];
+			
+			if (Array.isArray(data.ads)) 
+			for (var i in data.ads) {
+			result.push( /*data["ads"][i].titre);*/
+			data.ads[i].titre)
+			};
+			;
+			if (Array.isArray(data.Magasin)) 
+			for (var i in data.Magasin) {
+			result.push( /*data["Magasin"][i].nomSociete;*/
+			data.Magasin[i].domination)
+			};
+			;
+			console.log(result);
+			response(result);
+			if (Array.isArray(data.Domaine)) 
+			for (var i in data.Domaine) {
+			result.push( /*data["Magasin"][i].nomSociete;*/
+			data.Domaine[i].domaine)
+			};
+			;
+			console.log(result);
+			response(result);
+			},
+			error: function () {
+			console.log("blabla")
+			}
+			});
+			},
+			
+			minLength: 3 // on indique qu'il faut taper au moins 3 caractères pour afficher l'autocomplétion
+			}); // source : ajaxCompetence(), // on inscrit la liste de suggestions</script>{% endblock %}

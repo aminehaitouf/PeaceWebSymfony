@@ -1,169 +1,187 @@
 {% extends '/professionnel/baseProfessionnel.html.twig' %}
- {% block body %}  
-            
-<div class="page-heading">
-    <h3>Profile </h3>
-</div>
-<div class="page-content">
-    <section class="row">
-        <div class="col-12 ">
-                <div class="card">
-                    <div class="card-header">
-                    <h5 class="mt-4">Modifier vos informations de profil :</h5>
-                    </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                        {{ form_start(form,{attr:{class:"form form-horizontal"}}) }} 
-                                <div class="form-body">
-                                    <div class="row">
-                                        
-                                        <div class="col-md-8">
-                                            <div class="form-group ">
-                                                <div class="position-relative">
-                                                   {{ form_row(form.firstname,{attr:{class:"form-control"}}) }}
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-8">
-                                            <div class="form-group ">
-                                                <div class="position-relative">
-                                                    {{ form_row(form.lastname,{attr:{class:"form-control "}}) }}
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <div class="position-relative">
-                                                    {{ form_row(form.mobile,{attr:{class:"form-control "}}) }}
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                        {# <div class="col-md-4">
-                                            <label class="form-label">Domaine Organisme <span class="text-danger">*</span></label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <div class="position-relative">
-                                                    {{ form_row(form.domaine,{attr:{class:"form-control"}}) }}
-                                                    
-                                                </div>
-                                            </div>
-                                        </div> #}
-                                        
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <div class="position-relative">
-                                                    {{ form_row(form.illustration,{attr:{class:"form-control"}}) }}
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                {{ form_row(form.association,{attr:{class:"form-control "}}) }}
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8">
-                                        <div class="form-group">
-                                            <div class="position-relative">
-                                            {{ form_row(form.nbrheurebenevole,{attr:{class:"form-control",'type':'number'}}) }}
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                        <div class="col-md-8">
-                                        <div class="form-group">
-                                            <div class="position-relative">
-                                            {{ form_row(form.done,{attr:{class:"form-control",'type':'number'}}) }}
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                        
-                                        
-                                        <div class="col-md-8">
-                                        <div class="form-group">
-                                            <div class="position-relative">
-                                            {{ form_row(form.prixMoyen,{attr:{class:"form-control",'type':'number'}}) }}
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-8">
-                                    <div class="form-group">
-                                        <div class="position-relative">
-                                        {{ form_row(form.reduction,{attr:{class:"form-control"}}) }}
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                            <div class="col-md-8">
-                                                <div class="form-group with-title mb-3">
-                                                    {{ form_row(form.description,{attr:{class:"form-control"}}) }}
-                                                    <label>Déscrire votre activité</label>
-                                                </div>
-                                            </div>
-                                        
-                                        
-                                        
-                                        
-                                        <div class="col-8 d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">Enregistrer</button>
-                                            <button type="reset"
-                                                class="btn btn-light-secondary me-1 mb-1">Reset</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            {{ form_end(form) }}
-                        
-                        
-                        <h5 class="mt-4">Modifier votre mot de passe :</h5>
-                        {{ form_start(formChangePassword) }}
-                            <div class="row mt-3">
+{% block body %}
 
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <div class="form-group">
-                                            <div class="position-relative">
-                                                 <label for="{{ formChangePassword.password.children["first"].vars.id }}">{{ formChangePassword.password.children["first"].vars.label }}</label>
-                                                <input type="password" placeholder="Mot de passe" class="form-control ps-5" id="{{ formChangePassword.password.children["first"].vars.id }}"
-                                                name="{{ formChangePassword.password.children["first"].vars.full_name }}">
-                                                </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="mb-3">
-                                        <div class="form-icon position-relative">
-                                            <label for="{{ formChangePassword.password.children["second"].vars.id }}">{{ formChangePassword.password.children["second"].vars.label }}</label>
-                                            <input type="password" placeholder="Répéter mot de passe" class="form-control ps-5" id="{{ formChangePassword.password.children["second"].vars.id }}"
-                                                name="{{ formChangePassword.password.children["second"].vars.full_name }}">
-                                        </div>
-                                    </div>
-                                </div>
-                            {% do formChangePassword.password.setRendered %}
+	<div class="page-heading">
+		<h3>Profil</h3>
+	</div>
+	<div class="page-content">
+		<section class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-content p-4">
+						<div class="card-body">
+							{{ form_start(form,{attr:{class:"form form-horizontal"}}) }}
+							<div class="form-body">
+								<h5>Modifier vos informations de profil :</h5>
+								<div class="row mt-4">
 
-                            <div class="col-8 d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary me-1 mb-1">Enregistrer</button>
-                                <button type="reset"
-                                    class="btn btn-light-secondary me-1 mb-1">Reset</button>
-                            </div>
-                            </div><!--end row-->
-                        {{ form_end(formChangePassword) }}
-                    </div>
-                        </div>
-                    </div>
-            </div>
-        </div>
-    </section>
-</div>
+									<div class="col-md-8">
+										<div class="form-group ">
+											<div class="position-relative">
+												{{ form_row(form.firstname,{attr:{class:"form-control"}}) }}
 
- {% endblock %}
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-8">
+										<div class="form-group ">
+											<div class="position-relative">
+												{{ form_row(form.lastname,{attr:{class:"form-control "}}) }}
+
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-8">
+										<div class="form-group">
+											<div class="position-relative">
+												{{ form_row(form.mobile,{attr:{class:"form-control "}}) }}
+
+											</div>
+										</div>
+									</div>
+
+
+									{# <div class="col-md-4">
+																																				                                            <label class="form-label">Domaine Organisme <span class="text-danger">*</span></label>
+																																				                                        </div>
+																																				                                        <div class="col-md-8">
+																																				                                            <div class="form-group">
+																																				                                                <div class="position-relative">
+																																				                                                    {{ form_row(form.domaine,{attr:{class:"form-control"}}) }}
+																																				                                                    
+																																				                                                </div>
+																																				                                            </div>
+																																				                                        </div> #}
+
+									<div class="col-md-8">
+										<div class="form-group">
+											<div class="position-relative">
+												{{ form_row(form.illustration,{attr:{class:"form-control"}}) }}
+
+											</div>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="form-group">
+											{{ form_row(form.association,{attr:{class:"form-control "}}) }}
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="form-group">
+											<div class="position-relative">
+												{{ form_row(form.nbrheurebenevole,{attr:{class:"form-control",'type':'number'}}) }}
+
+											</div>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="form-group">
+											<div class="position-relative">
+												{{ form_row(form.done,{attr:{class:"form-control",'type':'number'}}) }}
+
+											</div>
+										</div>
+									</div>
+
+
+									<div class="col-md-8">
+										<div class="form-group">
+											<div class="position-relative">
+												{{ form_row(form.prixMoyen,{attr:{class:"form-control",'type':'number'}}) }}
+
+											</div>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="form-group">
+											<div class="position-relative">
+												{{ form_row(form.reduction,{attr:{class:"form-control"}}) }}
+
+											</div>
+										</div>
+									</div>
+									<div class="form-group">
+										<label>Accepter les réservations de clients</label>
+									</div>
+									<div class="form-check form-switch mb-3 ms-3">
+										{% if user.isvisiblepourclient == 0 %}
+											<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onclick="window.location.href = '/professionnel/{{user.id}}/visiblePourClient';">
+											<label class="form-check-label" for="flexSwitchCheckDefault">J'aide uniquement les associations (ne pas recevoir de clients qui réservent)</label>
+										{% endif %}
+										{% if user.isvisiblepourclient == 1 %}
+											<input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked onclick="window.location.href = '/professionnel/{{user.id}}/masquerPourClient';">
+											<label class="form-check-label" for="flexSwitchCheckDefault">J'accepte les réservations de clients (recevoir des clients qui réservent)</label>
+										{% endif %}
+									</div>
+									<div class="col-md-8">
+										<div class="form-group with-title mb-3">
+											{{ form_row(form.description,{attr:{class:"form-control"}}) }}
+											<label>Décrire votre activité</label>
+										</div>
+									</div>
+
+
+									<div class="col-8 d-flex justify-content-md-end">
+										<button type="submit" class="btn btn-primary me-1 mb-1">Enregistrer</button>
+										<button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+									</div>
+								</div>
+							</div>
+							{{ form_end(form) }}
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<div class="page-content">
+		<section class="row">
+			<div class="col-12">
+				<div class="card">
+					<div class="card-content p-4">
+						<div class="card-body">
+							{{ form_start(formChangePassword) }}
+							<div class="form-body">
+								<h5>Modifier votre mot de passe :</h5>
+
+								<div class="row mt-4">
+
+									<div class="col-md-8">
+										<div class="mb-3">
+											<div class="form-group">
+												<div class="position-relative">
+													<label for="{{ formChangePassword.password.children["first"].vars.id }}">{{ formChangePassword.password.children["first"].vars.label }}</label>
+													<input type="password" placeholder="Entrer votre mot de passe" class="form-control mt-1 ps-3" id="{{ formChangePassword.password.children["first"].vars.id }}" name="{{ formChangePassword.password.children["first"].vars.full_name }}">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div class="mb-3">
+											<div class="form-icon position-relative">
+												<label for="{{ formChangePassword.password.children["second"].vars.id }}">{{ formChangePassword.password.children["second"].vars.label }}</label>
+												<input type="password" placeholder="Entrer votre mot de passe" class="form-control mt-1 ps-3" id="{{ formChangePassword.password.children["second"].vars.id }}" name="{{ formChangePassword.password.children["second"].vars.full_name }}">
+											</div>
+										</div>
+									</div>
+									{% do formChangePassword.password.setRendered %}
+
+									<div class="col-8 d-flex justify-content-md-end">
+										<button type="submit" class="btn btn-primary me-1 mb-1">Enregistrer</button>
+										<button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
+									</div>
+								</div>
+								<!--end row-->
+								{{ form_end(formChangePassword) }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}

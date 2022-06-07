@@ -27,7 +27,7 @@ class ChangePasswordType extends AbstractType
             'label' => 'Votre mot de passe',
             'required' => true,
             'first_options' => ['label' => 'Votre mot de passe', 'attr' => ['placeholder' => 'Entrer votre mot de passe']],
-            'second_options' => ['label' => 'Répétez votre mot de passe', 'attr' => ['placeholder' => 'Entrer votre mot de passe']],
+            'second_options' => ['label' => 'Répéter votre mot de passe', 'attr' => ['placeholder' => 'Entrer votre mot de passe']],
 
         ])
         ;

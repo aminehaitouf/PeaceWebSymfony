@@ -23,9 +23,9 @@
                             <div  class="card-body">
                             {% form_theme formt 'bootstrap_4_layout.html.twig' %}
                                {{ form_start(formt) }} 
-                                <div  class="accordion mt-4 pt-2" id="buyingquestion" style="margin-bottom:4%">
-                                    <div style="margin-top:4%; margin-bottom: 4%;">
-                                        <h5 class="card-title">1: Préstation sélectionné</h5>
+                                <div  class="accordion" id="buyingquestion" style="margin-bottom:4%">
+                                    <div>
+                                        <h5 class="card-title m-3">1 - Prestation sélectionnée :</h5>
                                     </div>
                                     
                                     <div  class="accordion-item rounded">
@@ -40,7 +40,7 @@
                                         <div id="collapseOne" class="accordion-collapse border-0 collapse " aria-labelledby="headingOne"
                                             data-bs-parent="#buyingquestion">
                                             <div class="accordion-body text-muted bg-white">
-                                                <a href="/detailProduitClient/{{ads.user}}" class="btn btn-pills btn-primary">supprimer</a>
+                                                <a href="/detailProduitClient/{{ads.user}}" class="btn btn-pills btn-primary">Supprimer</a>
                                             </div>
                                         </div>
                                     </div>
@@ -74,7 +74,7 @@
                                     <div  class="accordion-item rounded mt-2">
 
                                         <h2 class="accordion-header" id="headingTwo">
-                                            <h5 class="card-title">Choisissez la date et l'heure du RDV</h5>
+                                            <h5 class="card-title m-3">2 - Choisissez la date et l'heure du RDV :</h5>
                                         </h2>
                                     <div class="d-none">
                                         <h6 class="card-title">Vous voulez etre servie par :</h6>
@@ -98,17 +98,23 @@
                                    
                                 </div>
 
-                                <div id="bockReserver" style="" class="mt-3">
+                                <div class="row">   
+
+                                <div class="col-12 mt-3">
+                                
                                     {% if app.user %}
                                         {# <a href="/totalProduit" class="btn btn-primary mt-2 me-2">Réserver</a> #}
-                                        <button type="submit" class="btn btn-primary">Reserver</button>
+                                        <button type="submit" class="btn btn-primary">Réserver</button>
                                     {% else %}
-                                        <a href="/login" class="btn btn-primary mt-2 me-2">Réserver</a>
+                                        <a href="/login" class="btn btn-primary">Réserver</a>
                                     {% endif %}
                                     
                                     
-                                    <a href="/detailProduitClient/{{ads.user}}" class="btn btn-outline-primary mt-2">Annuler</a>
+                                    <a href="/detailProduitClient/{{ads.user}}" class="btn btn-outline-primary ms-2">Annuler</a>
                                 </div>
+
+                                </div>
+
                                 {{ form_end(formt) }}
                                 
                             </div>
@@ -470,28 +476,52 @@
           minTime: listHoursToShow[0],
           maxTime: listHoursToShow[listHoursToShow.length],
           disabledWeekDays: daysOff,
+          minDate: new Date(),
       });
       
           $('#datetimepicker3').change(function () {
               $('#confirmDate').html(new Date($(this).val()).toLocaleString())
-              console.log('this val 1',$(this).val());
+              console.log('this val 1' + $(this).val().toString());
 
               // We need to use minDateTime in order to hide timePicker part of the DateTimePIcker
               // in case the date is today (=we just opened the page reservaztion, so the date is by default today), and today is a dayOff
               // If not, the user can book a slot event if this is a dayOff
-              if ($(this).val()
+              console.log('This.date.val : ' + $(this).val().toString());
+              if ($(this).val().toString()
               && !daysOff.includes(parseInt(new Date($(this).val()).getDay()))) {
-              $(this).datetimepicker({
-                  allowTimes: triDateDay(new Date($(this).val())),
-                  minDateTime: new Date(),
-                  disabledWeekDays: daysOff,
-              });
+            
+                  console.log('Not empty : ' + $(this).val().toString());
+
+                $(this).datetimepicker({
+                    allowTimes: triDateDay(new Date($(this).val())),
+                    minDate: new Date(),
+                    minTime: listHoursToShow[0],
+                    maxTime: listHoursToShow[listHoursToShow.length],
+                    disabledWeekDays: daysOff,
+                });
+                }
+              // In case there is no date, the current date selected is today,
+              // So we check if today is a dayoff, we set time to 23h00, which means, there is no available slot to book (=end of the day)
+              else if (daysOff.includes(parseInt(new Date().getDay()))) {
+
+                  console.log('Empty + Today is dayoff : ' + $(this).val().toString());
+
+                    $(this).datetimepicker({
+                        minDate: new Date(),
+                        minTime: new Date().setHours(23),
+                        disabledWeekDays: daysOff,
+                    });
               }
               else {
+
+                  console.log('Empty + Today is not dayoff : ' + $(this).val().toString());
+
                   $(this).datetimepicker({
-                      minDateTime: new Date().setHours(23),
-                      disabledWeekDays: daysOff,
-                  });
+                  allowTimes: triDateDay(new Date()),
+                  minDate: new Date(),
+                    minTime: new Date(),
+                  disabledWeekDays: daysOff,
+              });
               }
               
 

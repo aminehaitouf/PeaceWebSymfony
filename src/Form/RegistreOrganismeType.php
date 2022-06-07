@@ -53,7 +53,7 @@ class RegistreOrganismeType extends AbstractType
 
                 'attr' => [
 
-                    'placeholder' => 'Enter votre numéro de téléphone'
+                    'placeholder' => 'Entrer votre numéro de téléphone'
 
                 ]
 
@@ -101,7 +101,7 @@ class RegistreOrganismeType extends AbstractType
             ])
             ->add('illustration', FileType::class, [
 
-                'label' => 'sélectionner une photo',
+                'label' => 'Sélectionner une photo',
 
                 'mapped' => false,
 
@@ -111,9 +111,9 @@ class RegistreOrganismeType extends AbstractType
 
             ->add('email', EmailType::class, [
                 'required' => true,
-                'label' => 'Votre Courriel',
+                'label' => 'Votre email',
                 'attr' => [
-                    'placeholder' => 'Entrer votre courriel'
+                    'placeholder' => 'Entrer votre email'
                 ]
             ])
             ->add('password', RepeatedType::class, [

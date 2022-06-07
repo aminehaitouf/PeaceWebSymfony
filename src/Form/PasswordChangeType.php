@@ -23,7 +23,7 @@ class PasswordChangeType extends AbstractType
             ->add('password', PasswordType::class, [
                 'label' => ' Nouveau mot de passe',
                 'attr' => [
-                    'placeholder' => 'Enter votre nouveau mot de passe'
+                    'placeholder' => 'Entrer votre nouveau mot de passe'
                 ]
             ]);
     }

@@ -9,7 +9,7 @@
                             <img src="{{asset("client/assets/images/client/05.jpg")}}" class="avatar avatar-md-md rounded-circle" alt="">
                             <div class="ms-3">
                                 <h6 class="text-muted mb-0">Hello,</h6>
-                                <h5 class="mb-0">{{(user.lastname)|upper ~ ' ' ~ (user.firstname)|lower }} </h5>
+                                <h5 class="mb-0">{{(user.firstname)|capitalize ~ ' ' ~ (user.lastname)|capitalize }} </h5>
                             </div>
                         </div>
                     </div><!--end col-->
@@ -25,14 +25,14 @@
                         {% endif %}
 
                 <div class="row">
-                    <div class="col-md-4 mt-4 pt-2">
+                    <div class="col-md-3 mt-4 pt-2">
                         <ul class="nav nav-pills nav-justified flex-column bg-white rounded shadow p-3 mb-0" id="pills-tab" role="tablist">
                             
                             
                             <li class="nav-item mt-2">
                                 <a class="nav-link rounded active" id="order-history" data-bs-toggle="pill" href="#orders" role="tab" aria-controls="orders" aria-selected="false">
                                     <div class="text-start py-1 px-3">
-                                        <h6 class="mb-0"><i class="uil uil-list-ul h5 align-middle me-2 mb-0"></i> Orders</h6>
+                                        <h6 class="mb-0"><i class="uil uil-list-ul h5 align-middle me-2 mb-0"></i> Commandes</h6>
                                     </div>
                                 </a><!--end nav link-->
                             </li><!--end nav item-->
@@ -56,7 +56,7 @@
                             <li class="nav-item mt-2">
                                 <a class="nav-link rounded" id="account-details" data-bs-toggle="pill" href="#account" role="tab" aria-controls="account" aria-selected="false">
                                     <div class="text-start py-1 px-3">
-                                        <h6 class="mb-0"><i class="uil uil-user h5 align-middle me-2 mb-0"></i> Account Details</h6>
+                                        <h6 class="mb-0"><i class="uil uil-user h5 align-middle me-2 mb-0"></i> Profil</h6>
                                     </div>
                                 </a><!--end nav link-->
                             </li><!--end nav item-->
@@ -64,29 +64,29 @@
                             <li class="nav-item mt-2">
                                 <a class="nav-link rounded" role="tab" href="{{ path('app_logout') }}" aria-selected="false">
                                     <div class="text-start py-1 px-3">
-                                        <h6 class="mb-0"><i class="uil uil-sign-out-alt h5 align-middle me-2 mb-0"></i> Logout</h6>
+                                        <h6 class="mb-0"><i class="uil uil-sign-out-alt h5 align-middle me-2 mb-0"></i> Déconnexion</h6>
                                     </div>
                                 </a><!--end nav link-->
                             </li><!--end nav item-->
                         </ul><!--end nav pills-->
                     </div><!--end col-->
 
-                    <div class="col-md-8 col-12 mt-4 pt-2">
+                    <div class="col-md-9 col-12 mt-4 pt-2">
                         <div class="tab-content" id="pills-tabContent">
                             
 
                             <div class="tab-pane fade bg-white show active shadow rounded p-4" id="orders" role="tabpanel" aria-labelledby="order-history">
                                 <div style="margin:20px">
-                                    <h3 class="text-warning">Mes Reservation </h3>
+                                    <h3 class="text-warning">Mes réservations </h3>
                                 </div>
                                 <div class="table-responsive bg-white shadow rounded">
                                     <table class="table mb-0 table-center table-nowrap">
                                         <thead>
                                             <tr>
-                                                <th scope="col" class="border-bottom">Nom produit.</th>
+                                                <th scope="col" class="border-bottom">Commande</th>
                                                 <th scope="col" class="border-bottom">Date</th>
                                                 <th scope="col" class="border-bottom">Avancement</th>
-                                                <th scope="col" class="border-bottom">Status</th>
+                                                <th scope="col" class="border-bottom">Statut</th>
                                                 <th scope="col" class="border-bottom">Action</th>
                                             </tr>
                                         </thead>
@@ -105,18 +105,18 @@
                                                 {% endif %}
                                                 
                                                 {% if reservation.isPaid == 0 %}
-                                                    <td class="text-danger">Non Payer</td>
+                                                    <td class="text-danger">A payer</td>
                                                 {% else %}
                                                     <td >
-                                                        <span class="text-success">Payer </span>
+                                                        <span class="text-success">Payé </span>
                                                         {% if reservation.isRembourser == null or reservation.isRembourser == 0 %}
                                                             {% if reservation.demanderemboursement == 0 or reservation.demanderemboursement == null  %}
-                                                                    <a class="text-warning" href="/demanderRemboursement/{{reservation.id}}" >(Demande remboursement)</a> 
+                                                                    <a class="text-warning" href="/demanderRemboursement/{{reservation.id}}" >(Demander le remboursement)</a> 
                                                             {% else %}
                                                                     <span class="text-info">(Attente de remboursement) </span>
                                                             {% endif %}
                                                         {% else %}
-                                                            <span class="text-info">(Remboursement effectuer) </span>
+                                                            <span class="text-info">(Remboursement effectué) </span>
                                                         {% endif %}
                                                         
                                                         
@@ -144,7 +144,7 @@
                                 <div class="modal-dialog  modal-lg modal-dialog-centered">
                                     <div class="modal-content rounded shadow border-0">
                                         <div class="modal-header border-bottom">
-                                            <h5 class="modal-title"  >Reservation</h5>
+                                            <h5 class="modal-title"  >Réservation</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         
@@ -268,7 +268,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">First Name</label>
+                                                <label class="form-label">Prénom</label>
                                                 <div class="form-icon position-relative">
                                                     <i data-feather="user" class="fea icon-sm icons"></i>
                                                     {{ form_widget(formChangeFirstLastName.firstname,{attr:{class:"form-control ps-5"}}) }}
@@ -277,7 +277,7 @@
                                         </div><!--end col-->
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Last Name</label>
+                                                <label class="form-label">Nom</label>
                                                 <div class="form-icon position-relative">
                                                     <i data-feather="user-check" class="fea icon-sm icons"></i>
                                                     {{ form_widget(formChangeFirstLastName.lastname,{attr:{class:"form-control ps-5"}}) }}
@@ -286,7 +286,7 @@
                                         </div><!--end col-->
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Your Email</label>
+                                                <label class="form-label">Email</label>
                                                 <div class="form-icon position-relative">
                                                     <i data-feather="mail" class="fea icon-sm icons"></i>
                                                     <input name="email" value="{{(user.email)}}" id="email" disabled type="email" class="form-control ps-5" value="callyjoseph@gmail.com">
@@ -295,7 +295,7 @@
                                         </div><!--end col-->
                                         <div class="col-md-6">
                                             <div class="mb-3">
-                                                <label class="form-label">Mobile</label>
+                                                <label class="form-label">Numéro de téléphone (portable)</label>
                                                 <div class="form-icon position-relative">
                                                     <i data-feather="user-check" class="fea icon-sm icons"></i>
                                                     {{ form_widget(formChangeFirstLastName.mobile,{attr:{class:"form-control ps-5"}}) }}
@@ -305,12 +305,12 @@
                                         
 
                                         <div class="col-lg-12 mt-2 mb-0">
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                            <button type="submit" class="btn btn-primary">Enregistrer</button>
                                         </div><!--end col-->
                                     </div><!--end row-->
                                 {{ form_end(formChangeFirstLastName) }}
 
-                                <h5 class="mt-4">Change password :</h5>
+                                <h5 class="mt-4">Modifier votre mot de passe :</h5>
                                 {{ form_start(formChangePassword) }}
                                     <div class="row mt-3">
     
@@ -318,7 +318,7 @@
                                         <div class="mb-3">
                                             <div class="form-icon position-relative">
                                                 <label for="{{ formChangePassword.password.children["first"].vars.id }}">{{ formChangePassword.password.children["first"].vars.label }}</label>
-                                                <input type="password" placeholder="Password" class="form-control ps-5" id="{{ formChangePassword.password.children["first"].vars.id }}"
+                                                <input type="password" placeholder="Entrer votre mot de passe" class="form-control ps-5" id="{{ formChangePassword.password.children["first"].vars.id }}"
                                                     name="{{ formChangePassword.password.children["first"].vars.full_name }}">
                                             </div>
                                         </div>
@@ -327,7 +327,7 @@
                                         <div class="mb-3">
                                             <div class="form-icon position-relative">
                                                 <label for="{{ formChangePassword.password.children["second"].vars.id }}">{{ formChangePassword.password.children["second"].vars.label }}</label>
-                                                <input type="password" placeholder="Repeat Password" class="form-control ps-5" id="{{ formChangePassword.password.children["second"].vars.id }}"
+                                                <input type="password" placeholder="Entrer votre mot de passe" class="form-control ps-5" id="{{ formChangePassword.password.children["second"].vars.id }}"
                                                     name="{{ formChangePassword.password.children["second"].vars.full_name }}">
                                             </div>
                                         </div>
@@ -335,7 +335,7 @@
                                    {% do formChangePassword.password.setRendered %}
     
                                         <div class="col-lg-12 mt-2 mb-0">
-                                            <button class="btn btn-primary">Save Password</button>
+                                            <button class="btn btn-primary">Enregistrer</button>
                                         </div><!--end col-->
                                     </div><!--end row-->
                                 {{ form_end(formChangePassword) }}

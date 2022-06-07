@@ -29,7 +29,7 @@ class RechercheType extends AbstractType
 
             ->add('domination', null, array(
                 'attr' => array(
-                     'placeholder' => 'Mot clé'
+                     'placeholder' => 'Restaurant...'
                  )));
     }
 

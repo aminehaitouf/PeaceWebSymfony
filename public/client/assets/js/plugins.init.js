@@ -2,7 +2,7 @@
    Author: Shreethemes
    E-mail: support@shreethemes.in
    Created: August 2019
-   Version: 3.5.0
+   Version: 3.8.0
    Updated: July 2021
    File Description: Common JS file of the template(plugins.init.js)
 */
@@ -23,7 +23,8 @@
  *     10.  Fade Animation       * 
  *     11.  Typed Text animation (animation) * 
  *     12.  Validation Form      * 
- *     13.  Switcher Pricing Plan * 
+ *     13.  Switcher Pricing Plan* 
+ *     14.  Cookies Policy       *
  ================================*/
          
 //=========================================//
@@ -79,62 +80,6 @@ if(document.getElementsByClassName('tiny-two-item').length > 0) {
 if(document.getElementsByClassName('tiny-three-item').length > 0) {
     var slider = tns({
         container: '.tiny-three-item',
-        controls: false,
-        mouseDrag: true,
-        loop: true,
-        rewind: true,
-        autoplay: true,
-        autoplayButtonOutput: false,
-        autoplayTimeout: 3000,
-        navPosition: "bottom",
-        speed: 400,
-        gutter: 12,
-        responsive: {
-            992: {
-                items: 3
-            },
-
-            767: {
-                items: 2
-            },
-
-            320: {
-                items: 1
-            },
-        },
-    });
-};
-if(document.getElementsByClassName('tiny-three-item2').length > 0) {
-    var slider = tns({
-        container: '.tiny-three-item2',
-        controls: false,
-        mouseDrag: true,
-        loop: true,
-        rewind: true,
-        autoplay: true,
-        autoplayButtonOutput: false,
-        autoplayTimeout: 3000,
-        navPosition: "bottom",
-        speed: 400,
-        gutter: 12,
-        responsive: {
-            992: {
-                items: 3
-            },
-
-            767: {
-                items: 2
-            },
-
-            320: {
-                items: 1
-            },
-        },
-    });
-};
-if(document.getElementsByClassName('tiny-three-item3').length > 0) {
-    var slider = tns({
-        container: '.tiny-three-item3',
         controls: false,
         mouseDrag: true,
         loop: true,
@@ -728,4 +673,32 @@ try {
     })
 } catch(err) {
 
+}
+
+//=========================================//
+/*/*      14) Cookies Policy               */
+//=========================================//
+
+try {
+    /* common fuctions */
+    function el(selector) { return document.querySelector(selector) }
+    function els(selector) { return document.querySelectorAll(selector) }
+    function on(selector, event, action) { els(selector).forEach(e => e.addEventListener(event, action)) }
+    function cookie(name) { 
+        let c = document.cookie.split('; ').find(cookie => cookie && cookie.startsWith(name+'='))
+        return c ? c.split('=')[1] : false; 
+    }
+
+    /* popup button hanler */
+    on('.cookie-popup button', 'click', () => {
+        el('.cookie-popup').classList.add('cookie-popup-accepted');
+        document.cookie = `cookie-accepted=true`
+    });
+
+    /* popup init hanler */
+    if (cookie('cookie-accepted') !== "true") {
+        el('.cookie-popup').classList.add('cookie-popup-not-accepted');
+    }
+} catch (error) {
+    
 }

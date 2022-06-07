@@ -83,7 +83,7 @@ class UserType extends AbstractType
             'required' => true,
             'label' => 'Don à l\'association',
             'attr' => [
-                'placeholder' => 'Entrer la veleur du don de chaque prestation '
+                'placeholder' => 'Entrer la valeur du don de chaque prestation '
             ]
         ])
         
@@ -110,7 +110,7 @@ class UserType extends AbstractType
             'label' => 'Votre mot de passe',
             'required' => true,
             'first_options' => ['label' => 'Votre mot de passe', 'attr' => ['placeholder' => 'Entrer votre mot de passe']],
-            'second_options' => ['label' => 'Répétez votre mot de passe', 'attr' => ['placeholder' => 'Entrer votre mot de passe']],
+            'second_options' => ['label' => 'Répéter votre mot de passe', 'attr' => ['placeholder' => 'Entrer votre mot de passe']],
 
         ])
         ;

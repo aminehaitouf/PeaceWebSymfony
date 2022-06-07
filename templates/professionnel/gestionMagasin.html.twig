@@ -1,236 +1,188 @@
 {% extends '/professionnel/baseProfessionnel.html.twig' %}
- {% block body %}  
+{% block body %}
 
-    {% block stylesheets %}
+	{% block stylesheets %}
 
-    <style>
-    table.dataTable td{
-        padding: 15px 8px;
-    }
-    .fontawesome-icons .the-icon svg {
-        font-size: 24px;
-    }
-</style>
-{% endblock %}
-<div class="page-heading">
-                <h3>Gestion professionnelle </h3>
-            </div>
-    <div class="main-content-inner">
-        <div class="row">
-        <div class="col-6 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon purple">
-                                        <i class="iconly-boldCategory"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Visible pour les clients</h6>
-                                        {% if user.isvisiblepourclient == 0 %}
-                                            <a href="/professionnel/{{user.id}}/visiblePourClient" class="btn btn-success">Activer</a>
-                                        {% endif %}
-                                        {% if user.isvisiblepourclient == 1 %}
-                                            <a href="/professionnel/{{user.id}}/masquerPourClient" class="btn btn-danger">Désactiver</a>
-                                        {% endif %}
+		<style>
+			table.dataTable td {
+				padding: 15px 8px;
+			}
+			.fontawesome-icons .the-icon svg {
+				font-size: 24px;
+			}
+		</style>
+	{% endblock %}
+	<div class="page-heading">
+		<h3>Gestion professionnelle
+		</h3>
+	</div>
+	<div class="main-content-inner">
+		<div class="row">
+			<div class="col-12 ">
+				<div class="card">
+					<div class="d-flex justify-content-center card-header">
+						<a class="btn btn-info" href="/professionnel/gestionMagasin">Gestion professionnelle</a>
+						<a class="btn btn-warning ms-2" href="/professionnel/gestionBenevolat">Gestion des bénévolats
+						</a>
+					</div>
+					<div class="card-content">
+						<div class="card-body">
+							{% form_theme form 'bootstrap_4_layout.html.twig' %}
+							{{ form_start(form) }}
+							<div class="form-body">
+								<div class="row">
+									<div class="col-md-4">
+										<label>Heure de début :
+										<span class="text-danger">*</span>
+										</label>
+									</div>
+									<div class="col-md-8">
+										<div class="form-group has-icon-left">
+											<div class="position-relative">
+												{{ form_row(form.start,{attr:{class:"form-control"}}) }}
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<label class="form-label">Heure de fin :
+											<span class="text-danger">*</span>
+										</label>
+									</div>
+									<div class="col-md-8">
+										<div class="form-group has-icon-left">
+											<div class="position-relative">
+												{{ form_row(form.end,{attr:{class:"form-control "}}) }}
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<label class="form-label">Nombre de réservations (au même horaire) :
+											<span class="text-danger">*</span>
+										</label>
+									</div>
+									<div class="col-md-8">
+										<div class="form-group has-icon-left">
+											<div class="position-relative">
+												{{ form_row(form.maxSupport,{attr:{class:"form-control",'type':'number'}}) }}
+											</div>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<label class="form-label">Jour (concerné) :
+											<span class="text-danger">*</span>
+										</label>
+									</div>
+									<div class="col-md-8">
+										<div class="form-group ">
+											{{ form_row(form.dayon) }}
+										</div>
+									</div>
 
-                                        
-                                        
-                                        
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-3 py-4-5">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="stats-icon blue">
-                                        <i class="iconly-boldCategory"></i>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <h6 class="text-muted font-semibold">Visible pour les asociations </h6>
-                                    {% if user.isvisiblepourassociation == 0 %}
-                                        <a href="/professionnel/{{user.id}}/visiblePourAssociation" class="btn btn-success">Activer</a>
-                                    {% endif %}
-                                    {% if user.isvisiblepourassociation == 1 %}
-                                        <a href="/professionnel/{{user.id}}/masquerPourAssociation" class="btn btn-danger">Désactiver</a>
-                                    {% endif %}
-                                        
-                                        
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-        <div class="col-12 ">
-                <div class="card">
-                    <div class="d-flex justify-content-center card-header">
-                        <a class="btn btn-info" href="/professionnel/gestionMagasin">Gestion professionnelle</a>
-                        <a class="btn btn-warning" href="/professionnel/gestionBenevolat">Gestion des bénévolats </a>
-                    </div>
-                    <div class="card-header">
-                    </div>
-                    <div class="card-content">
-                        <div class="card-body">
-                            {% form_theme form 'bootstrap_4_layout.html.twig' %}            
-                            {{ form_start(form) }} 
-                                <div class="form-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <label>Heure de début :<span class="text-danger">*</span></label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="form-group has-icon-left">
-                                                <div class="position-relative">
-                                                    {{ form_row(form.start,{attr:{class:"form-control"}}) }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label">Heure de fin : <span class="text-danger">*</span></label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="form-group has-icon-left">
-                                                <div  class="position-relative">
-                                                     {{ form_row(form.end,{attr:{class:"form-control "}}) }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label">Nombre de réservations (au même horaire) : <span class="text-danger">*</span></label>
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="form-group has-icon-left">
-                                                <div class="position-relative">
-                                                    {{ form_row(form.maxSupport,{attr:{class:"form-control",'type':'number'}}) }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="form-label">Jours d'ouverture: <span class="text-danger">*</span></label>
-                                        </div>
-                                            <div class="col-md-8">
-                                                <div class="form-group ">
-                                                         {{ form_row(form.dayon) }}                                                
-                                                </div>
-                                            </div>
-                                        
-                                        <div class="col-12 d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">Enregistrer</button>
-                                            <button type="reset"
-                                                class="btn btn-light-secondary me-1 mb-1">Annuler</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            {{ form_end(form) }}
-                        </div>
-                    </div>
-            </div>
-        </div>
-           
-            <!-- Primary table end -->
-            <!-- Dark table start -->
-            <div class="col-12 mt-5">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 >Liste des disponibilités</h4>
+									<div class="col-12 d-flex justify-content-end">
+										<button type="submit" class="btn btn-primary me-1 mb-1">Enregistrer</button>
+										<button type="reset" class="btn btn-light-secondary me-1 mb-1">Annuler</button>
+									</div>
+								</div>
+							</div>
+							{{ form_end(form) }}
+						</div>
+					</div>
+				</div>
+			</div>
 
-                        <div class="data-tables datatable-dark">
-                            <table id="dataTable3" class="text-center">
-                                <thead class="text-capitalize">
-                                <tr>
-                                    <th>Jour</th>
-                                    <th>début</th>
-                                    <th>Fin</th>
-                                    <th>Action</th>
+			<!-- Primary table end -->
+			<!-- Dark table start -->
+			<div class="col-12 mt-5">
+				<div class="card">
+					<div class="card-body">
+						<h4>Liste des disponibilités</h4>
 
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                    {% for calendar in calendars %}
-                                    {% if calendar.user == user  %}
-                                    {% if calendar.title != "Benevolat" %}
-                                    
-                                        <tr>
-                                        <td>
+						<div class="data-tables datatable-dark">
+							<table id="dataTable3" class="text-center">
+								<thead class="text-capitalize">
+									<tr>
+										<th>Jour</th>
+										<th>début</th>
+										<th>Fin</th>
+										<th>Action</th>
+
+									</tr>
+								</thead>
+								<tbody>
+
+									{% for calendar in calendars %}
+										{% if calendar.user == user  %}
+											{% if calendar.title != "Benevolat" %}
+
+												<tr>
+													<td>
 
 
+														{% if calendar.dayon == 0 %}Dimanche
+															{% elseif calendar.dayon == 1 %}Lundi
+															{% elseif calendar.dayon == 2 %}Mardi
+															{% elseif calendar.dayon == 3 %}Mercredi
+															{% elseif calendar.dayon == 4 %}Jeudi
+															{% elseif calendar.dayon == 5 %}Vendredi
+															{% elseif calendar.dayon == 6 %}Samedi
 
-                                                    {% if calendar.dayon == 0 %}Dimanche
-                                                    {% elseif calendar.dayon == 1 %}Lundi
-                                                    {% elseif calendar.dayon == 2 %}Mardi
-                                                    {% elseif calendar.dayon == 3 %}Mercredi
-                                                    {% elseif calendar.dayon == 4 %}Jeudi
-                                                    {% elseif calendar.dayon == 5 %}Vendredi
-                                                    {% elseif calendar.dayon == 6 %}Samedi
-                                            
-                                                    {% endif %} 
-                                                    
-                                                
-                                               
-                                                
-                                        
-                                        </td>
-                                            <td>{{calendar.start|date( 'H:i') }}</td>
-                                            <td>{{calendar.end|date( 'H:i') }}</td>
-                                            
-                                            
-                                            
-                                            <td>
-                                                 <a href="/professionnel/{{calendar.id}}/supprimerCalendar" class="btn btn-danger">Supprimer</a>
-                                                  <a href="/professionnel/modifierCalendar/{{calendar.id}}" class="btn btn-success">Modifier</a>
-                                            </td>
-                                        </tr>
-                                    {% endif %}
-                                        {% endif %}
-                                      {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Dark table end -->
-        </div>
-    </div>
+														{% endif %}
+
+
+													</td>
+													<td>{{calendar.start|date( 'H:i') }}</td>
+													<td>{{calendar.end|date( 'H:i') }}</td>
+
+
+													<td>
+														<a href="/professionnel/{{calendar.id}}/supprimerCalendar" class="btn btn-danger">Supprimer</a>
+														<a href="/professionnel/modifierCalendar/{{calendar.id}}" class="btn btn-success">Modifier</a>
+													</td>
+												</tr>
+											{% endif %}
+										{% endif %}
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Dark table end -->
+		</div>
+	</div>
 {% endblock %}
 
 {% block javascripts %}
-    <!-- jquery latest version -->
-<script src="{{asset("professionnel/assets/vendors/jquery/jquery.min.js")}}"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-<script src="{{asset("professionnel/assets/vendors/fontawesome/all.min.js")}}"></script>
-    <!-- others plugins -->
-    <script src="{{ ('assets/js/plugins.js') }}"></script>
-    <script src="{{ ('assets/js/scripts.js') }}"></script>
-    			<script>
-				$(document).ready( function() {
-			if ( $.fn.DataTable.isDataTable( '#dataTable3' ) ) {
-				$( '#dataTable3' ).DataTable().destroy();
-			}
-			$( '#dataTable3' ).dataTable( {
-				"language": {
-					"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
-				},rowReorder: {
-				selector: 'td:nth-child(2)'
-				},
-        		responsive: true,
-				"bSort": false,
-				"bDestroy": true
-			} );
-			} );
-
-				</script>
+	<!-- jquery latest version -->
+	<script src="{{asset("professionnel/assets/vendors/jquery/jquery.min.js")}}"></script>
+	<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+	<script src="https://cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.18/js/dataTables.bootstrap4.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap.min.js"></script>
+	<script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+	<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+	<script src="{{asset("professionnel/assets/vendors/fontawesome/all.min.js")}}"></script>
+	<!-- others plugins -->
+	<script src="{{ ('assets/js/plugins.js') }}"></script>
+	<script src="{{ ('assets/js/scripts.js') }}"></script>
+	<script>
+		$(document).ready(function () {
+if ($.fn.DataTable.isDataTable('#dataTable3')) {
+$('#dataTable3').DataTable().destroy();
+}
+$('#dataTable3').dataTable({
+"language": {
+"url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+},
+rowReorder: {
+selector: 'td:nth-child(2)'
+},
+responsive: true,
+"bSort": false,
+"bDestroy": true
+});
+});
+	</script>
 {% endblock %}
