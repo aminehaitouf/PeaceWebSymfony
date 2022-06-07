@@ -83,7 +83,7 @@ class UserType extends AbstractType
             'required' => true,
             'label' => 'Don à l\'association',
             'attr' => [
-                'placeholder' => 'Entrer la veleur du don de chaque prestation '
+                'placeholder' => 'Entrer la valeur du don de chaque prestation '
             ]
         ])
         

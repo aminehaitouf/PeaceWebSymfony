@@ -27,7 +27,7 @@ class DoneProType extends AbstractType
             'required' => true,
             'label' => 'Done de chaque prestation',
             'attr' => [
-                'placeholder' => 'Entrer la veleur du done de chaque prestation '
+                'placeholder' => 'Entrer la valeur du done de chaque prestation '
             ]
         ])
         

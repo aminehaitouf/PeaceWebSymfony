@@ -100,7 +100,7 @@ class professionnelinfoType extends AbstractType
             'required' => true,
             'label' => 'Votre don à l\'association (par réservation)',
             'attr' => [
-                'placeholder' => 'Entrer la veleur du don (par réservation)'
+                'placeholder' => 'Entrer la valeur du don (par réservation)'
             ]
         ])
         ->add('association',ChoiceType::class, [
