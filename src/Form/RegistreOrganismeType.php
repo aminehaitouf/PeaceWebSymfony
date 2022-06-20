@@ -80,9 +80,6 @@ class RegistreOrganismeType extends AbstractType
                     'Salon de coiffure' => 'Salon de coiffure',
                     'Salon de beauté' => 'Salon de beauté',
                     'Restaurant' => 'Restaurant',
-                    'Consultant/Freelance' => 'Consultant/Freelance',
-                    'Autre' => 'Autre',
-
                
                 ],
             ])

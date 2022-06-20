@@ -29,13 +29,13 @@ class BenevolatType extends AbstractType
             ])
             ->add('dayon',ChoiceType::class, [
                 'choices' => [
-                        'Lundi' => 'Lundi',
-                        'Mardi' => 'Mardi',
-                        'Mercredi' => 'Mercredi',
-                        'Jeudi' => 'Jeudi',
-                        'Vendredi' => 'Vendredi',
-                        'Samedi' => 'Samedi',
-                        'Dimanche' => 'Dimanche'
+                        'Lundi' => '1',
+                        'Mardi' => '2',
+                        'Mercredi' => '3',
+                        'Jeudi' => '4',
+                        'Vendredi' => '5',
+                        'Samedi' => '6',
+                        'Dimanche' => '0'
                         
                     
                 ],

@@ -64,7 +64,7 @@ class AdsType extends AbstractType
             'label' =>false,
             'required' => false,
             'attr' => [
-                'placeholder' => 'Desciption '
+                'placeholder' => 'Description '
             ]
         ])
             

@@ -108,7 +108,7 @@
 							<li {% if route_name == "gestionMagasin" or route_name == "gestionBenevolat" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 
 								<a href="/professionnel/gestionMagasin" class='sidebar-link'>
-									<i class="bi bi-grid-fill"></i>
+									<i class="bi bi-calendar-check"></i>
 									<span>Gestion des disponibilités</span>
 								</a>
 							</li>
@@ -119,16 +119,16 @@
 									<i class="bi bi-basket3"></i>
 									<span>Commandes</span>
 									<h5>
-										<span style="color:red" class="badge badge-danger">{{ getReservation() }}</span>
+										<span style="color:red" class="badge badge-danger pt-3">{{ getReservation() }}</span>
 									</h5>
 								</a>
 							</li>
 							<li {% if route_name == "BenevolatPro" or route_name == "BenevolatPro" or route_name == "motifRefusCommande" %} class="sidebar-item active" {% else %} class="sidebar-item" {% endif %}>
 								<a href="/professionnel/BenevolatPro " class='sidebar-link'>
-									<i class="bi bi-basket3"></i>
+									<i class="bi bi-people-fill"></i>
 									<span>Bénévolats</span>
 									<h5>
-										<span style="color:red" class="badge badge-danger">{{ getBenevolat() }}</span>
+										<span style="color:red" class="badge badge-danger pt-3">{{ getBenevolat() }}</span>
 									</h5>
 								</a>
 							</li>
